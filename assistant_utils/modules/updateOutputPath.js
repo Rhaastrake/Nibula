@@ -69,12 +69,26 @@ function updateOutputPath(newPath) {
 
     let normalizedPath;
     if (trimmed === '.') {
-        // Root del progetto → cartella _site di default
         normalizedPath = '_site';
     } else {
-        // Path esterno → cartella con il nome del progetto
         const projectName = path.basename(process.cwd());
         normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName;
+    }
+
+    // Legge il vecchio path da .eleventy.js prima di sovrascriverlo
+    const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
+    const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
+    const oldPath = match ? match[1] : null;
+
+    // Elimina la vecchia cartella di output
+    if (oldPath) {
+        const oldAbsPath = path.resolve(__dirname, '../../', oldPath);
+        if (fs.existsSync(oldAbsPath)) {
+            fs.rmSync(oldAbsPath, { recursive: true, force: true });
+            console.log(`(✓) cartella eliminata → ${oldAbsPath}`);
+        } else {
+            console.log(`(i) cartella non trovata, niente da eliminare → ${oldAbsPath}`);
+        }
     }
 
     console.log(`\naggiornamento path di output → "${normalizedPath}"...`);
