@@ -1,0 +1,26 @@
+{
+  "en": {
+    "enLangName": "English",
+    "itLangName": "Italian",
+    "forms": {
+      "formInvalidFields": "Please fill in all required fields correctly",
+      "emailSending": "Sending email",
+      "emailSuccess": "Email sent successfully",
+      "emailError": "An error occurred while sending the email"
+    },
+
+    "test": "This is the english translation for the test key"
+  },
+  "it": {
+    "enLangName": "Inglese",
+    "itLangName": "Italiano",
+    "forms": {
+      "formInvalidFields": "Per favore, compila correttamente tutti i campi obbligatori",
+      "emailSending": "Invio in corso",
+      "emailSuccess": "Email inviata con successo",
+      "emailError": "Si è verificato un errore durante l'invio dell'email"
+    },
+
+    "test": "Questa è la traduzione italiana per la chiave test"
+  }
+}

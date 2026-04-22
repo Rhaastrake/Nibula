@@ -1,0 +1,53 @@
+{
+  "site_name": "Site name",
+  "title": "Site title",
+  "description": "Site description",
+  "keywords": "keyword1, keyword2, keyword3",
+  "domain": "yoursite.com",
+  "url": "https://yoursite.com",
+  "lang": "en",
+  "author": "Name and surname",
+  "favicon": "/assets/brand/favicon.svg",
+  "logo": "/assets/brand/logo.svg",
+  "image_width": [
+    320,
+    480,
+    720,
+    1280,
+    1920,
+    2048,
+    2560,
+    3840,
+    4096,
+    7680
+  ],
+  "copyright": {
+    "year": "2026",
+    "text": "Copyright text"
+  },
+  "legal": {
+    "privacy": "",
+    "cookie": "",
+    "cookieControls": "",
+    "terms": ""
+  },
+  "pages": {
+    "404": {
+      "seo": {
+        "title": "404 - Not found"
+      }
+    },
+    "homepage": {
+      "seo": {
+        "title": "Homepage",
+        "description": "Description"
+      }
+    },
+    "another-page": {
+      "seo": {
+        "title": "Another Page",
+        "description": "description"
+      }
+    }
+  }
+}

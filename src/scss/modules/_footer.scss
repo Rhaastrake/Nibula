@@ -1,0 +1,14 @@
+//==========================
+// CSS RULES FOR FOOTER
+//==========================
+
+// Getting root rules from _root.scss
+@use 'root' as root;
+
+footer {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-color: root.$primary;
+    padding-top: root.$header-padding-y;
+    padding-bottom: root.$header-padding-y;
+}

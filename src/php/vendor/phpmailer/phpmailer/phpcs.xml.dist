@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <config name="testVersion" value="5.5-"/>
+
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php,phps"/>
+    <arg name="parallel" value="10"/>
+    <!-- Show progress -->
+    <arg value="p"/>
+
+    <file>get_oauth_token.php</file>
+    <file>src</file>
+    <file>test</file>
+    <file>examples</file>
+    <file>language</file>
+
+    <rule ref="PSR12">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+        <exclude name="PSR1.Classes.ClassDeclaration.MultipleClasses"/>
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+        <exclude name="PSR1.Methods.CamelCapsMethodName"/>
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
+        <exclude name="PSR12.Properties.ConstantVisibility.NotFound"/>
+    </rule>
+    <rule ref="PHPCompatibility"/>
+
+
+    <!--
+    #############################################################################
+    SELECTIVE EXCLUSIONS
+    Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
+    #############################################################################
+    -->
+
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>*/language/phpmailer\.lang*\.php$</exclude-pattern>
+    </rule>
+
+	<!-- Excludes related to linting ignore comment for one specific test file. -->
+    <rule ref="PSR12.Files.OpenTag.NotAlone">
+        <exclude-pattern>*/test/Fixtures/LocalizationTest/phpmailer.lang-yz\.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR12.Files.FileHeader.SpacingAfterBlock">
+        <exclude-pattern>*/test/Fixtures/LocalizationTest/phpmailer.lang-yz\.php</exclude-pattern>
+    </rule>
+
+</ruleset>

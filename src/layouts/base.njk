@@ -1,0 +1,97 @@
+<!-- This is the base of everypage that you will create -->
+
+<!DOCTYPE html>
+<html lang="{{ site.lang or 'en' }}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Page Data based on Page Title -->
+        {% set pageKey = title | lower %}
+        {% set pageData = site.pages[pageKey] %}
+
+        <!-- SEO Meta Tags -->
+        <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
+        <title>{{ pageData.seo.title or title or site.title }}</title>
+        <meta name="description" content="{{ pageData.seo.description or site.description }}">
+        <meta name="keywords" content="{{ site.keywords }}">
+        <meta name="author" content="{{ site.author }}">
+        <meta name="theme-color" content="" >
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="{{ pageData.seo.title }}">
+        <meta property="og:description" content="{{ pageData.seo.description }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+        <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
+        <meta property="og:site_name" content="{{ site.site_name }}">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ pageData.seo.title }}">
+        <meta name="twitter:description" content="{{ pageData.seo.description }}">
+        <meta name="twitter:image" content="{{ site.url }}{{ site.logo }}">
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="{{ site.favicon }}">
+        <!-- (If you want to use a PNG favicon) -->
+        {#
+        <link rel="icon" type="image/png" href="/assets/favicon.png">
+        <link rel="apple-touch-icon" href="/assets/favicon.png">
+        #}
+
+        <!-- CSS -->
+        {# preconnect to jsdelivr — only needed if loading scripts from CDN #}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin data-iub-purposes="1" data-cmp-ab="1">
+        <link rel="stylesheet" href="/css/pages/{{ title }}.css" />
+        
+        {% if extra_css_cdn %}
+            {{ extra_css_cdn | safe }}
+        {% endif %}
+
+    </head>
+
+    <body>
+        <!-- Header -->
+        {% include "global/_header.njk" %}
+
+        <!-- Main -->
+        <main>
+            {{ content | safe }}
+            <br>
+        </main>
+
+        <!-- Footer -->
+        {% include "global/_footer.njk" %}
+
+        <!-- SCRIPTS -->
+
+        {#
+        ╔═══════════════════════════════════════════╗
+        ║              FRAMEWORK SCRIPTS            ║
+        ║  Uncomment the framework JS you are using ║
+        ║  Bulma requires no JS — CSS only          ║
+        ╚═══════════════════════════════════════════╝
+        #}
+
+        {# Bootstrap JS — comment out if using Bulma or Foundation #}
+        <script src="/js/bootstrap.bundle.min.js" defer></script>
+
+        {# Foundation JS — uncomment if using Foundation #}
+        {# <script src="/js/foundation.min.js" defer></script> #}
+
+        {# UIkit JS — uncomment if using UIkit #}
+        {# <script src="/js/uikit.min.js" defer></script> #}
+        {# <script src="/js/uikit-icons.min.js" defer></script> #}
+
+        {# Bulma — no JS needed #}
+
+        <script src="/js/pages/{{ title }}.js"></script>
+
+        {% if extra_js_cdn %}
+            {{ extra_js_cdn | safe }}
+        {% endif %}
+    </body>
+
+</html>

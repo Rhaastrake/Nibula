@@ -1,0 +1,24 @@
+// NOTE: This file contains only Sass variables (no CSS output).
+// When imported with @import, all variables are global and may be
+// overwritten by other imported files with the same variable names.
+// Use @use 'root' as root; to avoid namespace collisions.
+
+
+//==========================
+// CSS ROOT RULES
+//==========================
+
+// Import this module to get all the constants that you need in your css using "@use 'root' as root;"
+$header-height: 10vh; // Use: root.$header-height;
+$header-padding-y: 15px;
+$header-padding-x: 15px;
+
+// Colors
+$primary: #fde0e0;
+$secondary: #a3dcff;
+$success: #198754;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;

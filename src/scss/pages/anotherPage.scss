@@ -1,0 +1,38 @@
+//==========================
+// CSS MODULES IMPORTS
+//==========================
+
+// ╔═════════════════════════════════════════════════════════════╗
+// ║                       CSS FRAMEWORK                         ║
+// ║  Uncomment the framework you want to use (only one at time) ║
+// ║  To reduce or filter modules, edit the corresponding file:  ║
+// ║                _bootstrap.scss / _bulma.scss                ║
+// ║               _uikit.scss  / _foundation.scss               ║
+// ╚═════════════════════════════════════════════════════════════╝
+
+// Use @use with a namespace to avoid framework variable conflicts:
+@use "../modules/root" as root;
+
+@import "../modules/frameworks/bootstrap";
+// @import "../modules/frameworks/bulma";
+// @import "../modules/frameworks/foundation";
+// @import "../modules/frameworks/uikit";
+
+// Page layout modules — comment out any section you don't need
+@import "../modules/main"; //This is not for the main section, but for the main in general
+@import "../modules/header";
+@import "../modules/footer";
+
+// Responsive overrides — edit _mobile.scss for breakpoint-specific rules
+@import "../modules/animations";
+@import "../modules/mobile";
+
+//==========================
+// PAGE CUSTOM CSS RULES FOR PAGE: another-page
+//==========================
+
+// Add any custom rule specific to this page below
+// These rules override the framework and module styles
+// body {
+//     background-color: black;
+// }

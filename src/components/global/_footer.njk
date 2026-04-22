@@ -1,0 +1,30 @@
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h5 class="mb-3">{{ site.title }}</h5>
+                <p>{{ site.description }}</p>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    &copy; {{ site.copyright.year }}
+                    {{ site.name }} {{ site.copyright.text }}.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <small class="text-muted">
+                    <a href="{{ site.legal.privacy }}" class="text-decoration-none me-3">Privacy
+                        Policy</a>
+                    <a href="{{ site.legal.cookie }}" class="text-decoration-none me-3">Cookie
+                        Policy</a>
+                    <a href="{{ site.legal.terms }}" class="text-decoration-none me-3">Terms and conditions</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>

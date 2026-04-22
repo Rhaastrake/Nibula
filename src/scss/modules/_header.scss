@@ -1,0 +1,32 @@
+//==========================
+// CSS RULES FOR HEADER
+//==========================
+
+// Getting root rules from _root.scss
+@use 'root' as root;
+
+header {
+    height: root.$header-height;
+    width: 100%;
+    background-color: root.$primary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: root.$header-padding-y root.$header-padding-x;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+nav a {
+    padding: 10px;
+}
+
+.nav-links{
+    display: flex;
+    gap: 15px;
+}
