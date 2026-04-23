@@ -19,13 +19,9 @@
 // @import "../modules/frameworks/uikit";
 
 // Page layout modules — comment out any section you don't need
-@import "../modules/main"; //This is not for the main section, but for the main in general
-@import "../modules/header";
-@import "../modules/footer";
-
-// Responsive overrides — edit _mobile.scss for breakpoint-specific rules
-@import "../modules/animations";
-@import "../modules/mobile";
+@import "../modules/global";
+// Import any other module you need by import down here
+// @import "../modules/example";
 
 //==========================
 // PAGE CUSTOM CSS RULES FOR PAGE: 404

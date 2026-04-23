@@ -5,7 +5,12 @@
 // Getting root rules from _root.scss
 @use 'root' as root;
 
-@import 'notification';
+@import "header";
+@import "footer";
+
+@import "animations";
+@import "mobile";
+@import "notification";
 
 *,
 *::before,

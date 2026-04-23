@@ -9,6 +9,9 @@
       "emailError": "An error occurred while sending the email"
     },
 
+    "error404Message": "Oops! Page not found",
+    "error404Return": "Return to homepage",
+
     "test": "This is the english translation for the test key"
   },
   "it": {
@@ -20,6 +23,9 @@
       "emailSuccess": "Email inviata con successo",
       "emailError": "Si è verificato un errore durante l'invio dell'email"
     },
+
+    "error404Message": "Oops! Pagina non trovata",
+    "error404Return": "Ritorna alla homepage",
 
     "test": "Questa è la traduzione italiana per la chiave test"
   }

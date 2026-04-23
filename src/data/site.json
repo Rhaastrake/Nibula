@@ -7,7 +7,7 @@
   "url": "https://yoursite.com",
   "lang": "en",
   "author": "Name and surname",
-  "data_bs_theme": "dark",
+  "data_bs_theme": "light",
   "favicon": "/assets/brand/favicon.svg",
   "logo": "/assets/brand/logo.svg",
   "image_width": [
