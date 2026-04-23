@@ -1,5 +1,5 @@
 const fileSystem = require('fs');
-const SITE_DATA_PATH = 'src/_data/site.json';
+const SITE_DATA_PATH = 'src/data/site.json';
 
 function addSiteData(pageName) {
     if (!fileSystem.existsSync(SITE_DATA_PATH)) return;

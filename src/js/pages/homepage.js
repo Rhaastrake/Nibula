@@ -2,29 +2,24 @@
 // JAVASCRIPT MODULES IMPORTS
 //==========================
 
-// Import all the modules you need for this page from ../modules
-
-// Pure utility functions - can be used directly without initialization
+// Call inside DOMContentLoaded
 import { initFormListener } from '../modules/forms/form.js';
 import { initLangSwitcher } from '../modules/langSwitcher.js';
 
+// Call anywhere
 import { showNotification } from '../modules/notification.js';
 
-// DOM-dependent modules - require init
+// Uncomment to enable optional modules (call inside DOMContentLoaded)
 // import { initTextAreaAutoExpand } from '../modules/textAreaAutoExpand.js';
 // import { initNormalizePhoneNumber } from '../modules/normalizePhoneNumber.js';
 
 //==========================
-// "homepage" PAGE CUSTOM JAVASCRIPT INSTRUCTIONS
+// "homepage" PAGE CUSTOM JAVASCRIPT
 //==========================
 
-// All modules that interact with the DOM (event listeners, querySelector, MutationObserver)
-// must be initialized here, after the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // initTextAreaAutoExpand();
-  // initNormalizePhoneNumber();
   initLangSwitcher();
   initFormListener();
 });
 
-showNotification("Homepage notification", "success", 3000);
+showNotification("homepage notification", "success", 3000);

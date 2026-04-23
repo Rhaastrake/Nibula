@@ -7,7 +7,7 @@ export let langKeys = null;
 
 async function loadLangKeys() {
   if (langKeys) return langKeys;
-  const response = await fetch("/_data/lang.json");
+  const response = await fetch("/data/lang.json");
   langKeys = await response.json();
   return langKeys;
 }
