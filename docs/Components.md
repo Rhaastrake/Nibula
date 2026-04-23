@@ -62,7 +62,7 @@ All values from `src/data/site.json` are available as `{{ site.* }}`:
 
 ## Translations
 
-Bind text to a key from `src/data/i18n.json` using data attributes. The lang switcher updates them automatically when the language changes:
+Bind text to a key from `src/data/lang.json` using data attributes. The lang switcher updates them automatically when the language changes:
 
 ```njk
 <h1 data-lang-key="myKey"></h1>
