@@ -2,21 +2,8 @@
 // CSS MODULES IMPORTS
 //==========================
 
-// ╔═════════════════════════════════════════════════════════════╗
-// ║                       CSS FRAMEWORK                         ║
-// ║  Uncomment the framework you want to use (only one at time) ║
-// ║  To reduce or filter modules, edit the corresponding file:  ║
-// ║                _bootstrap.scss / _bulma.scss                ║
-// ║               _uikit.scss  / _foundation.scss               ║
-// ╚═════════════════════════════════════════════════════════════╝
-
 // Use @use with a namespace to avoid framework variable conflicts:
 @use "../modules/root" as root;
-
-@import "../modules/frameworks/bootstrap";
-// @import "../modules/frameworks/bulma";
-// @import "../modules/frameworks/foundation";
-// @import "../modules/frameworks/uikit";
 
 // Page layout modules — comment out any section you don't need
 @import "../modules/global";
@@ -30,5 +17,5 @@
 // Add any custom rule specific to this page below
 // These rules override the framework and module styles
 // body {
-//     background-color: black;
+//     background-color: root.$primary;
 // }
