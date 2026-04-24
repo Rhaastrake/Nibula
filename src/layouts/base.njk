@@ -87,11 +87,11 @@
 
         {# Bulma — no JS needed #}
 
-        <script src="/js/pages/{{ title }}.js"></script>
-
         {% if extra_js_cdn %}
             {{ extra_js_cdn | safe }}
         {% endif %}
+
+        <script src="/js/pages/{{ title }}.js"></script>
     </body>
 
 </html>
