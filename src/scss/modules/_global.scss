@@ -18,12 +18,14 @@
 // @import "../modules/frameworks/foundation";
 // @import "../modules/frameworks/uikit";
 
+
+@import "typography";
+
 @import "header";
 @import "footer";
 
 @import "animations";
 @import "mobile";
-@import "notification";
 
 *,
 *::before,
@@ -31,4 +33,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
 }

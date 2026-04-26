@@ -13,12 +13,25 @@ $header-height: 10vh; // Use: root.$header-height;
 $header-padding-y: 15px;
 $header-padding-x: 15px;
 
-// Colors
-$primary: #fde0e0;
+//==========================
+// COLORS — BASE
+//==========================
+$primary:   #fde0e0;
 $secondary: #a3dcff;
-$success: #198754;
-$info: #0dcaf0;
-$warning: #ffc107;
-$danger: #dc3545;
-$light: #f8f9fa;
-$dark: #212529;
+$accent:    #f9a8c9;
+
+//==========================
+// COLORS — NEUTRALS
+//==========================
+$white:     #ffffff;
+$light:     #f5f5f5;
+$muted:     #888888;
+$dark:      #2d2d2d;
+
+//==========================
+// COLORS — SEMANTIC
+//==========================
+$success:   #198754;
+$warning:   #ffc107;
+$danger:    #dc3545;
+$info:      #0dcaf0;
