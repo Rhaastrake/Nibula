@@ -21,6 +21,10 @@ function addSiteData(pageName) {
             title: niceTitle,
             description: "description",
         },
+        cdn: {
+            css: [],
+            js: []
+        }
     };
 
     fileSystem.writeFileSync(SITE_DATA_PATH, JSON.stringify(data, null, 2));

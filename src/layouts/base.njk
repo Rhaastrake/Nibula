@@ -46,10 +46,11 @@
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin data-iub-purposes="1" data-cmp-ab="1">
         <link rel="stylesheet" href="/css/pages/{{ title }}.css" />
         
-        {% if extra_css_cdn %}
-            {{ extra_css_cdn | safe }}
+        {% if pageData and pageData.cdn and pageData.cdn.css %}
+            {% for link in pageData.cdn.css %}
+                <link rel="stylesheet" href="{{ link }}">
+            {% endfor %}
         {% endif %}
-
     </head>
 
     <body>
@@ -87,8 +88,10 @@
 
         {# Bulma — no JS needed #}
 
-        {% if extra_js_cdn %}
-            {{ extra_js_cdn | safe }}
+        {% if pageData and pageData.cdn and pageData.cdn.js %}
+            {% for script in pageData.cdn.js %}
+                <script src="{{ script }}" defer></script>
+            {% endfor %}
         {% endif %}
 
         <script src="/js/pages/{{ title }}.js"></script>

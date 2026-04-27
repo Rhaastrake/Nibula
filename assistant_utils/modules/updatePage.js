@@ -77,28 +77,45 @@ function addPage(pageName) {
 
 function removePage(pageName) {
     const camelName = toCamelCase(pageName);
+    const OUTPUT_DIR = "out"; // Oppure la tua variabile dinamica
     
+    // 1. Tutti i file singoli (Sorgenti + Compilati)
     const filesToDelete = [
+        // Sorgenti
         `src/scss/pages/${camelName}.scss`,
         `src/js/pages/${camelName}.js`,
         `src/pages/${pageName}.njk`,
-        `out/js/pages/${camelName}.js`,
-        `out/css/pages/${camelName}.css`,
+        
+        // Output generato da esbuild e sass
+        path.join(OUTPUT_DIR, "js/pages", `${camelName}.js`),
+        path.join(OUTPUT_DIR, "css/pages", `${camelName}.css`),
+        
+        // Output Eleventy nel caso crei un file .html singolo anziché una cartella
+        path.join(OUTPUT_DIR, `${pageName}.html`),
+        path.join(OUTPUT_DIR, "pages", `${pageName}.html`) 
     ];
 
-    const pageFolder = path.join("out", pageName);
+    // 2. Tutte le possibili cartelle generate da Eleventy
+    const foldersToDelete = [
+        path.join(OUTPUT_DIR, pageName),          // Se ha usato il permalink "/nome-pagina/"
+        path.join(OUTPUT_DIR, "pages", pageName)  // Se ha usato la struttura di default "src/pages/..."
+    ];
 
+    // Eseguiamo la pulizia dei file
     filesToDelete.forEach(f => { 
         if (fileSystem.existsSync(f)) {
             fileSystem.unlinkSync(f); 
-            console.log(`[deleted] ${f}`);
+            console.log(`[deleted file] ${f}`);
         }
     });
 
-    if (fileSystem.existsSync(pageFolder)) {
-        fileSystem.rmSync(pageFolder, { recursive: true, force: true });
-        console.log(`[deleted folder] ${pageFolder}`);
-    }
+    // Eseguiamo la pulizia delle cartelle
+    foldersToDelete.forEach(folder => {
+        if (fileSystem.existsSync(folder)) {
+            fileSystem.rmSync(folder, { recursive: true, force: true });
+            console.log(`[deleted folder] ${folder}`);
+        }
+    });
 
     removeLayout(pageName);
     removeSiteData(pageName);
