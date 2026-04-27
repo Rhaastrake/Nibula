@@ -82,11 +82,11 @@ function removePage(pageName) {
         `src/scss/pages/${camelName}.scss`,
         `src/js/pages/${camelName}.js`,
         `src/pages/${pageName}.njk`,
-        `_site/js/pages/${camelName}.js`,
-        `_site/css/pages/${camelName}.css`,
+        `out/js/pages/${camelName}.js`,
+        `out/css/pages/${camelName}.css`,
     ];
 
-    const pageFolder = path.join("_site", pageName);
+    const pageFolder = path.join("out", pageName);
 
     filesToDelete.forEach(f => { 
         if (fileSystem.existsSync(f)) {

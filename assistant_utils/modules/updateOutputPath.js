@@ -41,7 +41,6 @@ function updatePackageJson(newPath) {
             // Sostituisce il vecchio path con il nuovo
             updated = updated.split(oldPath).join(newPath);
         } else {
-            // Fallback: sostituisce pattern comuni tipo C:/.../_site o ../_site
             updated = updated.replace(
                 /([A-Za-z]:\/[^\s:]+|\.\.\/[^\s:]+)(?=\/css|\/js|\/assets)/g,
                 newPath
@@ -69,7 +68,7 @@ function updateOutputPath(newPath) {
 
     let normalizedPath;
     if (trimmed === '.') {
-        normalizedPath = '_site';
+        normalizedPath = 'out';
     } else {
         const projectName = path.basename(process.cwd());
         normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName;

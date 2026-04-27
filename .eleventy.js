@@ -4,7 +4,7 @@ const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
 
-const OUTPUT_DIR = "_site"; // ← unica costante da modificare
+const OUTPUT_DIR = "C:/laragon/www/Berna-Stencil"; //
 
 module.exports = function (eleventyConfig) {
 
