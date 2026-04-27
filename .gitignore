@@ -1,3 +1,3 @@
 node_modules/
-src/php/config.php
+src/server/mailer/config.php
 out/
