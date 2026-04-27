@@ -61,16 +61,6 @@
         "css": [],
         "js": []
       }
-    },
-    "provaPagina": {
-      "seo": {
-        "title": "Prova Pagina",
-        "description": "description"
-      },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
     }
   }
 }
