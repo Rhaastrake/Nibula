@@ -12,6 +12,7 @@ header {
     justify-content: center;
     align-items: center;
     padding: root.$header-padding-y root.$header-padding-x;
+    background-color: root.$primary;
 }
 
 nav {
