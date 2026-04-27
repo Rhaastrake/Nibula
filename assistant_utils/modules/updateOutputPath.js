@@ -71,7 +71,7 @@ function updateOutputPath(newPath) {
         normalizedPath = 'out';
     } else {
         const projectName = path.basename(process.cwd());
-        normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName;
+        normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName + ' (out)';
     }
 
     // Legge il vecchio path da .eleventy.js prima di sovrascriverlo
