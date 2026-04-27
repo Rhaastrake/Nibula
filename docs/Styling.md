@@ -60,7 +60,7 @@ color: root.$primary;
 | File | Purpose |
 |---|---|
 | `_root.scss` | Global variables (colors, spacing) |
-| `_main.scss` | Site-wide base rules |
+| `_global.scss` | Site-wide base rules |
 | `_header.scss` | Header styles |
 | `_footer.scss` | Footer styles |
 | `_notification.scss` | Notification component |
