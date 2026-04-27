@@ -36,18 +36,30 @@
     "404": {
       "seo": {
         "title": "404 - Not found"
+      },
+      "cdn": {
+        "css": [],
+        "js": []
       }
     },
     "homepage": {
       "seo": {
         "title": "Homepage",
         "description": "Description"
+      },
+      "cdn": {
+        "css": [],
+        "js": []
       }
     },
     "another-page": {
       "seo": {
         "title": "Another Page",
         "description": "description"
+      },
+      "cdn": {
+        "css": [],
+        "js": []
       }
     }
   }

@@ -25,7 +25,7 @@ module.exports = function (eleventyConfig) {
   // PASSTHROUGH — Static files
   // =====================================================
   eleventyConfig.addPassthroughCopy("src/assets");
-  eleventyConfig.addPassthroughCopy("src/php/!(configExample.php)");
+  eleventyConfig.addPassthroughCopy("src/server/php/!(configExample.php)");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
   eleventyConfig.addPassthroughCopy({
