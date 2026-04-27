@@ -57,7 +57,7 @@ function addPage(pageName) {
     const targets = [
         { folder: "src/scss/pages", extension: ".scss", fileName: camelName }, // camelCase
         { folder: "src/js/pages", extension: ".js", fileName: camelName },     // camelCase
-        { folder: "src/pages", extension: ".njk", fileName: pageName },        // kebab-case
+        { folder: "src/_routes", extension: ".njk", fileName: pageName },        // kebab-case
     ];
 
     targets.forEach((target) => {
@@ -84,7 +84,7 @@ function removePage(pageName) {
         // Sorgenti
         `src/scss/pages/${camelName}.scss`,
         `src/js/pages/${camelName}.js`,
-        `src/pages/${pageName}.njk`,
+        `src/_routes/${pageName}.njk`,
         
         // Output generato da esbuild e sass
         path.join(OUTPUT_DIR, "js/pages", `${camelName}.js`),

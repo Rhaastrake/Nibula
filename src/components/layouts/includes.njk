@@ -10,6 +10,9 @@ layout: base.njk
 {% elif title == "anotherPage" %}
   {% include "exampleComponent.njk" %}
 
+{% elif title == "provaPagina" %}
+  {#{% include "exampleComponent.njk" %}#}
+
 {% else %}
   {% include "404/_404.njk" %}
   {{ content | safe }}
