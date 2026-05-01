@@ -17,12 +17,12 @@ function toKebabCase(str) {
 }
 
 function handleCreateRequest() {
-    readerInterface.question('\n> inserisci il nome della nuova pagina: ', (inputName) => {
+    readerInterface.question('\n> enter the name of the new page: ', (inputName) => {
         const kebabName = toKebabCase(inputName);
         if (!kebabName) {
-            console.log('(!) nome non valido.');
+            console.log('(!) invalid name.');
         } else if (PROTECTED_PAGES.includes(kebabName)) {
-            console.log(`(!) "${kebabName}" è una pagina protetta e non può essere creata.`);
+            console.log(`(!) "${kebabName}" is a protected page and cannot be created.`);
         } else {
             addPage(kebabName);
         }
@@ -31,12 +31,12 @@ function handleCreateRequest() {
 }
 
 function handleRemoveRequest() {
-    readerInterface.question('\n> inserisci il nome della pagina da rimuovere: ', (inputName) => {
+    readerInterface.question('\n> enter the name of the page to remove: ', (inputName) => {
         const kebabName = toKebabCase(inputName);
         if (!kebabName) {
-            console.log('(!) nome non valido.');
+            console.log('(!) invalid name.');
         } else if (PROTECTED_PAGES.includes(kebabName)) {
-            console.log(`(!) "${kebabName}" è una pagina protetta e non può essere rimossa.`);
+            console.log(`(!) "${kebabName}" is a protected page and cannot be removed.`);
         } else {
             removePage(kebabName);
         }
@@ -45,9 +45,9 @@ function handleRemoveRequest() {
 }
 
 function handleOutputPathRequest() {
-    readerInterface.question('\n> inserisci il nuovo path di output (es. C:/laragon/www o . per la root): ', (inputPath) => {
+    readerInterface.question('\n> enter the new output path (e.g. C:/laragon/www or . for root): ', (inputPath) => {
         if (!inputPath.trim()) {
-            console.log('(!) path non valido.');
+            console.log('(!) invalid path.');
         } else {
             updateOutputPath(inputPath);
         }
@@ -59,12 +59,12 @@ function displayMainMenu() {
     console.log('\n========================');
     console.log('     assistant cli      ');
     console.log('========================');
-    console.log('1. crea pagina');
-    console.log('2. rimuovi pagina');
-    console.log('3. configura output path');
-    console.log('0. esci');
+    console.log('1. create page');
+    console.log('2. remove page');
+    console.log('3. configure output path');
+    console.log('0. exit');
 
-    readerInterface.question('\nscegli un\'opzione: ', (choice) => {
+    readerInterface.question('\nchoose an option: ', (choice) => {
         const cleanChoice = choice.trim();
         if (cleanChoice === '1') {
             handleCreateRequest();
@@ -73,15 +73,15 @@ function displayMainMenu() {
         } else if (cleanChoice === '3') {
             handleOutputPathRequest();
         } else if (cleanChoice === '0') {
-            console.log('ciao!');
+            console.log('bye!');
             readerInterface.close();
             process.exit(0);
         } else {
-            console.log('(!) opzione non valida.');
+            console.log('(!) invalid option.');
             displayMainMenu();
         }
     });
 }
 
-console.log('--- inizializzazione in corso... ---');
+console.log('--- initializing... ---');
 displayMainMenu();

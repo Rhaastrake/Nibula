@@ -1,4 +1,47 @@
 {
+  "name": "create-berna-stencil",
+  "version": "1.0.0",
+  "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
+  "keywords": [
+    "eleventy",
+    "11ty",
+    "boilerplate",
+    "starter",
+    "scss",
+    "esbuild",
+    "bootstrap",
+    "bulma",
+    "foundation",
+    "uikit",
+    "static-site",
+    "nunjucks"
+  ],
+  "author": "Michele Garofalo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rhaastrake/berna-stencil"
+  },
+  "homepage": "https://github.com/rhaastrake/berna-stencil#readme",
+  "bugs": {
+    "url": "https://github.com/rhaastrake/berna-stencil/issues"
+  },
+  "bin": {
+    "create-berna-stencil": "bin/create.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "assistant_utils/",
+    "assistant.js",
+    ".eleventy.js",
+    ".eleventyignore",
+    ".gitignore",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-img": "^6.0.4",
@@ -22,6 +65,7 @@
     "serve:css": "sass --watch src/scss:out/css --no-source-map --quiet",
     "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
     "serve:11ty": "eleventy --serve --quiet",
-    "serve": "concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\""
+    "serve": "concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
+    "assistant": "node assistant.js"
   }
 }

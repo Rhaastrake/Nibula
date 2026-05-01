@@ -7,19 +7,18 @@ const PACKAGE_JSON = path.resolve(__dirname, '../../package.json');
 function updateEleventyConfig(newPath) {
     let content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
 
-    // Sostituisce qualsiasi valore di OUTPUT_DIR
     const updated = content.replace(
         /const OUTPUT_DIR\s*=\s*['"`][^'"`]*['"`]/,
         `const OUTPUT_DIR = "${newPath}"`
     );
 
     if (content === updated) {
-        console.log('(!) OUTPUT_DIR non trovata in .eleventy.js');
+        console.log('(!) OUTPUT_DIR not found in .eleventy.js');
         return false;
     }
 
     fs.writeFileSync(ELEVENTY_CONFIG, updated, 'utf-8');
-    console.log(`(✓) .eleventy.js aggiornato → ${newPath}`);
+    console.log(`(✓) .eleventy.js updated → ${newPath}`);
     return true;
 }
 
@@ -27,7 +26,6 @@ function updatePackageJson(newPath) {
     const raw = fs.readFileSync(PACKAGE_JSON, 'utf-8');
     const pkg = JSON.parse(raw);
 
-    // Trova il path attuale leggendolo da eleventy.config.js
     const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
     const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
     const oldPath = match ? match[1] : null;
@@ -38,7 +36,6 @@ function updatePackageJson(newPath) {
         let updated = value;
 
         if (oldPath) {
-            // Sostituisce il vecchio path con il nuovo
             updated = updated.split(oldPath).join(newPath);
         } else {
             updated = updated.replace(
@@ -54,12 +51,12 @@ function updatePackageJson(newPath) {
     }
 
     if (!changed) {
-        console.log('(!) nessun path trovato negli script di package.json');
+        console.log('(!) no path found in package.json scripts');
         return false;
     }
 
     fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
-    console.log(`(✓) package.json aggiornato → ${newPath}`);
+    console.log(`(✓) package.json updated → ${newPath}`);
     return true;
 }
 
@@ -74,23 +71,21 @@ function updateOutputPath(newPath) {
         normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName + ' (out)';
     }
 
-    // Legge il vecchio path da .eleventy.js prima di sovrascriverlo
     const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
     const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
     const oldPath = match ? match[1] : null;
 
-    // Elimina la vecchia cartella di output
     if (oldPath) {
         const oldAbsPath = path.resolve(__dirname, '../../', oldPath);
         if (fs.existsSync(oldAbsPath)) {
             fs.rmSync(oldAbsPath, { recursive: true, force: true });
-            console.log(`(✓) cartella eliminata → ${oldAbsPath}`);
+            console.log(`(✓) folder deleted → ${oldAbsPath}`);
         } else {
-            console.log(`(i) cartella non trovata, niente da eliminare → ${oldAbsPath}`);
+            console.log(`(i) folder not found, nothing to delete → ${oldAbsPath}`);
         }
     }
 
-    console.log(`\naggiornamento path di output → "${normalizedPath}"...`);
+    console.log(`\nupdating output path → "${normalizedPath}"...`);
 
     updatePackageJson(normalizedPath);
     updateEleventyConfig(normalizedPath);

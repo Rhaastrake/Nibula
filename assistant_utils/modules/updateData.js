@@ -14,7 +14,7 @@ function addSiteData(pageName) {
     const camelName = toCamelCase(pageName);
 
     if (data.pages[camelName]) {
-        console.log(`[SKIP] Record "${camelName}" già presente.`);
+        console.log(`[SKIP] Record "${camelName}" already exists.`);
         return;
     }
 
@@ -35,7 +35,7 @@ function addSiteData(pageName) {
     };
 
     fileSystem.writeFileSync(SITE_DATA_PATH, JSON.stringify(data, null, 2));
-    console.log(`[UPDATED] Record "${camelName}" aggiunto.`);
+    console.log(`[UPDATED] Record "${camelName}" added.`);
 }
 
 function removeSiteData(pageName) {
@@ -45,14 +45,14 @@ function removeSiteData(pageName) {
     const camelName = toCamelCase(pageName);
 
     if (!data.pages[camelName]) {
-        console.log(`[SKIP] Record "${camelName}" non trovato.`);
+        console.log(`[SKIP] Record "${camelName}" not found.`);
         return;
     }
 
     delete data.pages[camelName];
 
     fileSystem.writeFileSync(SITE_DATA_PATH, JSON.stringify(data, null, 2));
-    console.log(`[CLEANED] Record "${camelName}" rimosso.`);
+    console.log(`[CLEANED] Record "${camelName}" removed.`);
 }
 
 module.exports = { addSiteData, removeSiteData };

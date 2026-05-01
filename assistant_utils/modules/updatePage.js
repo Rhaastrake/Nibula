@@ -6,10 +6,6 @@ const { addLayout, removeLayout } = require("./updateIncludes");
 
 const TEMPLATE_FILE_PATH = path.join(__dirname, '..', 'res', 'templates.json');
 
-/**
- * Converte kebab-case in camelCase gestendo anche i numeri.
- * Esempio: "mia-pagina-1" -> "miaPagina1"
- */
 function toCamelCase(str) {
     return str.toLowerCase().replace(/[-_][a-z0-9]/g, (group) =>
         group.toUpperCase().replace('-', '').replace('_', '')
@@ -33,10 +29,8 @@ function getFileInitialContent(pageName, extension) {
             .replace(/{{camelName}}/g, camelName);
 
         if (extension === '.njk') {
-            // Usiamo camelName per il title in modo che base.njk trovi CSS/JS corretti
             processedContent = processedContent.replace(/^title:\s*.*$/m, `title: "${camelName}"`);
             
-            // Permalink rimane kebab-case per URL puliti
             if (processedContent.includes('permalink:')) {
                 processedContent = processedContent.replace(/^permalink:\s*.*$/m, `permalink: "/${kebabName}/"`);
             } else {
@@ -46,7 +40,7 @@ function getFileInitialContent(pageName, extension) {
 
         return processedContent;
     } catch (error) {
-        console.error(`[errore] ${error.message}`);
+        console.error(`[error] ${error.message}`);
         return "";
     }
 }
@@ -55,9 +49,9 @@ function addPage(pageName) {
     const camelName = toCamelCase(pageName);
     
     const targets = [
-        { folder: "src/scss/pages", extension: ".scss", fileName: camelName }, // camelCase
-        { folder: "src/js/pages", extension: ".js", fileName: camelName },     // camelCase
-        { folder: "src/_routes", extension: ".njk", fileName: pageName },        // kebab-case
+        { folder: "src/scss/pages", extension: ".scss", fileName: camelName },
+        { folder: "src/js/pages", extension: ".js", fileName: camelName },
+        { folder: "src/_routes", extension: ".njk", fileName: pageName },
     ];
 
     targets.forEach((target) => {
@@ -77,31 +71,25 @@ function addPage(pageName) {
 
 function removePage(pageName) {
     const camelName = toCamelCase(pageName);
-    const OUTPUT_DIR = "out"; // Oppure la tua variabile dinamica
+    const OUTPUT_DIR = "out";
     
-    // 1. Tutti i file singoli (Sorgenti + Compilati)
     const filesToDelete = [
-        // Sorgenti
         `src/scss/pages/${camelName}.scss`,
         `src/js/pages/${camelName}.js`,
         `src/_routes/${pageName}.njk`,
         
-        // Output generato da esbuild e sass
         path.join(OUTPUT_DIR, "js/pages", `${camelName}.js`),
         path.join(OUTPUT_DIR, "css/pages", `${camelName}.css`),
         
-        // Output Eleventy nel caso crei un file .html singolo anziché una cartella
         path.join(OUTPUT_DIR, `${pageName}.html`),
         path.join(OUTPUT_DIR, "pages", `${pageName}.html`) 
     ];
 
-    // 2. Tutte le possibili cartelle generate da Eleventy
     const foldersToDelete = [
-        path.join(OUTPUT_DIR, pageName),          // Se ha usato il permalink "/nome-pagina/"
-        path.join(OUTPUT_DIR, "pages", pageName)  // Se ha usato la struttura di default "src/pages/..."
+        path.join(OUTPUT_DIR, pageName),
+        path.join(OUTPUT_DIR, "pages", pageName)
     ];
 
-    // Eseguiamo la pulizia dei file
     filesToDelete.forEach(f => { 
         if (fileSystem.existsSync(f)) {
             fileSystem.unlinkSync(f); 
@@ -109,7 +97,6 @@ function removePage(pageName) {
         }
     });
 
-    // Eseguiamo la pulizia delle cartelle
     foldersToDelete.forEach(folder => {
         if (fileSystem.existsSync(folder)) {
             fileSystem.rmSync(folder, { recursive: true, force: true });
