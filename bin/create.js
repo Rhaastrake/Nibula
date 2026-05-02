@@ -28,7 +28,8 @@ const PROJECT_PACKAGE = {
         'serve:css': 'sass --watch src/scss:out/css --no-source-map --quiet',
         'serve:js': 'esbuild "src/js/pages/*.js" --bundle --outdir=out/js/pages --watch',
         'serve:11ty': 'eleventy --serve --quiet',
-        'serve': 'concurrently "npm run serve:11ty" "npm run serve:css" "npm run serve:js"',
+        'clean': 'node tools/cleanOutput.js',
+        'serve': 'npm run clean && concurrently "npm run serve:11ty" "npm run serve:css" "npm run serve:js"',
         'assistant': 'node tools/assistant.js',
     },
     dependencies: {
