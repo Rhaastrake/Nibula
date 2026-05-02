@@ -26,31 +26,10 @@ function updatePackageJson(newPath) {
     const raw = fs.readFileSync(PACKAGE_JSON, 'utf-8');
     const pkg = JSON.parse(raw);
 
-    const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-    const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
-    const oldPath = match ? match[1] : null;
-
-    if (!oldPath) {
-        console.log('(!) no current path found, cannot update scripts');
-        return false;
-    }
-
-    let changed = false;
-    const escaped = oldPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(?<=[=:])${escaped}`, 'g');
-
-    for (const [key, value] of Object.entries(pkg.scripts)) {
-        const updated = value.replace(regex, newPath);
-        if (updated !== value) {
-            pkg.scripts[key] = updated;
-            changed = true;
-        }
-    }
-
-    if (!changed) {
-        console.log('(!) no path found in package.json scripts');
-        return false;
-    }
+    pkg.scripts['build:css'] = `sass src/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
+    pkg.scripts['build:js'] = `esbuild "src/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
+    pkg.scripts['serve:css'] = `sass --watch src/scss:${newPath}/css --no-source-map --quiet`;
+    pkg.scripts['serve:js'] = `esbuild "src/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
 
     fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
     console.log(`(✓) package.json updated → ${newPath}`);
@@ -101,7 +80,7 @@ function getCurrentOutputPath() {
         }
 
         const parent = path.dirname(outputDir);
-        const projectName = path.basename(outputDir).replace(/-out$/, '');
+        const projectName = path.basename(outputDir);
 
         return `${parent}/${projectName}`;
     } catch {
