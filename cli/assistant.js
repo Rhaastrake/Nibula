@@ -1,6 +1,6 @@
 const readline = require('readline');
-const { addPage, removePage, renamePage } = require('./assistant_utils/modules/updatePage');
-const { updateOutputPath, getCurrentOutputPath } = require('./assistant_utils/modules/updateOutputPath');
+const { addPage, removePage, renamePage } = require('./modules/updatePage');
+const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
 
 const readerInterface = readline.createInterface({
     input: process.stdin,
