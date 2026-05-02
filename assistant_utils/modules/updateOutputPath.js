@@ -36,12 +36,9 @@ function updatePackageJson(newPath) {
         let updated = value;
 
         if (oldPath) {
-            updated = updated.split(oldPath).join(newPath);
-        } else {
-            updated = updated.replace(
-                /([A-Za-z]:\/[^\s:]+|\.\.\/[^\s:]+)(?=\/css|\/js|\/assets)/g,
-                newPath
-            );
+            const oldUnquoted = oldPath.replace(/^"|"$/g, '');
+            updated = updated.split(`"${oldUnquoted}"`).join(`"${newPath}"`);
+            updated = updated.split(oldUnquoted).join(`"${newPath}"`);
         }
 
         if (updated !== value) {
@@ -68,7 +65,7 @@ function updateOutputPath(newPath) {
         normalizedPath = 'out';
     } else {
         const projectName = path.basename(process.cwd());
-        normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName + ' (out)';
+        normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName + '-out';
     }
 
     const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
@@ -91,4 +88,25 @@ function updateOutputPath(newPath) {
     updateEleventyConfig(normalizedPath);
 }
 
-module.exports = { updateOutputPath };
+function getCurrentOutputPath() {
+    try {
+        const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
+        const match = content.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
+        if (!match) return null;
+
+        const outputDir = match[1];
+
+        if (!path.isAbsolute(outputDir)) {
+            return 'project root/out';
+        }
+
+        const parent = path.dirname(outputDir);
+        const projectName = path.basename(outputDir).replace(/\s*\(out\)$/, '');
+
+        return `${parent}/${projectName}`;
+    } catch {
+        return null;
+    }
+}
+
+module.exports = { updateOutputPath, getCurrentOutputPath };

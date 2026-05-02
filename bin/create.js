@@ -8,6 +8,7 @@ const templateDir = path.join(__dirname, '..');
 
 const COPY_TARGETS = [
     'src',
+    'docs',
     'assistant_utils',
     'assistant.js',
     '.eleventy.js',
@@ -48,6 +49,12 @@ const PROJECT_PACKAGE = {
     },
 };
 
+const { writeSync } = require('fs');
+
+function log(msg) {
+    writeSync(1, msg + '\n');
+}
+
 function copyRecursive(src, dest) {
     const stat = fs.statSync(src);
     if (stat.isDirectory()) {
@@ -65,14 +72,14 @@ if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
 }
 
-console.log(`\n🚀 Creating berna-stencil project in ${targetDir}\n`);
+log(`\n>> Creating berna-stencil project in ${targetDir}\n`);
 
 for (const target of COPY_TARGETS) {
     const src = path.join(templateDir, target);
     const dest = path.join(targetDir, target);
     if (fs.existsSync(src)) {
         copyRecursive(src, dest);
-        console.log(`  ✓ ${target}`);
+        log(`+ ${target}`);
     }
 }
 
@@ -80,11 +87,11 @@ fs.writeFileSync(
     path.join(targetDir, 'package.json'),
     JSON.stringify(PROJECT_PACKAGE, null, 2)
 );
-console.log('  ✓ package.json');
+log('+ package.json');
 
-console.log(`\n✅ Done! Now run:\n`);
+log(`\n>> Done! Now run:\n`);
 if (process.argv[2]) {
-    console.log(`  cd ${process.argv[2]}`);
+    log(`cd ${process.argv[2]}`);
 }
-console.log('  npm install');
-console.log('  npm run serve\n');
+log('npm install');
+log('npm run serve\n');

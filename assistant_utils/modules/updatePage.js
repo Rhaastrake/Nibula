@@ -69,6 +69,45 @@ function addPage(pageName) {
     addSiteData(pageName);
 }
 
+function renamePage(oldName, newName) {
+    const oldCamel = toCamelCase(oldName);
+    const newCamel = toCamelCase(newName);
+
+    const filesToRename = [
+        {
+            src: `src/scss/pages/${oldCamel}.scss`,
+            dest: `src/scss/pages/${newCamel}.scss`,
+        },
+        {
+            src: `src/js/pages/${oldCamel}.js`,
+            dest: `src/js/pages/${newCamel}.js`,
+        },
+        {
+            src: `src/_routes/${oldName}.njk`,
+            dest: `src/_routes/${newName}.njk`,
+        },
+    ];
+
+    filesToRename.forEach(({ src, dest }) => {
+        if (!fileSystem.existsSync(src)) {
+            console.log(`[skip] not found: ${src}`);
+            return;
+        }
+        let content = fileSystem.readFileSync(src, 'utf8');
+        content = content
+            .replace(new RegExp(oldName, 'g'), newName)
+            .replace(new RegExp(oldCamel, 'g'), newCamel);
+        fileSystem.writeFileSync(dest, content);
+        fileSystem.unlinkSync(src);
+        console.log(`[renamed] ${src} → ${dest}`);
+    });
+
+    removeLayout(oldName);
+    addLayout(newName);
+    removeSiteData(oldName);
+    addSiteData(newName);
+}
+
 function removePage(pageName) {
     const camelName = toCamelCase(pageName);
     const OUTPUT_DIR = "out";
@@ -108,4 +147,4 @@ function removePage(pageName) {
     removeSiteData(pageName);
 }
 
-module.exports = { addPage, removePage };
+module.exports = { addPage, removePage, renamePage };
