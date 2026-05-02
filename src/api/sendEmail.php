@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Do not forget to add a ,
 $allowedDomains = [
-    'www.webfixer.it',
+    'www.yourorigin.com',
     // 'www.anotherorigin.com',
 ];
 

@@ -1,5 +1,4 @@
 src/assets/**
-src/server/**
 src/js/**
 src/scss/**
-bin/**
+src/api/**

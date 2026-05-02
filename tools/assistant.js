@@ -95,7 +95,7 @@ function displayMainMenu() {
     console.log('4. Configure output path');
     console.log('\nCTRL/CMD + C to exit');
 
-    readerInterface.question('\nchoose an option: ', (choice) => {
+    readerInterface.question('\nChoose an option: ', (choice) => {
         const cleanChoice = choice.trim();
         if (cleanChoice === '1') {
             handleCreateRequest();
@@ -109,7 +109,7 @@ function displayMainMenu() {
             readerInterface.close();
             process.exit(0);
         } else {
-            console.log('(!) invalid option.');
+            console.log('(!) Invalid option.');
             displayMainMenu();
         }
     });

@@ -9,7 +9,7 @@ const templateDir = path.join(__dirname, '..');
 const COPY_TARGETS = [
     'src',
     'docs',
-    'cli',
+    'tools',
     '.eleventy.js',
     '.eleventyignore',
     '.gitignore',
@@ -29,7 +29,7 @@ const PROJECT_PACKAGE = {
         'serve:js': 'esbuild "src/js/pages/*.js" --bundle --outdir=out/js/pages --watch',
         'serve:11ty': 'eleventy --serve --quiet',
         'serve': 'concurrently "npm run serve:11ty" "npm run serve:css" "npm run serve:js"',
-        'assistant': 'node cli/assistant.js',
+        'assistant': 'node tools/assistant.js',
     },
     dependencies: {
         '@11ty/eleventy': '^3.1.2',
