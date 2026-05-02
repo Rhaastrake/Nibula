@@ -30,17 +30,17 @@ function updatePackageJson(newPath) {
     const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
     const oldPath = match ? match[1] : null;
 
+    if (!oldPath) {
+        console.log('(!) no current path found, cannot update scripts');
+        return false;
+    }
+
     let changed = false;
+    const escaped = oldPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(?<=[=:])${escaped}`, 'g');
 
     for (const [key, value] of Object.entries(pkg.scripts)) {
-        let updated = value;
-
-        if (oldPath) {
-            const oldUnquoted = oldPath.replace(/^"|"$/g, '');
-            updated = updated.split(`"${oldUnquoted}"`).join(`"${newPath}"`);
-            updated = updated.split(oldUnquoted).join(`"${newPath}"`);
-        }
-
+        const updated = value.replace(regex, newPath);
         if (updated !== value) {
             pkg.scripts[key] = updated;
             changed = true;
@@ -101,7 +101,7 @@ function getCurrentOutputPath() {
         }
 
         const parent = path.dirname(outputDir);
-        const projectName = path.basename(outputDir).replace(/\s*\(out\)$/, '');
+        const projectName = path.basename(outputDir).replace(/-out$/, '');
 
         return `${parent}/${projectName}`;
     } catch {
