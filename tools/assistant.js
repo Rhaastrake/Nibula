@@ -21,10 +21,17 @@ function handleCreateRequest() {
         const kebabName = toKebabCase(inputName);
         if (!kebabName) {
             console.log('(!) invalid name.');
+        } else if (/^\d/.test(kebabName)) {
+            console.log('(!) invalid name. Page name cannot start with a number.');
         } else if (PROTECTED_PAGES.includes(kebabName)) {
             console.log(`(!) "${kebabName}" is a protected page and cannot be created.`);
         } else {
-            addPage(kebabName);
+            readerInterface.question('> parent path (leave empty for root): ', (inputParent) => {
+                const parentPath = inputParent.trim().toLowerCase().replace(/\\/g, '/').replace(/^\/|\/$/g, '');
+                addPage(kebabName, parentPath || null);
+                displayMainMenu();
+            });
+            return;
         }
         displayMainMenu();
     });
@@ -45,6 +52,8 @@ function handleRenameRequest() {
             const newName = toKebabCase(inputNew);
             if (!newName) {
                 console.log('(!) invalid name.');
+            } else if (/^\d/.test(newName)) {
+                console.log('(!) invalid name. Page name cannot start with a number.');
             } else if (PROTECTED_PAGES.includes(newName)) {
                 console.log(`(!) "${newName}" is a protected page name.`);
             } else if (oldName === newName) {

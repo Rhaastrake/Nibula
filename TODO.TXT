@@ -4,4 +4,4 @@ AGGIORNARE DOCS
     (Spiegare di dover cambiare permalink per fare sottopagina)
     Aggiungere doc per assistant
 
-Aggiungere controlli ad assistnat
+Aggiungere controlli ad assistant
