@@ -1,3 +1,5 @@
+# To be finished...
+
 # Assistant CLI
 
 `assistant.js` is a CLI tool to manage pages and project configuration without editing files manually.

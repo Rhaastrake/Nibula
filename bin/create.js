@@ -8,7 +8,6 @@ const templateDir = path.join(__dirname, '..');
 
 const COPY_TARGETS = [
     'src',
-    'docs',
     'tools',
     '.eleventy.js',
     '.eleventyignore',

@@ -1,3 +1,5 @@
+# To be finished...
+
 # Email
 
 Berna-Stencil uses [PHPMailer](https://github.com/PHPMailer/PHPMailer) to handle form submissions server-side.

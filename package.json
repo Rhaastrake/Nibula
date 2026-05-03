@@ -32,7 +32,6 @@
   "files": [
     "bin/",
     "src/",
-    "docs/",
     "tools/",
     ".eleventy.js",
     ".eleventyignore",
