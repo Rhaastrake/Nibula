@@ -17,7 +17,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.6',
+    version: '1.0.7',
     private: true,
     scripts: {
         'build:css': 'sass src/scss:out/css --no-source-map --style=compressed --quiet',
@@ -94,3 +94,4 @@ if (process.argv[2]) {
 }
 log('npm install');
 log('npm run serve\n');
+log("\nDon't forget to check the documentation at https://bernastencil.com");
