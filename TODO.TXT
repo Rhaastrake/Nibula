@@ -5,3 +5,7 @@ AGGIORNARE DOCS
     Aggiungere doc per assistant
 
 Aggiungere controlli ad assistant
+
+PER ARM: npm install libvips
+
+Aggungere prerequisiti consigliti (estensioni njk)
