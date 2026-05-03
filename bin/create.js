@@ -8,7 +8,7 @@ const templateDir = path.join(__dirname, '..');
 
 const COPY_TARGETS = [
     'src',
-    'tools',
+    '_tools',
     '.eleventy.js',
     '.eleventyignore',
     '.gitignore',
@@ -17,7 +17,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.0',
+    version: '1.0.1',
     private: true,
     scripts: {
         'build:css': 'sass src/scss:out/css --no-source-map --style=compressed --quiet',
@@ -27,9 +27,9 @@ const PROJECT_PACKAGE = {
         'serve:css': 'sass --watch src/scss:out/css --no-source-map --quiet',
         'serve:js': 'esbuild "src/js/pages/*.js" --bundle --outdir=out/js/pages --watch',
         'serve:11ty': 'eleventy --serve --quiet',
-        'clean': 'node tools/cleanOutput.js',
+        'clean': 'node _tools/cleanOutput.js',
         'serve': 'npm run clean && concurrently "npm run serve:11ty" "npm run serve:css" "npm run serve:js"',
-        'assistant': 'node tools/assistant.js',
+        'assistant': 'node _tools/assistant.js',
     },
     dependencies: {
         '@11ty/eleventy': '^3.1.2',
