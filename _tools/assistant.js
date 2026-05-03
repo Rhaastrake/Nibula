@@ -17,31 +17,26 @@ function toKebabCase(str) {
 }
 
 function handleCreateRequest() {
-    readerInterface.question('\n> enter the name of the new page: ', (inputName) => {
+    readerInterface.question('\n> Enter the name of the new page: ', (inputName) => {
         const kebabName = toKebabCase(inputName);
         if (!kebabName) {
-            console.log('(!) invalid name.');
+            console.log('(!) Invalid name.');
         } else if (/^\d/.test(kebabName)) {
-            console.log('(!) invalid name. Page name cannot start with a number.');
+            console.log('(!) Invalid name. Page name cannot start with a number.');
         } else if (PROTECTED_PAGES.includes(kebabName)) {
             console.log(`(!) "${kebabName}" is a protected page and cannot be created.`);
         } else {
-            readerInterface.question('> parent path (leave empty for root): ', (inputParent) => {
-                const parentPath = inputParent.trim().toLowerCase().replace(/\\/g, '/').replace(/^\/|\/$/g, '');
-                addPage(kebabName, parentPath || null);
-                displayMainMenu();
-            });
-            return;
+            addPage(kebabName, null);
         }
         displayMainMenu();
     });
 }
 
 function handleRenameRequest() {
-    readerInterface.question('\n> enter the name of the page to rename: ', (inputOld) => {
+    readerInterface.question('\n> Enter the name of the page to rename: ', (inputOld) => {
         const oldName = toKebabCase(inputOld);
         if (!oldName) {
-            console.log('(!) invalid name.');
+            console.log('(!) Invalid name.');
             return displayMainMenu();
         }
         if (PROTECTED_PAGES.includes(oldName)) {
@@ -53,11 +48,11 @@ function handleRenameRequest() {
             if (!newName) {
                 console.log('(!) invalid name.');
             } else if (/^\d/.test(newName)) {
-                console.log('(!) invalid name. Page name cannot start with a number.');
+                console.log('(!) Invalid name. Page name cannot start with a number.');
             } else if (PROTECTED_PAGES.includes(newName)) {
                 console.log(`(!) "${newName}" is a protected page name.`);
             } else if (oldName === newName) {
-                console.log('(!) old and new name are the same.');
+                console.log('(!) Old and new name are the same.');
             } else {
                 renamePage(oldName, newName);
             }
@@ -67,12 +62,12 @@ function handleRenameRequest() {
 }
 
 function handleRemoveRequest() {
-    readerInterface.question('\n> enter the name of the page to remove: ', (inputName) => {
+    readerInterface.question('\n> Enter the name of the page to remove: ', (inputName) => {
         const kebabName = toKebabCase(inputName);
         if (!kebabName) {
-            console.log('(!) invalid name.');
+            console.log('(!) Invalid name.');
         } else if (PROTECTED_PAGES.includes(kebabName)) {
-            console.log(`(!) "${kebabName}" is a protected page and cannot be removed.`);
+            console.log(`(!) "${kebabName}" Is a protected page and cannot be removed.`);
         } else {
             removePage(kebabName);
         }
@@ -84,9 +79,9 @@ function handleOutputPathRequest() {
     const current = getCurrentOutputPath();
     const currentLabel = current ? ` (current: "${current}")` : '';
 
-    readerInterface.question(`\n> enter the new output path${currentLabel}\n  (e.g. C:/laragon/www or . for root): `, (inputPath) => {
+    readerInterface.question(`\n> Enter the new output path${currentLabel}\n  (e.g. C:/laragon/www or . for root): `, (inputPath) => {
         if (!inputPath.trim()) {
-            console.log('(!) invalid path.');
+            console.log('(!) Invalid path.');
         } else {
             updateOutputPath(inputPath);
         }
