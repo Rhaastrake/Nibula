@@ -13,11 +13,7 @@ A professional boilerplate for Eleventy, lightweight and structure-focused, read
 * Run the command for your system to download the project and install everything:
    #### Windows
    ```bash
-   if (!(Test-Path "$env:APPDATA\npm")) { mkdir "$env:APPDATA\npm" }; $DIR="my-site"; npx -y degit rhaastrake/berna-stencil $DIR; cd $DIR;
-   ```
-   #### MacOS / Linux
-   ```bash
-   DIR="my-site"; npx -y degit rhaastrake/berna-stencil $DIR && cd $DIR
+   npm create berna-stencil@latest your-project
    ```
 
 * Install all the node_modules
