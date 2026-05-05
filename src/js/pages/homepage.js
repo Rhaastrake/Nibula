@@ -10,8 +10,8 @@ import { initLangSwitcher } from '../modules/langSwitcher.js';
 import { showNotification } from '../modules/notification.js';
 
 // Uncomment to enable optional modules (call inside DOMContentLoaded)
-// import { initTextAreaAutoExpand } from '../modules/textAreaAutoExpand.js';
-// import { initNormalizePhoneNumber } from '../modules/normalizePhoneNumber.js';
+// import { initTextAreaAutoExpand } from '../modules/forms/textAreaAutoExpand.js';
+// import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
 
 //==========================
 // "homepage" PAGE CUSTOM JAVASCRIPT
