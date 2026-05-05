@@ -21,9 +21,9 @@ set_error_handler(function ($severity, $message, $file, $line) {
 });
 
 // --- CARICAMENTO DOTENV ---
-// dirname(__DIR__, 1) sale di un livello (da api/ a Berna-Stencil-out/)
+// dirname(__DIR__, 2) sale di un livello (da api/ a Berna-Stencil-out/)
 try {
-    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
+    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 2));
     $dotenv->load();
 } catch (Exception $e) {
     Response::error("Impossibile caricare il file .env. Assicurati che esista nella root e si chiami esattamente .env", 500);

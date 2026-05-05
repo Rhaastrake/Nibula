@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * Caricamento delle dipendenze e configurazione iniziale.
  */
-require_once __DIR__ . '/init.php';
-require_once __DIR__ . '/modules/Response.php';
+require_once __DIR__ . '/core/init.php';
+require_once __DIR__ . '/core/modules/Response.php';
 
 // =====================================================
 // 1. ANALISI DELLA RICHIESTA (REQUEST PARSING)
