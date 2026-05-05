@@ -9,8 +9,8 @@ if ($method !== 'GET') {
 }
 
 Response::success([
-    'message'     => 'Public endpoint is working',
-    'endpoint'    => 'ping',
-    'visibility'  => 'public',
-    'params'      => $requestParams,
+    'message'    => 'Protected endpoint is working',
+    'endpoint'   => 'prova-chiusa',
+    'visibility' => 'protected',
+    'params'     => $requestParams,
 ]);
