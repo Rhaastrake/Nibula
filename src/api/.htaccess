@@ -2,11 +2,17 @@
     RewriteEngine On
     RewriteBase /api/
 
-    # Non processare file reali (immagini, vendor, ecc.)
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
+    # 1. Proteggi i file sensibili (come .env o file di log)
+    <FilesMatch "^\.env|composer\.(json|lock)$">
+        Require all denied
+    </FilesMatch>
 
-    # Tutto il resto va a index.php
+    # 2. Impedisce l'accesso diretto alla cartella core e endpoints
+    # Se qualcuno cerca di navigare in queste cartelle, becca un 403
+    RewriteRule ^(core|endpoints|modules)($|/) - [F,L]
+
+    # 3. Regola standard per il routing verso il motore
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

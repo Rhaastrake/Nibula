@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+define('CORE_ACCESS', true);
+
 /**
  * Caricamento delle dipendenze e configurazione iniziale.
  */

@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+if (!defined('CORE_ACCESS')) {
+    http_response_code(403);
+    die('Accesso diretto non consentito.');
+}
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/modules/Response.php';
 
