@@ -12,13 +12,12 @@ const COPY_TARGETS = [
     '.eleventy.js',
     '.eleventyignore',
     '.gitignore',
-    ".env.example",
     'README.md',
 ];
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.18',
+    version: '1.0.19',
     private: true,
     scripts: {
         'build:css': 'sass src/scss:out/css --no-source-map --style=compressed --quiet',

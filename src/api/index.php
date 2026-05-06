@@ -60,7 +60,7 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Api-Key');
 
-$allowedOrigins = array_filter(array_map('trim', explode(',', $_ENV['CORS_ALLOWED_ORIGINS'] ?? '')));
+$allowedOrigins = array_filter(array_map('trim', explode(',', $config['CORS_ALLOWED_ORIGINS'] ?? '')));
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (in_array($origin, $allowedOrigins, true) || in_array('*', $allowedOrigins, true)) {
@@ -80,7 +80,7 @@ if ($method === 'OPTIONS') {
 
 if ($isProtected) {
     $apiKey   = $_SERVER['HTTP_X_API_KEY'] ?? '';
-    $validKey = $_ENV['API_KEY'] ?? '';
+    $validKey = $config['API_KEY'] ?? '';
 
     if ($validKey === '' || $apiKey !== $validKey) {
         Response::error('Unauthorized', 401);
