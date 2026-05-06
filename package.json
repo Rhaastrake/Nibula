@@ -1,6 +1,6 @@
 {
   "name": "create-berna-stencil",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
   "keywords": [
     "eleventy",
@@ -67,6 +67,6 @@
     "clean": "node _tools/cleanOutput.js",
     "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
     "assistant": "node _tools/assistant.js",
-    "postinstall": "cd src/api/core && composer install"
+    "postinstall": "cd src/api/core && composer install --quiet"
   }
 }

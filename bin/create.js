@@ -17,19 +17,20 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.20',
+    version: '1.0.21',
     private: true,
     scripts: {
-        'build:css': 'sass src/scss:out/css --no-source-map --style=compressed --quiet',
-        'build:js': 'esbuild "src/js/pages/*.js" --bundle --outdir=out/js/pages --minify',
-        'build:11ty': 'eleventy',
-        'build': 'npm run build:css && npm run build:js && npm run build:11ty',
-        'serve:css': 'sass --watch src/scss:out/css --no-source-map --quiet',
-        'serve:js': 'esbuild "src/js/pages/*.js" --bundle --outdir=out/js/pages --watch',
-        'serve:11ty': 'eleventy --serve --quiet',
-        'clean': 'node _tools/cleanOutput.js',
-        'serve': 'npm run clean && concurrently "npm run serve:11ty" "npm run serve:css" "npm run serve:js"',
-        'assistant': 'node _tools/assistant.js',
+        "build:css": "sass src/scss:c:/laragon/www/Berna-Stencil-out/css --no-source-map --style=compressed --quiet",
+        "build:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=c:/laragon/www/Berna-Stencil-out/js/pages --minify",
+        "build:11ty": "eleventy",
+        "build": "npm run build:css && npm run build:js && npm run build:11ty",
+        "serve:css": "sass --watch src/scss:c:/laragon/www/Berna-Stencil-out/css --no-source-map --quiet",
+        "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=c:/laragon/www/Berna-Stencil-out/js/pages --watch",
+        "serve:11ty": "eleventy --serve --quiet",
+        "clean": "node _tools/cleanOutput.js",
+        "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
+        "assistant": "node _tools/assistant.js",
+        "postinstall": "cd src/api/core && composer install --quiet"
     },
     dependencies: {
         '@11ty/eleventy': '^3.1.2',
