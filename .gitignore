@@ -1,3 +1,4 @@
 node_modules/
 out/
 .env
+src/api/core/vendor/
