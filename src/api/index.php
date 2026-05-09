@@ -17,7 +17,6 @@ require_once __DIR__ . '/core/modules/Response.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Pulizia URI: rimuoviamo /api e eventuali slash finali
 $uri    = rtrim(preg_replace('#^/api#', '', $uri), '/') ?: '/';
 $parts  = array_values(array_filter(explode('/', $uri)));
 
@@ -83,7 +82,7 @@ if ($isProtected) {
     $validKey = $config['API_KEY'] ?? '';
 
     if ($validKey === '' || $apiKey !== $validKey) {
-        Response::error('Unauthorized', 401);
+        Response::error('Unauthorized. X_API_KEY is incorrect or missing', 401);
     }
 }
 

@@ -18,9 +18,14 @@ return [
     'API_KEY'              => 'TOKEN',
     'CORS_ALLOWED_ORIGINS' => '*',
 
+    'DB_HOST' => '127.0.0.1',
+    'DB_NAME' => 'example_db',
+    'DB_USER' => 'root',
+    'DB_PASS' => '',
+
     // Configurazioni per l'invio delle Email
     'MAIL_HOST'            => 'smtp.gmail.com',
-    'MAIL_PORT'            => 587, // Per i numeri puoi omettere gli apici
+    'MAIL_PORT'            => 587,
     'MAIL_USERNAME'        => 'YOUR_EMAIL',
     'MAIL_PASSWORD'        => 'APP_PASSWORD',
     'MAIL_TO_ADDRESS'      => 'EMAIL_TO_ADDRESS',

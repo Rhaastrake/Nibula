@@ -2,16 +2,11 @@
     RewriteEngine On
     RewriteBase /api/
 
-    # 1. Permetti index.php
+    # 1. Se la richiesta è esattamente per index.php, servilo e fermati qui.
     RewriteRule ^index\.php$ - [L]
 
-    # 2. Invece di dare Forbidden [F], manda tutto a index.php
-    # Questo copre config.php e tutte le sottocartelle
-    RewriteRule \.php$ index.php [L]
-    RewriteRule ^(core|endpoints|modules|vendor)($|/) index.php [L]
-
-    # 3. Regola per gli endpoint
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # 2. Invia TUTTO il resto a index.php
+    # Non controlliamo più se il file esiste (-f) o meno. 
+    # Qualsiasi cosa scrivano dopo /api/ va a finire nel router PHP.
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

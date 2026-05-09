@@ -33,6 +33,31 @@
         <meta name="twitter:description" content="{{ pageData.seo.description }}">
         <meta name="twitter:image" content="{{ site.url }}{{ site.logo }}">
 
+        <!-- ========================================== -->
+        <!-- JSON-LD / Structured data for SEO and AI   -->
+        <!-- ========================================== -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "{{ pageData.seo.title or title or site.title }}",
+            "description": "{{ pageData.seo.description or site.description }}",
+            "url": "{{ site.url }}{{ page.url }}",
+            "author": {
+                "@type": "Person",
+                "name": "{{ site.author }}"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "{{ site.site_name }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ site.url }}{{ site.logo }}"
+                }
+            }
+        }
+        </script>
+
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="{{ site.favicon }}">
         <!-- (If you want to use a PNG favicon) -->
