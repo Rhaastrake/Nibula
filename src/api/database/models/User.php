@@ -20,11 +20,18 @@ class User {
         return $stmt->fetch() ?: null;
     }
 
-    public function create(string $nickname, string $email): int {
-        $stmt = $this->db->prepare("INSERT INTO users (nickname, email) VALUES (:nickname, :email)");
+    public function findByEmail(string $email): ?array {
+        $stmt = $this->db->prepare("SELECT id, nickname, email, password, created_at FROM users WHERE email = :email");
+        $stmt->execute(['email' => filter_var(trim($email), FILTER_SANITIZE_EMAIL)]);
+        return $stmt->fetch() ?: null;
+    }
+
+    public function create(string $nickname, string $email, string $password = ''): int {
+        $stmt = $this->db->prepare("INSERT INTO users (nickname, email, password) VALUES (:nickname, :email, :password)");
         $stmt->execute([
-            'nickname' => htmlspecialchars(strip_tags($nickname)),
-            'email'    => filter_var($email, FILTER_SANITIZE_EMAIL)
+            'nickname' => htmlspecialchars(strip_tags(trim($nickname))),
+            'email'    => filter_var(trim($email), FILTER_SANITIZE_EMAIL),
+            'password' => $password !== '' ? password_hash($password, PASSWORD_BCRYPT) : '',
         ]);
         return (int)$this->db->lastInsertId();
     }

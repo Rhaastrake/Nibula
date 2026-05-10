@@ -2,19 +2,6 @@
 
 declare(strict_types=1);
 
-// Impedisce l'accesso diretto a questo file
-if (!defined('CORE_ACCESS')) {
-    $errorPage = $_SERVER['DOCUMENT_ROOT'] . '/404.html';
-    http_response_code(404);
-    if (file_exists($errorPage)) {
-        header('Content-Type: text/html; charset=UTF-8');
-        echo file_get_contents($errorPage);
-    } else {
-        echo "404 Not Found";
-    }
-    exit;
-}
-
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/modules/Response.php';
 

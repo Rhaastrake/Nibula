@@ -1,21 +1,8 @@
 <?php
 declare(strict_types=1);
 
-if (!defined('CORE_ACCESS')) {
-    $errorPage = $_SERVER['DOCUMENT_ROOT'] . '/404.html';
-    http_response_code(404);
-    if (file_exists($errorPage)) {
-        header('Content-Type: text/html; charset=UTF-8');
-        echo file_get_contents($errorPage);
-    } else {
-        echo "404 Not Found";
-    }
-    exit;
-}
-
 return [
-    // Configurazioni di base
-    'API_KEY'              => 'TOKEN',
+    'API_KEY' => 'YOUR_TOKEN', // This must be give only to trusted clients to access protected endpoints directly
     'CORS_ALLOWED_ORIGINS' => '*',
 
     'DB_HOST' => '127.0.0.1',

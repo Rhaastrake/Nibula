@@ -3,10 +3,10 @@
     RewriteBase /api/
 
     # 1. Se la richiesta è esattamente per index.php, servilo e fermati qui.
-    RewriteRule ^index\.php$ - [L]
+    RewriteRule ^core/index\.php$ - [L]
 
     # 2. Invia TUTTO il resto a index.php
     # Non controlliamo più se il file esiste (-f) o meno. 
     # Qualsiasi cosa scrivano dopo /api/ va a finire nel router PHP.
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule ^(.*)$ core/index.php [QSA,L]
 </IfModule>
