@@ -20,22 +20,49 @@ $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri    = rtrim(preg_replace('#^/api#', '', $uri), '/') ?: '/';
 $parts  = array_values(array_filter(explode('/', $uri)));
 
-$resource = $parts[0] ?? null;
-
 // =====================================================
-// 2. RISOLUZIONE ENDPOINT (ROUTING)
+// 2. RISOLUZIONE ENDPOINT (ROUTING CON SOTTOCARTELLE)
 // =====================================================
 
-$publicPath    = __DIR__ . '/endpoints/public/'    . $resource . '.php';
-$protectedPath = __DIR__ . '/endpoints/protected/' . $resource . '.php';
+$basePublic    = __DIR__ . '/endpoints/public/';
+$baseProtected = __DIR__ . '/endpoints/protected/';
 
-$isPublic    = $resource !== null && file_exists($publicPath);
-$isProtected = $resource !== null && file_exists($protectedPath);
+$endpointFile  = null;
+$isProtected   = false;
+$requestParams = [];
+
+// Variabili temporanee per il ciclo di ricerca
+$checkParts = $parts;
+$params     = [];
+
+/**
+ * Logica di routing dinamico: cerca il match più profondo.
+ */
+while (count($checkParts) > 0) {
+    $relativePath = implode('/', $checkParts) . '.php';
+
+    // Controlla prima se è una route pubblica
+    if (file_exists($basePublic . $relativePath)) {
+        $endpointFile = $basePublic . $relativePath;
+        $isProtected  = false;
+        break;
+    }
+
+    // Poi controlla se è una route protetta
+    if (file_exists($baseProtected . $relativePath)) {
+        $endpointFile = $baseProtected . $relativePath;
+        $isProtected  = true;
+        break;
+    }
+
+    // Se non ha trovato il file, l'ultimo pezzo dell'URL diventa un parametro
+    array_unshift($params, array_pop($checkParts));
+}
 
 /**
  * SE L'ENDPOINT NON ESISTE (RITORNO HTML 404)
  */
-if (!$isPublic && !$isProtected) {
+if (!$endpointFile) {
     http_response_code(404);
     
     // Cerchiamo il file 404.html generato da Eleventy nella root di Laragon
@@ -90,7 +117,8 @@ if ($isProtected) {
 // 5. ESECUZIONE (DISPATCH)
 // =====================================================
 
-$requestParams = array_slice($parts, 1);
+// I parametri sono i segmenti residui dell'URL non usati per trovare il file PHP
+$requestParams = $params;
 
-// Carica il file dell'endpoint richiesto
-require $isProtected ? $protectedPath : $publicPath;
+// Carica il file dell'endpoint trovato
+require $endpointFile;
