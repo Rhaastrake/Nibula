@@ -1,0 +1,17 @@
+//==========================
+// CSS RULES FOR BUTTONS
+//==========================
+
+// Getting root rules from _root.scss
+@use 'root' as root;
+
+.btn {
+  color: #42b883;
+  border-radius: 12px;
+  padding: 8px 20px;
+  transition: background 0.2s, color 0.2s;
+}
+.btn:hover {
+  background: #42b883;
+  color: #0d1526;
+}

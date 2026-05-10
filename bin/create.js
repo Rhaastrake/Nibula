@@ -15,7 +15,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.35',
+    version: '1.0.36',
     private: true,
     scripts: {
         "build:css": "sass src/scss:out/css --no-source-map --style=compressed --quiet",

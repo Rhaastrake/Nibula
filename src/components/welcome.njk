@@ -1,23 +1,36 @@
 <div class="container my-3">
   <h1>Welcome to <span class="berna-stencil">Berna-Stencil</span></h1>
-  <div class="slogan">The framework you need, simplified</div>
+  <div class="slogan" data-lang-key="welcomeSlogan"></div>
 
   <div class="grid">
-    <a href="https://bernastencil.com" class="card" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://bernastencil.com"
+      class="card"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <i class="bi bi-book card-icon" aria-hidden="true"></i>
-      <h3>Documentation</h3>
-      <p>Everything you need to get started, from setup to advanced topics.</p>
+      <h3 data-lang-key="documentationCardTitle"></h3>
+      <p data-lang-key="documentatioCardParagraph">
+        Everything you need to get started, from setup to advanced topics and
+        customizations.
+      </p>
       <span class="card-link"
-        >Read the docs <i class="bi bi-arrow-right" aria-hidden="true"></i
+        data-lang-key="documentationCardLink"></i
       ></span>
     </a>
 
-    <a href="https://github.com/rhaastrake/berna-stencil" class="card" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://github.com/rhaastrake/berna-stencil"
+      class="card"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <i class="bi bi-github card-icon" aria-hidden="true"></i>
-      <h3>Open Source</h3>
-      <p>Community-driven. Contributions, issues and PRs are welcome.</p>
+      <h3 data-lang-key="githubCardTitle">Github repository</h3>
+      <p data-lang-key="githubCardParagraph">Community-driven. Contributions, issues and PRs are welcome.</p>
       <span class="card-link"
-        >GitHub <i class="bi bi-arrow-right" aria-hidden="true"></i
+        data-lang-key="githubCardLink">Open the repository</i
       ></span>
     </a>
   </div>
@@ -67,7 +80,7 @@
   }
   .card p {
     font-size: 1rem;
-    color: #3d5068;
+    color: #38649b;
     line-height: 1.6;
   }
   .card-link {
@@ -76,7 +89,7 @@
     gap: 4px;
     font-size: 1rem;
     color: #42b883;
-    opacity: 0.7;
+    opacity: 0.8;
     transition: opacity 0.15s;
   }
   .card:hover .card-link {

@@ -19,6 +19,8 @@
 @import "animations";
 @import "mobile";
 
+@import "buttons";
+
 *,
 *::before,
 *::after {
@@ -35,4 +37,5 @@ body {
 
 main {
     flex: 1;
+    background-color: #1e1e1e94;
 }

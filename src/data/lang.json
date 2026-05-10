@@ -2,29 +2,35 @@
   "en": {
     "enLangName": "English",
     "itLangName": "Italian",
-    "forms": {
-      "formInvalidFields": "Please fill in all required fields correctly",
-      "emailSending": "Sending email",
-      "emailSuccess": "Email sent successfully",
-      "emailError": "An error occurred while sending the email"
-    },
 
     "error404Message": "Oops! Page not found",
-    "error404Return": "Return to homepage"
+    "error404Return": "Return to homepage",
 
+    "welcomeSlogan": "The framework you need, simplified",
+
+    "documentationCardTitle": "Documentation",
+    "documentatioCardParagraph": "Everything you need to get started, from setup to advanced topics and customizations",
+    "documentationCardLink": "Go to documentation",
+
+    "githubCardTitle": "Github repository",
+    "githubCardParagraph": "Community-driven. Contributions, issues and PRs are welcome.",
+    "githubCardLink": "Open the repository"
   },
   "it": {
     "enLangName": "Inglese",
     "itLangName": "Italiano",
-    "forms": {
-      "formInvalidFields": "Per favore, compila correttamente tutti i campi obbligatori",
-      "emailSending": "Invio in corso",
-      "emailSuccess": "Email inviata con successo",
-      "emailError": "Si è verificato un errore durante l'invio dell'email"
-    },
 
     "error404Message": "Oops! Pagina non trovata",
-    "error404Return": "Ritorna alla homepage"
-    
+    "error404Return": "Ritorna alla homepage",
+
+    "welcomeSlogan": "Il framework di cui hai bisogno, in modo semplice",
+
+    "documentationCardTitle": "Documentazione",
+    "documentatioCardParagraph": "Tutto ciò di cui hai bisogno per iniziare, dalla configurazione agli argomenti avanzati e personalizzazioni",
+    "documentationCardLink": "Vai alla documentazione",
+
+    "githubCardTitle": "Repository Github",
+    "githubCardParagraph": "Guidato dalla comunità. Contributi, segnalazioni e PR sono benvenuti.",
+    "githubCardLink": "Vai alla repository"
   }
 }
