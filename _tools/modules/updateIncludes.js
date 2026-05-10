@@ -15,7 +15,7 @@ function addLayout(pageName) {
 
     if (content.includes(`{% elif title == "${camelName}" %}`)) return;
 
-    const newElif = `{% elif title == "${camelName}" %}\n  {#{% include "exampleComponent.njk" %}#}\n\n`;
+    const newElif = `{% elif title == "${camelName}" %}\n  {#{% include "component.njk" %}#}\n\n`;
     const updatedContent = content.replace('{% else %}', `${newElif}{% else %}`);
 
     fileSystem.writeFileSync(INCLUDES_PATH, updatedContent);

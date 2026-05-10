@@ -10,9 +10,8 @@
     },
 
     "error404Message": "Oops! Page not found",
-    "error404Return": "Return to homepage",
+    "error404Return": "Return to homepage"
 
-    "test": "This is the english translation for the test key"
   },
   "it": {
     "enLangName": "Inglese",
@@ -25,8 +24,7 @@
     },
 
     "error404Message": "Oops! Pagina non trovata",
-    "error404Return": "Ritorna alla homepage",
-
-    "test": "Questa è la traduzione italiana per la chiave test"
+    "error404Return": "Ritorna alla homepage"
+    
   }
 }

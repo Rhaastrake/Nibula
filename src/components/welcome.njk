@@ -1,0 +1,208 @@
+<div class="container fade-in get-started my-5">
+
+  <span class="gs-badge">open source</span>
+  <h1 class="gs-title">Berna Stencil</h1>
+  <p class="gs-sub">An Eleventy-based static site starter with SCSS, JS pages, and a built-in CLI scaffolder.</p>
+
+  <div class="gs-block">
+    <p class="gs-block-label">scaffold pages, rename, remove</p>
+    <div class="gs-cmd">
+      <code>
+        <span class="prompt">$ </span>
+        <span class="cmd">npm run</span>
+        <span class="arg">assistant</span>
+      </code>
+      <button class="gs-copy" onclick="navigator.clipboard.writeText('npm run assistant'); this.textContent='copied'; setTimeout(()=>this.textContent='copy',1500)">copy</button>
+    </div>
+
+    <hr />
+
+    <div class="gs-guide-links">
+      <a href="https://bernastencil.com/docs/pages"><i class="bi bi-file-plus"></i> adding pages</a>
+      <a href="https://bernastencil.com/docs/layouts"><i class="bi bi-layout"></i> layouts</a>
+      <a href="https://bernastencil.com/docs/extra-cdn"><i class="bi bi-brand-npm"></i> cdn per page</a>
+      <a href="https://bernastencil.com/docs/i18n"><i class="bi bi-world"></i> i18n</a>
+      <a href="https://bernastencil.com/docs/scss"><i class="bi bi-palette"></i> scss structure</a>
+    </div>
+  </div>
+
+  <hr class="gs-divider" />
+
+  <ul class="gs-features">
+    <li><i class="bi bi-bolt"></i>Eleventy + Nunjucks templating</li>
+    <li><i class="bi bi-palette"></i>SCSS with per-page stylesheets</li>
+    <li><i class="bi bi-terminal-2"></i>CLI scaffolder for pages</li>
+    <li><i class="bi bi-world"></i>Built-in i18n switcher</li>
+    <li><i class="bi bi-layout"></i>Component-based layouts</li>
+    <li><i class="bi bi-brand-npm"></i>CDN per-page asset management</li>
+  </ul>
+
+  <div class="gs-links">
+    <a href="https://github.com/rhaastrake/berna-stencil"><i class="bi bi-github"></i> GitHub</a>
+    <a href="https://github.com/rhaastrake/berna-stencil#readme"><i class="bi bi-book"></i> Docs</a>
+    <a href="https://github.com/rhaastrake/berna-stencil/issues"><i class="bi bi-bug"></i> Issues</a>
+  </div>
+
+</div>
+
+<style>
+    .get-started {
+    background: #0d0d0d;
+    border: 0.5px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 2.5rem;
+    color: #e2e2e2;
+    max-width: 680px;
+
+    .gs-badge {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #888;
+        border: 0.5px solid #333;
+        border-radius: 20px;
+        padding: 3px 10px;
+        margin-bottom: 1.25rem;
+    }
+
+    .gs-title {
+        font-size: 22px;
+        font-weight: 500;
+        color: #f5f5f5;
+        margin: 0 0 0.4rem;
+    }
+
+    .gs-sub {
+        font-size: 14px;
+        color: #666;
+        margin: 0 0 2rem;
+    }
+
+    .gs-block {
+        background: #161616;
+        border: 0.5px solid #2a2a2a;
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+
+        hr {
+            border: none;
+            border-top: 0.5px solid #2a2a2a;
+            margin: 1rem 0;
+        }
+    }
+
+    .gs-block-label {
+        font-size: 11px;
+        color: #555;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .gs-cmd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        code {
+            font-size: 13px;
+            color: #c9c9c9;
+
+            .prompt { color: #444; }
+            .cmd    { color: #a3e4bc; }
+            .arg    { color: #7ec8e3; }
+        }
+    }
+
+    .gs-copy {
+        background: none;
+        border: 0.5px solid #333;
+        border-radius: 6px;
+        padding: 4px 10px;
+        color: #666;
+        font-size: 11px;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: color 0.15s, border-color 0.15s;
+
+        &:hover {
+            color: #ccc;
+            border-color: #555;
+        }
+    }
+
+    .gs-guide-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #555;
+            text-decoration: none;
+            transition: color 0.15s;
+
+            i { font-size: 13px; }
+
+            &:hover { color: #999; }
+        }
+    }
+
+    .gs-divider {
+        border: none;
+        border-top: 0.5px solid #1e1e1e;
+        margin: 1.5rem 0;
+    }
+
+    .gs-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: #666;
+
+            i {
+                font-size: 15px;
+                color: #444;
+                margin-top: 1px;
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    .gs-links {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #555;
+            text-decoration: none;
+            transition: color 0.15s;
+
+            i { font-size: 15px; }
+
+            &:hover { color: #aaa; }
+        }
+    }
+}
+</style>

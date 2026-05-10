@@ -20,14 +20,21 @@ export async function initLangSwitcher() {
 
   applyLanguage(initialLang, data);
 
-  document.querySelectorAll("input[name='lang-button']").forEach((radio) => {
-    if (radio.value === initialLang) radio.checked = true;
+  function handleLangChange(value) {
+    localStorage.setItem("language", value);
+    applyLanguage(value, data);
+  }
 
-    radio.addEventListener("change", () => {
-      const newLang = radio.value;
-      localStorage.setItem("language", newLang);
-      applyLanguage(newLang, data);
-    });
+  // Radio buttons
+  document.querySelectorAll("input[type='radio'][name='lang-button']").forEach((radio) => {
+    if (radio.value === initialLang) radio.checked = true;
+    radio.addEventListener("change", () => handleLangChange(radio.value));
+  });
+
+  // Select
+  document.querySelectorAll("select#lang-select").forEach((select) => {
+    select.value = initialLang;
+    select.addEventListener("change", () => handleLangChange(select.value));
   });
 }
 

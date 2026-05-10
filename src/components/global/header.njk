@@ -4,12 +4,16 @@
         <img src="{{ site.logo }}" alt="{{ site.title }}" height="40">
       </a>
     <div class="nav-links">
-      <a class="btn btn-primary" href="/">Homepage</a>
-      <a class="btn btn-primary" href="/another-page">Another page</a>
+      <a class="btn btn-outline-primary" href="/">Homepage</a>
+      <a class="btn btn-outline-primary" href="/about-us">About-us</a>
+      <a class="btn btn-outline-primary" href="/contact-us">Contact us</a>
     </div>
     <div class="nav-links">
-      <a class="btn btn-primary" href="/">ExtraBtn1</a>
-      <a class="btn btn-primary" href="/">ExtraBtn2</a>
+      <select id="lang-select" class="form-select">
+        {# enLangName or itLangName is the key that contains the language name accordint to the current language #}
+        <option value="en" data-lang-key="enLangName"></option>
+        <option value="it" data-lang-key="itLangName"></option>
+      </select>
     </div>
   </nav>
 </header>

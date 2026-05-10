@@ -5,14 +5,6 @@
 // Getting root rules from _root.scss
 @use 'root' as root;
 
-// ╔═════════════════════════════════════════════════════════════╗
-// ║                       CSS FRAMEWORK                         ║
-// ║  Uncomment the framework you want to use (only one at time) ║
-// ║  To reduce or filter modules, edit the corresponding file:  ║
-// ║                _bootstrap.scss / _bulma.scss                ║
-// ║               _uikit.scss  / _foundation.scss               ║
-// ╚═════════════════════════════════════════════════════════════╝
-
 @import "../modules/frameworks/bootstrap";
 // @import "../modules/frameworks/bulma";
 // @import "../modules/frameworks/foundation";
@@ -27,6 +19,8 @@
 @import "animations";
 @import "mobile";
 
+// @import "buttons";
+
 *,
 *::before,
 *::after {
@@ -35,6 +29,12 @@
   box-sizing: border-box;
 }
 
-button {
-  cursor: pointer;
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }

@@ -20,4 +20,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initLangSwitcher();
 });
 
-showNotification("prova notification", "success", 3000);
+showNotification("Example notification", "success", 3000);

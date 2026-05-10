@@ -2,11 +2,44 @@
 // CSS RULES FOR FOOTER
 //==========================
 
-// Getting root rules from _root.scss
 @use 'root' as root;
 
 footer {
     width: 100%;
     padding: root.$header-padding-y root.$header-padding-x;
     background-color: root.$primary;
+
+    h6 {
+        margin-bottom: 0.75rem;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    hr {
+        margin: 1rem 0;
+    }
+
+    .footer-top {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        small {
+            display: flex;
+            gap: 1rem;
+        }
+    }
 }

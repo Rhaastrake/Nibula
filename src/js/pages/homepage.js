@@ -14,7 +14,7 @@ import { showNotification } from '../modules/notification.js';
 // import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
 
 //==========================
-// "homepage" PAGE CUSTOM JAVASCRIPT
+// PAGE CUSTOM JAVASCRIPT
 //==========================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,4 +22,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initFormListener();
 });
 
-showNotification("homepage notification", "success", 3000);
+showNotification("Example notification", "success", 3000);
