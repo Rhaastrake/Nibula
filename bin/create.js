@@ -2,32 +2,29 @@
 
 const fs = require('fs');
 const path = require('path');
-const { writeSync } = require('fs');
 
 const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 const templateDir = path.join(__dirname, '..');
 
-// I file e le cartelle da copiare. Notare 'gitignore' senza il punto.
 const COPY_TARGETS = [
     'src',
     '_tools',
     '.eleventy.js',
     '.eleventyignore',
-    'gitignore', 
-    'README.md',
+    '.gitignore',
 ];
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.30',
+    version: '1.0.31',
     private: true,
     scripts: {
-        "build:css": "sass src/scss:c:/laragon/www/Berna-Stencil-out/css --no-source-map --style=compressed --quiet",
-        "build:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=c:/laragon/www/Berna-Stencil-out/js/pages --minify",
+        "build:css": "sass src/scss:out/css --no-source-map --style=compressed --quiet",
+        "build:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
         "build:11ty": "eleventy",
         "build": "npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/scss:c:/laragon/www/Berna-Stencil-out/css --no-source-map --quiet",
-        "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=c:/laragon/www/Berna-Stencil-out/js/pages --watch",
+        "serve:css": "sass --watch src/scss:out/css --no-source-map --quiet",
+        "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
@@ -51,6 +48,8 @@ const PROJECT_PACKAGE = {
     },
 };
 
+const { writeSync } = require('fs');
+
 function log(msg) {
     writeSync(1, msg + '\n');
 }
@@ -68,14 +67,12 @@ function copyRecursive(src, dest) {
     }
 }
 
-// 1. Crea la cartella di destinazione se non esiste
 if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
 }
 
 log(`\n>> Creating berna-stencil project in ${targetDir}\n`);
 
-// 2. Copia tutti i file e le cartelle specificati in COPY_TARGETS
 for (const target of COPY_TARGETS) {
     const src = path.join(templateDir, target);
     const dest = path.join(targetDir, target);
@@ -85,27 +82,16 @@ for (const target of COPY_TARGETS) {
     }
 }
 
-// 3. Rinomina gitignore in .gitignore nella cartella di destinazione
-const gitignoreSrc = path.join(targetDir, 'gitignore');
-const gitignoreDest = path.join(targetDir, '.gitignore');
-
-if (fs.existsSync(gitignoreSrc)) {
-    fs.renameSync(gitignoreSrc, gitignoreDest);
-    log('~ Rinominato gitignore in .gitignore');
-}
-
-// 4. Genera e scrivi il file package.json
 fs.writeFileSync(
     path.join(targetDir, 'package.json'),
     JSON.stringify(PROJECT_PACKAGE, null, 2)
 );
 log('+ package.json');
 
-// 5. Mostra i messaggi finali all'utente
 log(`\n>> Done! Now run:\n`);
 if (process.argv[2]) {
     log(`cd ${process.argv[2]}`);
 }
 log('npm install');
 log('npm run serve\n');
-log("Don't forget to check the documentation at https://bernastencil.com\n");
+log("\nDon't forget to check the documentation at https://bernastencil.com");
