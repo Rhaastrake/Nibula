@@ -77,9 +77,9 @@ function handleRemoveRequest() {
 
 function handleOutputPathRequest() {
     const current = getCurrentOutputPath();
-    const currentLabel = current ? ` (current: "${current}")` : '';
+    const currentLabel = current ? ` Current path: "${current}"` : '';
 
-    readerInterface.question(`\n> Enter the new output path${currentLabel}\n  (e.g. C:/laragon/www or . for root): `, (inputPath) => {
+    readerInterface.question(`${currentLabel}\n Enter the new output path: `, (inputPath) => {
         if (!inputPath.trim()) {
             console.log('(!) Invalid path.');
         } else {

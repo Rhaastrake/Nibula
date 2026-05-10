@@ -75,10 +75,7 @@ function getCurrentOutputPath() {
 
         const outputDir = match[1];
 
-        if (!path.isAbsolute(outputDir)) {
-            return 'project root/out';
-        }
-
+        
         const parent = path.dirname(outputDir);
         const projectName = path.basename(outputDir);
 

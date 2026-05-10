@@ -20,7 +20,7 @@ export async function initLangSwitcher() {
 
   applyLanguage(initialLang, data);
 
-  document.querySelectorAll("input[name='lang-switcher']").forEach((radio) => {
+  document.querySelectorAll("input[name='lang-button']").forEach((radio) => {
     if (radio.value === initialLang) radio.checked = true;
 
     radio.addEventListener("change", () => {

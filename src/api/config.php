@@ -22,11 +22,4 @@ return [
     'DB_NAME' => 'example_db',
     'DB_USER' => 'root',
     'DB_PASS' => '',
-
-    // Configurazioni per l'invio delle Email
-    'MAIL_HOST'            => 'smtp.gmail.com',
-    'MAIL_PORT'            => 587,
-    'MAIL_USERNAME'        => 'YOUR_EMAIL',
-    'MAIL_PASSWORD'        => 'APP_PASSWORD',
-    'MAIL_TO_ADDRESS'      => 'EMAIL_TO_ADDRESS',
 ];

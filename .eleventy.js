@@ -4,7 +4,7 @@ const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
 
-const OUTPUT_DIR = "c:/laragon/www/Berna-Stencil-out";
+const OUTPUT_DIR = "out";
 
 module.exports = function (eleventyConfig) {
 
@@ -25,6 +25,7 @@ module.exports = function (eleventyConfig) {
   // PASSTHROUGH — Static files
   // =====================================================
   eleventyConfig.addPassthroughCopy("src/.htaccess");
+  eleventyConfig.addPassthroughCopy("src/web.config");
   eleventyConfig.addPassthroughCopy("src/api");
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
