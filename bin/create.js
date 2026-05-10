@@ -17,7 +17,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.25',
+    version: '1.0.26',
     private: true,
     scripts: {
         "build:css": "sass src/scss:c:/laragon/www/Berna-Stencil-out/css --no-source-map --style=compressed --quiet",
