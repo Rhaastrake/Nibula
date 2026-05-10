@@ -4,7 +4,7 @@ const path = require("path");
 const { addSiteData, removeSiteData } = require("./updateData");
 const { addLayout, removeLayout } = require("./updateIncludes");
 
-const TEMPLATE_FILE_PATH = path.join(__dirname, '..', 'res', 'templates.json');
+const TEMPLATES_DIR = path.join(__dirname, '..', 'res', 'templates');
 
 function toCamelCase(str) {
     return str.toLowerCase().replace(/[-_][a-z0-9]/g, (group) =>
@@ -12,56 +12,33 @@ function toCamelCase(str) {
     );
 }
 
-function getFileInitialContent(pageName, extension) {   
-    try {
-        const rawData = fileSystem.readFileSync(TEMPLATE_FILE_PATH, "utf8");
-        const templates = JSON.parse(rawData);
-        let selectedTemplate = templates[extension];
-        if (!selectedTemplate) return "";
-
-        const content = Array.isArray(selectedTemplate) ? selectedTemplate.join("\n") : selectedTemplate;
-        
-        const kebabName = pageName; 
-        const camelName = toCamelCase(pageName); 
-
-        let processedContent = content
-            .replace(/{{pageName}}/g, kebabName)
-            .replace(/{{camelName}}/g, camelName);
-
-        if (extension === '.njk') {
-            processedContent = processedContent.replace(/^title:\s*.*$/m, `title: "${camelName}"`);
-            
-            if (processedContent.includes('permalink:')) {
-                processedContent = processedContent.replace(/^permalink:\s*.*$/m, `permalink: "/${kebabName}/"`);
-            } else {
-                processedContent = processedContent.replace(`title: "${camelName}"`, `title: "${camelName}"\npermalink: "/${kebabName}/"`);
-            }
-        }
-
-        return processedContent;
-    } catch (error) {
-        console.error(`[error] ${error.message}`);
-        return "";
-    }
-}
-
 function addPage(pageName) {
     const camelName = toCamelCase(pageName);
-    
+
     const targets = [
-        { folder: "src/scss/pages", extension: ".scss", fileName: camelName },
-        { folder: "src/js/pages", extension: ".js", fileName: camelName },
-        { folder: "src/_routes", extension: ".njk", fileName: pageName },
+        { folder: "src/scss/pages", templateFile: "template.scss", fileName: `${camelName}.scss` },
+        { folder: "src/js/pages",   templateFile: "template.js",   fileName: `${camelName}.js`   },
+        { folder: "src/_routes",    templateFile: "template.njk",  fileName: `${pageName}.njk`   },
     ];
 
-    targets.forEach((target) => {
-        const filePath = path.join(target.folder, `${target.fileName}${target.extension}`);
-        fileSystem.mkdirSync(target.folder, { recursive: true });
-        
-        if (!fileSystem.existsSync(filePath)) {
-            const fileContent = getFileInitialContent(pageName, target.extension);
-            fileSystem.writeFileSync(filePath, fileContent);
-            console.log(`[created file] ${filePath}`);
+    targets.forEach(({ folder, templateFile, fileName }) => {
+        const destPath = path.join(folder, fileName);
+        fileSystem.mkdirSync(folder, { recursive: true });
+
+        if (!fileSystem.existsSync(destPath)) {
+            const srcPath = path.join(TEMPLATES_DIR, templateFile);
+
+            if (templateFile === "template.njk") {
+                let content = fileSystem.readFileSync(srcPath, 'utf8');
+                content = content
+                    .replace(/^title:.*$/m, `title: "${camelName}"`)
+                    .replace(/^permalink:.*$/m, `permalink: "/${pageName}/"`);
+                fileSystem.writeFileSync(destPath, content);
+            } else {
+                fileSystem.copyFileSync(srcPath, destPath);
+            }
+
+            console.log(`[created file] ${destPath}`);
         }
     });
 
@@ -74,18 +51,9 @@ function renamePage(oldName, newName) {
     const newCamel = toCamelCase(newName);
 
     const filesToRename = [
-        {
-            src: `src/scss/pages/${oldCamel}.scss`,
-            dest: `src/scss/pages/${newCamel}.scss`,
-        },
-        {
-            src: `src/js/pages/${oldCamel}.js`,
-            dest: `src/js/pages/${newCamel}.js`,
-        },
-        {
-            src: `src/_routes/${oldName}.njk`,
-            dest: `src/_routes/${newName}.njk`,
-        },
+        { src: `src/scss/pages/${oldCamel}.scss`, dest: `src/scss/pages/${newCamel}.scss` },
+        { src: `src/js/pages/${oldCamel}.js`,     dest: `src/js/pages/${newCamel}.js`     },
+        { src: `src/_routes/${oldName}.njk`,      dest: `src/_routes/${newName}.njk`      },
     ];
 
     filesToRename.forEach(({ src, dest }) => {
@@ -93,12 +61,7 @@ function renamePage(oldName, newName) {
             console.log(`[skip] not found: ${src}`);
             return;
         }
-        let content = fileSystem.readFileSync(src, 'utf8');
-        content = content
-            .replace(new RegExp(oldName, 'g'), newName)
-            .replace(new RegExp(oldCamel, 'g'), newCamel);
-        fileSystem.writeFileSync(dest, content);
-        fileSystem.unlinkSync(src);
+        fileSystem.renameSync(src, dest);
         console.log(`[renamed] ${src} → ${dest}`);
     });
 
@@ -111,27 +74,25 @@ function renamePage(oldName, newName) {
 function removePage(pageName) {
     const camelName = toCamelCase(pageName);
     const OUTPUT_DIR = "out";
-    
+
     const filesToDelete = [
         `src/scss/pages/${camelName}.scss`,
         `src/js/pages/${camelName}.js`,
         `src/_routes/${pageName}.njk`,
-        
-        path.join(OUTPUT_DIR, "js/pages", `${camelName}.js`),
+        path.join(OUTPUT_DIR, "js/pages",  `${camelName}.js`),
         path.join(OUTPUT_DIR, "css/pages", `${camelName}.css`),
-        
         path.join(OUTPUT_DIR, `${pageName}.html`),
-        path.join(OUTPUT_DIR, "pages", `${pageName}.html`) 
+        path.join(OUTPUT_DIR, "pages", `${pageName}.html`),
     ];
 
     const foldersToDelete = [
         path.join(OUTPUT_DIR, pageName),
-        path.join(OUTPUT_DIR, "pages", pageName)
+        path.join(OUTPUT_DIR, "pages", pageName),
     ];
 
-    filesToDelete.forEach(f => { 
+    filesToDelete.forEach(f => {
         if (fileSystem.existsSync(f)) {
-            fileSystem.unlinkSync(f); 
+            fileSystem.unlinkSync(f);
             console.log(`[deleted file] ${f}`);
         }
     });

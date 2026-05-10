@@ -94,8 +94,8 @@ function displayMainMenu() {
     console.log('  Berna-Stencil CLI      ');
     console.log('========================\n');
     console.log('1. Create page');
-    console.log('2. Rename page');
-    console.log('3. Remove page');
+    console.log('2. Remove page');
+    console.log('3. Rename page');
     console.log('4. Configure output path');
     console.log('\nCTRL/CMD + C to exit');
 
@@ -104,9 +104,9 @@ function displayMainMenu() {
         if (cleanChoice === '1') {
             handleCreateRequest();
         } else if (cleanChoice === '2') {
-            handleRenameRequest();
-        } else if (cleanChoice === '3') {
             handleRemoveRequest();
+        } else if (cleanChoice === '3') {
+            handleRenameRequest();
         } else if (cleanChoice === '4') {
             handleOutputPathRequest();
         } else if (cleanChoice === '0') {
