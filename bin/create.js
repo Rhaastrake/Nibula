@@ -11,12 +11,11 @@ const COPY_TARGETS = [
     '_tools',
     '.eleventy.js',
     '.eleventyignore',
-    '.gitignore',
 ];
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.31',
+    version: '1.0.32',
     private: true,
     scripts: {
         "build:css": "sass src/scss:out/css --no-source-map --style=compressed --quiet",
@@ -47,6 +46,13 @@ const PROJECT_PACKAGE = {
         'sass': '^1.77.0',
     },
 };
+
+const GITIGNORE_CONTENT = `node_modules/
+node_modules/
+src/api/core/vendor/
+out/
+src/api/config.php
+`;
 
 const { writeSync } = require('fs');
 
@@ -87,6 +93,12 @@ fs.writeFileSync(
     JSON.stringify(PROJECT_PACKAGE, null, 2)
 );
 log('+ package.json');
+
+fs.writeFileSync(
+    path.join(targetDir, '.gitignore'),
+    GITIGNORE_CONTENT
+);
+log('+ .gitignore');
 
 log(`\n>> Done! Now run:\n`);
 if (process.argv[2]) {
