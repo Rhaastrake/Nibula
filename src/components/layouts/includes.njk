@@ -7,9 +7,6 @@ layout: base.njk
 {% if title == "homepage" %}
   {% include "exampleComponent.njk" %}
 
-{% elif title == "anotherPage" %}
-  {% include "exampleComponent.njk" %}
-
 {% else %}
   {% include "404/_404.njk" %}
   {{ content | safe }}

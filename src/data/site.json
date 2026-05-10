@@ -39,16 +39,6 @@
         "css": [],
         "js": []
       }
-    },
-    "anotherPage": {
-      "seo": {
-        "title": "Another Page",
-        "description": "description"
-      },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
     }
   }
 }
