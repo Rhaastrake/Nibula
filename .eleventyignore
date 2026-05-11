@@ -1,4 +1,4 @@
-src/assets/**
-src/js/**
-src/scss/**
-src/api/**
+src/frontend/assets/**
+src/frontend/js/**
+src/frontend/scss/**
+src/backend/**

@@ -24,8 +24,8 @@ $parts  = array_values(array_filter(explode('/', $uri)));
 // 2. ENDPOINT RESOLUTION (ROUTING WITH SUBDIRECTORIES)
 // =====================================================
 
-$basePublic    = __DIR__ . '/../endpoints/public/';
-$baseProtected = __DIR__ . '/../endpoints/protected/';
+$basePublic    = __DIR__ . '/../api/public/';
+$baseProtected = __DIR__ . '/../api/protected/';
 
 $endpointFile  = null;
 $isProtected   = false;

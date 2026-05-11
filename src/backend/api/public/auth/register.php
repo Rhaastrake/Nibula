@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../../core/modules/Response.php';
+require_once __DIR__ . '/../../../_core/modules/Response.php';
 require_once __DIR__ . '/../../../database/models/User.php';
 
 if ($method !== 'POST') {

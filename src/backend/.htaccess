@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /api/
+
+    RewriteRule ^_core/index\.php$ - [L]
+    RewriteRule ^(.*)$ _core/index.php [QSA,L]
+</IfModule>

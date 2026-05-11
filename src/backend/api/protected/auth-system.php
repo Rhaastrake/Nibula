@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 // 2. Richiamo il tuo modulo Response e il Modello
-require_once __DIR__ . '/../../core/modules/Response.php';
+require_once __DIR__ . '/../../_core/modules/Response.php';
 require_once __DIR__ . '/../../database/models/User.php';
 
 $user = new User();

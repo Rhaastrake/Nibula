@@ -8,27 +8,41 @@ const OUTPUT_DIR = "out";
 
 module.exports = function (eleventyConfig) {
 
+  function copyRecursiveSync(src, dest) {
+  if (!fs.existsSync(src)) return;
+  const stat = fs.statSync(src);
+  if (stat.isDirectory()) {
+    fs.mkdirSync(dest, { recursive: true });
+    for (const child of fs.readdirSync(src)) {
+      copyRecursiveSync(path.join(src, child), path.join(dest, child));
+    }
+  } else {
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    fs.copyFileSync(src, dest);
+  }
+}
+
   // =====================================================
   // ESBUILD — Bundles and minifies JS files before build
   // =====================================================
   eleventyConfig.on("eleventy.before", async () => {
-    const entryPoints = glob.sync("src/js/pages/*.js");
-    await esbuild.build({
-      entryPoints,
-      bundle: true,
-      outdir: `${OUTPUT_DIR}/js/pages`,
-      minify: true,
-    });
+      const entryPoints = glob.sync("src/frontend/js/pages/*.js");
+      await esbuild.build({
+        entryPoints,
+        bundle: true,
+        outdir: `${OUTPUT_DIR}/js/pages`,
+        minify: true,
+      });
+      copyRecursiveSync("src/backend", `${OUTPUT_DIR}/api`);
   });
 
   // =====================================================
   // PASSTHROUGH — Static files
   // =====================================================
-  eleventyConfig.addPassthroughCopy("src/.htaccess");
-  eleventyConfig.addPassthroughCopy("src/web.config");
-  eleventyConfig.addPassthroughCopy("src/api");
-  eleventyConfig.addPassthroughCopy("src/assets");
-  eleventyConfig.addPassthroughCopy("src/robots.txt");
+  eleventyConfig.addPassthroughCopy("src/frontend/.htaccess");
+  eleventyConfig.addPassthroughCopy("src/frontend/web.config");
+  eleventyConfig.addPassthroughCopy("src/frontend/assets");
+  eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 
   eleventyConfig.addPassthroughCopy({
     // Bootstrap
@@ -44,8 +58,6 @@ module.exports = function (eleventyConfig) {
 
     // Bulma — CSS only, no JS passthrough needed
   });
-
-  eleventyConfig.addPassthroughCopy({ "src/data/lang.json": "data/lang.json" });
 
   // =====================================================
   // ELEVENTY IMAGE — Responsive images
@@ -69,11 +81,11 @@ module.exports = function (eleventyConfig) {
   // =====================================================
   // WATCH & DIRECTORY CONFIG
   // =====================================================
-  eleventyConfig.addWatchTarget("./src/scss");
+  eleventyConfig.addWatchTarget("./src/frontend/scss");
 
   return {
     dir: {
-      input: "src",
+      input: "src/frontend",
       output: OUTPUT_DIR,
       includes: "components",
       layouts: "components/layouts",

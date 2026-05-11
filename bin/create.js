@@ -18,17 +18,17 @@ const PROJECT_PACKAGE = {
     version: '1.0.37',
     private: true,
     scripts: {
-        "build:css": "sass src/scss:out/css --no-source-map --style=compressed --quiet",
-        "build:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
+        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
+        "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
         "build:11ty": "eleventy",
         "build": "npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/scss:out/css --no-source-map --quiet",
-        "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
+        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
+        "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
         "assistant": "node _tools/assistant.js",
-        "postinstall": "cd src/api/core && composer install --quiet"
+        "postinstall": "cd src/backend/_core && composer install --quiet"
     },
     dependencies: {
         '@11ty/eleventy': '^3.1.2',

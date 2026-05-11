@@ -1,5 +1,5 @@
 const fileSystem = require('fs');
-const INCLUDES_PATH = 'src/components/layouts/includes.njk';
+const INCLUDES_PATH = 'src/frontend/components/layouts/includes.njk';
 
 function toCamelCase(str) {
     return str.toLowerCase().replace(/[-_][a-z0-9]/g, (group) =>

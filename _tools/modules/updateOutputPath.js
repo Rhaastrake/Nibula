@@ -26,10 +26,10 @@ function updatePackageJson(newPath) {
     const raw = fs.readFileSync(PACKAGE_JSON, 'utf-8');
     const pkg = JSON.parse(raw);
 
-    pkg.scripts['build:css'] = `sass src/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
-    pkg.scripts['build:js'] = `esbuild "src/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
-    pkg.scripts['serve:css'] = `sass --watch src/scss:${newPath}/css --no-source-map --quiet`;
-    pkg.scripts['serve:js'] = `esbuild "src/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
+    pkg.scripts['build:css'] = `sass src/frontend/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
+    pkg.scripts['build:js'] = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
+    pkg.scripts['serve:css'] = `sass --watch src/frontend/scss:${newPath}/css --no-source-map --quiet`;
+    pkg.scripts['serve:js'] = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
 
     fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
     console.log(`(✓) package.json updated → ${newPath}`);

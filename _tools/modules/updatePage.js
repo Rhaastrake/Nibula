@@ -15,11 +15,11 @@ function toCamelCase(str) {
 function addPage(pageName) {
     const camelName = toCamelCase(pageName);
 
-    const targets = [
-        { folder: "src/scss/pages", templateFile: "template.scss", fileName: `${camelName}.scss` },
-        { folder: "src/js/pages",   templateFile: "template.js",   fileName: `${camelName}.js`   },
-        { folder: "src/_routes",    templateFile: "template.njk",  fileName: `${pageName}.njk`   },
-    ];
+        const targets = [
+            { folder: "src/frontend/scss/pages", templateFile: "template.scss", fileName: `${camelName}.scss` },
+            { folder: "src/frontend/js/pages",   templateFile: "template.js",   fileName: `${camelName}.js`   },
+            { folder: "src/frontend/_routes",    templateFile: "template.njk",  fileName: `${pageName}.njk`   },
+        ];
 
     targets.forEach(({ folder, templateFile, fileName }) => {
         const destPath = path.join(folder, fileName);
@@ -76,9 +76,9 @@ function removePage(pageName) {
     const OUTPUT_DIR = "out";
 
     const filesToDelete = [
-        `src/scss/pages/${camelName}.scss`,
-        `src/js/pages/${camelName}.js`,
-        `src/_routes/${pageName}.njk`,
+        `src/frontend/scss/pages/${camelName}.scss`,
+        `src/frontend/js/pages/${camelName}.js`,
+        `src/frontend/_routes/${pageName}.njk`,
         path.join(OUTPUT_DIR, "js/pages",  `${camelName}.js`),
         path.join(OUTPUT_DIR, "css/pages", `${camelName}.css`),
         path.join(OUTPUT_DIR, `${pageName}.html`),
