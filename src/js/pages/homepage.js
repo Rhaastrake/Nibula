@@ -2,10 +2,6 @@
 // JAVASCRIPT MODULES IMPORTS
 //==========================
 
-// Call inside DOMContentLoaded
-import { initFormListener } from '../modules/forms/form.js';
-import { initLangSwitcher } from '../modules/langSwitcher.js';
-
 // Call anywhere
 import { showNotification } from '../modules/notification.js';
 
@@ -18,8 +14,6 @@ import { showNotification } from '../modules/notification.js';
 //==========================
 
 document.addEventListener("DOMContentLoaded", () => {
-  initLangSwitcher();
-  initFormListener();
 });
 
 showNotification("Example notification", "success", 3000);

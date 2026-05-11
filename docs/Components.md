@@ -61,12 +61,3 @@ All values from `src/data/site.json` are available as `{{ site.* }}`:
 <a href="{{ site.legal.privacy }}">Privacy Policy</a>
 <img src="{{ site.logo }}" alt="{{ site.title }}">
 ```
-
-## Translations
-
-Bind text to a key from `src/data/lang.json` using data attributes. The lang switcher updates them automatically when the language changes:
-
-```njk
-<h1 data-lang-key="myKey"></h1>
-<input data-lang-placeholder="myPlaceholder">
-```
