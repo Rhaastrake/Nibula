@@ -1,18 +1,13 @@
-# Forza Apache a usare il file 404.html di Eleventy per ogni errore 404
 ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # 1. Se la richiesta è per la cartella API, non fare nulla qui
-    # (se ne occupa l'altro .htaccess dentro /api/)
-    RewriteRule ^api/ - [L]
+    RewriteRule ^api/(.*)$ backend/_core/index.php [QSA,L]
 
-    # 2. Se il file o la cartella richiesti esistono fisicamente, servili normalmente
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 3. Se non esistono e non siamo in /api, Apache userà l'ErrorDocument 404 sopra
 </IfModule>

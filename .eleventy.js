@@ -4,7 +4,7 @@ const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
 
-const OUTPUT_DIR = "out";
+const OUTPUT_DIR = "c:/laragon/www/Berna-Stencil-out";
 
 module.exports = function (eleventyConfig) {
 
@@ -33,7 +33,7 @@ module.exports = function (eleventyConfig) {
         outdir: `${OUTPUT_DIR}/js/pages`,
         minify: true,
       });
-      copyRecursiveSync("src/backend", `${OUTPUT_DIR}/api`);
+      copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
 
   // =====================================================
