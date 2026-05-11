@@ -39,6 +39,16 @@
         "css": [],
         "js": []
       }
+    },
+    "examplePage": {
+      "seo": {
+        "title": "Example Page",
+        "description": "description"
+      },
+      "cdn": {
+        "css": [],
+        "js": []
+      }
     }
   }
 }
