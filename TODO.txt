@@ -1,0 +1,11 @@
+Aggiungere x-api-key configurabile per ogni endpoint protetto
+Aggiungere funzioni per configurare endpoint tramite metodi
+
+src/frontend, src/backend
+backend/database, backend/api, backend/core
+
+Aggiungere configurazione iniziale e comando per cambiare framework
+
+Aggiungere licenza
+Pulire assistant.js
+Pulire file core php
