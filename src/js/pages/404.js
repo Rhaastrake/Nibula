@@ -2,7 +2,6 @@
 // JAVASCRIPT MODULES IMPORTS
 //==========================
 
-
 // Call anywhere
 import { showNotification } from '../modules/notification.js';
 
@@ -11,10 +10,10 @@ import { showNotification } from '../modules/notification.js';
 // import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
 
 //==========================
-// "404" PAGE CUSTOM JAVASCRIPT
+// PAGE CUSTOM JAVASCRIPT
 //==========================
 
 document.addEventListener("DOMContentLoaded", () => {
 });
 
-showNotification("404 notification", "success", 3000);
+showNotification("Example notification", "success", 3000);

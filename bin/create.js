@@ -47,7 +47,7 @@ const PROJECT_PACKAGE = {
     },
 };
 
-const GITIGNORE_CONTENT = `node_modules/
+const GITIGNORE_CONTENT = `
 node_modules/
 src/api/core/vendor/
 out/
