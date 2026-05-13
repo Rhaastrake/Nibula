@@ -1,12 +1,16 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../../_core/modules/Response.php';
+require_once CORE_PATH . '/modules/Response.php';
 require_once __DIR__ . '/../../../database/models/User.php';
 
 if ($method !== 'POST') {
     Response::error('Method not allowed', 405);
 }
+
+//
+// Your protected endpoint logic here. You can access route parameters in $requestParams array
+//
 
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 

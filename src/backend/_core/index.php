@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 define('CORE_ACCESS', true);
+define('CORE_PATH', __DIR__);
 
 /**
  * Load dependencies and initial configuration.
@@ -87,15 +88,7 @@ if (!$endpointFile) {
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Api-Key');
-
-$allowedOrigins = array_filter(array_map('trim', explode(',', $config['CORS_ALLOWED_ORIGINS'] ?? '')));
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-
-if (in_array($origin, $allowedOrigins, true) || in_array('*', $allowedOrigins, true)) {
-    header("Access-Control-Allow-Origin: $origin");
-} else {
-    header("Access-Control-Allow-Origin: " . ($allowedOrigins[0] ?? ''));
-}
+header('Access-Control-Allow-Origin: *');
 
 if ($method === 'OPTIONS') {
     http_response_code(204);
@@ -107,8 +100,11 @@ if ($method === 'OPTIONS') {
 // =====================================================
 
 if ($isProtected) {
-    $apiKey   = $_SERVER['HTTP_X_API_KEY'] ?? '';
-    $validKey = $config['API_KEY'] ?? '';
+    $relPath   = str_replace($baseProtected, '', $endpointFile);
+    $relPath   = str_replace('.php', '', str_replace('\\', '/', $relPath));
+
+    $validKey  = $config['ENDPOINT_KEYS'][$relPath] ?? $config['API_KEY'] ?? '';
+    $apiKey    = $_SERVER['HTTP_X_API_KEY'] ?? '';
 
     if ($validKey === '' || $apiKey !== $validKey) {
         Response::error('Unauthorized. X_API_KEY is incorrect or missing', 401);

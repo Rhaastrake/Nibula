@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 
 // 2. Richiamo il tuo modulo Response e il Modello
-require_once __DIR__ . '/../../_core/modules/Response.php';
+require_once CORE_PATH . '/modules/Response.php';
 require_once __DIR__ . '/../../database/models/User.php';
+
+//
+// Your protected endpoint logic here. You can access route parameters in $requestParams array
+//
 
 $user = new User();
 $id = isset($requestParams[0]) ? (int)$requestParams[0] : null;
