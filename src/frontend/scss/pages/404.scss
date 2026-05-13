@@ -3,10 +3,12 @@
 //==========================
 
 // Use @use with a namespace to avoid framework variable conflicts:
+// Example: root.$primary
 @use "../modules/root" as root;
 
-// Page layout modules — comment out any section you don't need
+// This global module contains the import framework, necessary modules for each page and any other common styles
 @import "../modules/global";
+
 // Import any other module you need by import down here
 @import "../modules/notification";
 

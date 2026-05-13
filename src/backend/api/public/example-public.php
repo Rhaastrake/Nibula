@@ -15,7 +15,3 @@ Response::success([
     'message'    => 'Public endpoint is working',
     'params'     => $requestParams,
 ]);
-
-Response::error([
-    'message'    => 'Error text',
-]);

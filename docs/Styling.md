@@ -1,15 +1,39 @@
-# To be finished...
-
 # Styling
 
-## Structure
+## Page CSS
 
-Each page has its own SCSS entry point in `src/scss/pages/`. It imports the framework, shared modules, and any page-specific rules.
+Each page has its own SCSS entry point in `src/frontend/scss/pages/`
+
+It must contain `_root.scss` + other modules like `_global.scss` or any other one that you need and its own specific css rules
+
+### examplePage.scss
+```scss
+//==========================
+// CSS MODULES IMPORTS
+//==========================
+
+@use "../modules/root" as root;
+
+@import "../modules/global";
+
+@import "../modules/notification";
+
+//==========================
+// PAGE CUSTOM CSS RULES
+//==========================
+
+body {
+  background-color: root.$primary;
+}
+```
 
 ## CSS Framework
 
-Uncomment **one** framework at a time in the page SCSS file:
+Some of the most popular css frameworks that supports scss with modules are already installed
 
+You can choose one or none of them (more than 1 works, but you may get in vrious conflicts)
+
+### _global.scss
 ```scss
 @import "../modules/frameworks/bootstrap";
 // @import "../modules/frameworks/bulma";
@@ -23,10 +47,7 @@ To reduce the bundle size, open the corresponding framework file (e.g. `src/scss
 
 Changing framework requires touching three files:
 
-### 1. Each page SCSS file (`src/scss/pages/*.scss`)
-Uncomment the new framework, comment out the old one.
-
-### 2. `base.njk` — framework JS scripts
+### 1. `base.njk` — framework JS scripts
 Comment out Bootstrap and uncomment the one you need:
 
 ```njk
@@ -43,7 +64,7 @@ Comment out Bootstrap and uncomment the one you need:
 {# Bulma — no JS needed #}
 ```
 
-### 3. `.eleventy.js` — JS passthrough
+### 2. `.eleventy.js` — JS passthrough
 All frameworks are configured in the passthrough block. Foundation and UIkit are commented out by default — uncomment the lines for the framework you are using.
 
 ## Global Variables
@@ -68,7 +89,3 @@ color: root.$primary;
 | `_notification.scss` | Notification component |
 | `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
 | `_mobile.scss` | Responsive breakpoint overrides |
-
-## Page-specific rules
-
-Add them at the bottom of the page SCSS file, after all imports. They override framework and module styles.
