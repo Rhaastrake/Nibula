@@ -1,21 +1,8 @@
 {
   "name": "create-berna-stencil",
-  "version": "1.0.47",
+  "version": "1.0.48",
   "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
-  "keywords": [
-    "eleventy",
-    "11ty",
-    "boilerplate",
-    "starter",
-    "scss",
-    "esbuild",
-    "bootstrap",
-    "bulma",
-    "foundation",
-    "uikit",
-    "static-site",
-    "nunjucks"
-  ],
+  "keywords": [],
   "author": "Michele Garofalo",
   "license": "MIT",
   "repository": {
@@ -31,6 +18,7 @@
   },
   "files": [
     "bin/",
+    "docs/",
     "src/",
     "src/_routes",
     "src/assets/files",
