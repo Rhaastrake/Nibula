@@ -131,8 +131,10 @@ body {
 |---|---|
 | `_root.scss` | Global variables (colors, spacing) |
 | `_global.scss` | Site-wide base rules and frameworks |
-| `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
+| `_typography.scss` | Font rules
 | `_header.scss` | Header styles |
 | `_footer.scss` | Footer styles |
-| `_notification.scss` | Notification component style |
 | `_mobile.scss` | Media query rules |
+| `_buttons.scss` | Style and hovers for buttons 
+| `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
+| `_notification.scss` | Notification component style |
