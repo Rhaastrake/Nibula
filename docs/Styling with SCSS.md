@@ -100,8 +100,32 @@ header {
   height: root.$header-height;
 }
 ```
+## Scss modules
+You can create your custom css modules by creating a new `.scss` file in `src/frontend/scss/modules/` (the name of the file must start with `_`)
 
-## Pre-existing modules
+You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them
+
+### _yourModule.scss <small>(`src/frontend/scss/modules/subfolder/`)</small>
+```scss
+@use '../root' as root;
+
+body {
+  background-color: root.$primary;
+}
+```
+
+### examplePage.scss
+```scss
+@import "../modules/subfolder/yourModule";
+
+// This page will now inherit the body tag rules
+// If the same property is declared in both, the last imported one wins
+body {
+  color: root.$dark;
+}
+```
+
+### Pre-existing modules
 
 | File | Purpose |
 |---|---|
