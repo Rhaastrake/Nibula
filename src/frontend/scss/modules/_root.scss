@@ -5,11 +5,9 @@
 
 
 //==========================
-// CSS ROOT RULES
+// STRUCTURE
 //==========================
-
-// Import this module to get all the constants that you need in your css using "@use 'root' as root;"
-$header-height: 10vh; // Use: root.$header-height;
+$header-height: 10vh;
 $header-padding-y: 15px;
 $header-padding-x: 15px;
 
