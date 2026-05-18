@@ -1,6 +1,6 @@
 {
   "name": "create-berna-stencil",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
   "keywords": [],
   "author": "Michele Garofalo",
@@ -20,10 +20,6 @@
     "bin/",
     "docs/",
     "src/",
-    "src/_routes",
-    "src/assets/files",
-    "src/assets/videos",
-    "src/assets/images",
     "_tools/",
     ".eleventy.js",
     ".eleventyignore",
@@ -48,11 +44,11 @@
     "sass": "^1.77.0"
   },
   "scripts": {
-    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
+    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
     "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
     "build:11ty": "eleventy",
     "build": "npm run build:css && npm run build:js && npm run build:11ty",
-    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
+    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
     "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
     "serve:11ty": "eleventy --serve --quiet",
     "clean": "node _tools/cleanOutput.js",

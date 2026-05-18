@@ -1,62 +1,83 @@
-# To be finished...
+# Nunjucks (HTML) Components
 
-# Components
+## What is Nunjucks
+
+Nunjucks (`.njk`) is an HTML file that supports logic like variables, `if` statements, and `for` loops. It can extend a base layout and include other `.njk` components
 
 ## Create a component
 
-Add a Nunjucks file in `src/components/`:
+Create a new `.njk` file anywhere inside `src/frontend/components/`. You can organize them into subfolders freely
 
 ```
-src/components/myComponent.njk
+src/frontend/components/
+├── global/
+├── layouts/
+├── modals/
+│   └── privacyModal.njk # You can move it to a modals/subfolder
+├── welcome.njk
 ```
 
-## Subfolders
+## Include a component
 
-Components can be organized into subfolders freely. Some examples:
+To render a component inside a page, navigate to `src/frontend/components/layouts/` and edit `includes.njk`
 
-```
-src/components/
-├── global/          # Header, footer — included in every page
-├── pages/           # Page-specific components
-│   ├── homepage.njk
-│   └── contactUs.njk
-└── modals/          # Shared modals (privacy, cookies, etc.)
-    └── privacyModal.njk
-```
+### includes.njk <small>(`src/frontend/components/layouts/`)</small>
 
-The include path must reflect the subfolder:
+```js
+{% if title == "homepage" %}
+  {% include "welcome.njk" %}
 
-```njk
-{% include "pages/homepage.njk" %}
-{% include "modals/privacyModal.njk" %}
-```
+{% elif title == "examplePage" %}
+  {% include "exampleComponent1.njk" %}
+  {% include "subfolder/exampleComponent2.njk" %}
 
-## Register it for a page
-
-In `src/layouts/includes.njk`, find the `elif` block for your page and include the component:
-
-```njk
-{% elif title == "myPage" %}
-  {% include "myComponent.njk" %}
+{% else %}
+  {% include "404/_404.njk" %}
+  {{ content | safe }}
+{% endif %}
 ```
 
-Multiple components can be included in the same block:
+Add a new `{% elif %}` block for each page, listing its components in order. If a component lives in a subfolder, specify the relative path accordingly
 
-```njk
-{% elif title == "myPage" %}
-  {% include "hero.njk" %}
-  {% include "features.njk" %}
+> ⚠️ A new `elif` block is automatically added when you create a page via the Assistant CLI
+
+> ⚠️ If you move or delete a component, always update `includes.njk` or the site will break
+
+## Nest components
+
+A component can include other components. This is useful for breaking complex sections into smaller, reusable pieces.
+
+### exampleComponent.njk
+```js
+<section class="hero">
+  {% include "ui/heroTitle.njk" %}
+  {% include "ui/heroButton.njk" %}
+</section>
 ```
+
+> The same path rules apply: if the included component is in a subfolder, specify the full relative path.
 
 ## Global components
 
-Header and footer live in `src/components/global/` and are automatically included in every page via `base.njk`. Edit them to change the site-wide layout.
+Header and footer live in `src/frontend/components/global/` and are automatically included in every page via `base.njk`. Edit them to change the site-wide layout
 
 ## Site data in components
 
-All values from `src/data/site.json` are available as `{{ site.* }}`:
+All values defined in `src/data/site.json` are globally available in every component via `{{ site.* }}`
 
-```njk
+### site.json <small>(`src/data/`)</small>
+```json
+{
+  "title": "My Site",
+  "logo": "/img/logo.png",
+  "legal": {
+    "privacy": "/privacy"
+  }
+}
+```
+
+### Usage in any `.njk` file
+```js
 <p>{{ site.title }}</p>
 <a href="{{ site.legal.privacy }}">Privacy Policy</a>
 <img src="{{ site.logo }}" alt="{{ site.title }}">

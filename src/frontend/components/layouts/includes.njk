@@ -8,6 +8,7 @@ layout: base.njk
   {% include "welcome.njk" %}
 
 {% else %}
+  <!-- You should not touch this else statement -->
   {% include "404/_404.njk" %}
   {{ content | safe }}
 {% endif %}

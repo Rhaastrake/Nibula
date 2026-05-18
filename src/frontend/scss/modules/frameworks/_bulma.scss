@@ -6,104 +6,104 @@
 
 // Imports can be filtered by commenting them
 // Example:
-// @import "../../../../../node_modules/bulma/sass/example-bulma-module";
+// @import "bulma/sass/example-bulma-module";
 
 //==========================
 // 1️⃣ CORE – Utilities and variables
 // ⚠️ Do not comment these out — required by all other modules
 //==========================
-@import "../../../../../node_modules/bulma/sass/utilities/initial-variables";  // Base variables (colors, sizes, fonts)
-@import "../../../../../node_modules/bulma/sass/utilities/functions";           // SCSS functions
-@import "../../../../../node_modules/bulma/sass/utilities/derived-variables";   // Variables derived from initial ones
-@import "../../../../../node_modules/bulma/sass/utilities/css-variables";       // CSS custom properties
-@import "../../../../../node_modules/bulma/sass/utilities/controls";            // Control base styles (inputs, buttons)
-@import "../../../../../node_modules/bulma/sass/utilities/extends";             // Shared extends
-@import "../../../../../node_modules/bulma/sass/utilities/mixins";              // Reusable SCSS mixins
+@import "bulma/sass/utilities/initial-variables";  // Base variables (colors, sizes, fonts)
+@import "bulma/sass/utilities/functions";           // SCSS functions
+@import "bulma/sass/utilities/derived-variables";   // Variables derived from initial ones
+@import "bulma/sass/utilities/css-variables";       // CSS custom properties
+@import "bulma/sass/utilities/controls";            // Control base styles (inputs, buttons)
+@import "bulma/sass/utilities/extends";             // Shared extends
+@import "bulma/sass/utilities/mixins";              // Reusable SCSS mixins
 
 //==========================
 // 2️⃣ BASE – Reset and base styles
 //==========================
-@import "../../../../../node_modules/bulma/sass/base/minireset";   // CSS reset
-@import "../../../../../node_modules/bulma/sass/base/generic";     // Generic base styles
-@import "../../../../../node_modules/bulma/sass/base/animations";  // Built-in animations
-@import "../../../../../node_modules/bulma/sass/base/skeleton";    // Skeleton loading styles
+@import "bulma/sass/base/minireset";   // CSS reset
+@import "bulma/sass/base/generic";     // Generic base styles
+@import "bulma/sass/base/animations";  // Built-in animations
+@import "bulma/sass/base/skeleton";    // Skeleton loading styles
 
 //==========================
 // 3️⃣ THEMES
 //==========================
-@import "../../../../../node_modules/bulma/sass/themes/setup";  // Theme setup (required)
-@import "../../../../../node_modules/bulma/sass/themes/light";  // Light theme
-// @import "../../../../../node_modules/bulma/sass/themes/dark";// Dark theme
+@import "bulma/sass/themes/setup";  // Theme setup (required)
+@import "bulma/sass/themes/light";  // Light theme
+// @import "bulma/sass/themes/dark";// Dark theme
 
 //==========================
 // 4️⃣ LAYOUT
 //==========================
-@import "../../../../../node_modules/bulma/sass/layout/container";  // Containers
-@import "../../../../../node_modules/bulma/sass/layout/section";    // Sections
-@import "../../../../../node_modules/bulma/sass/layout/footer";     // Footer
-@import "../../../../../node_modules/bulma/sass/layout/hero";       // Hero banners
-@import "../../../../../node_modules/bulma/sass/layout/level";      // Level (horizontal layout)
-@import "../../../../../node_modules/bulma/sass/layout/media";      // Media object
+@import "bulma/sass/layout/container";  // Containers
+@import "bulma/sass/layout/section";    // Sections
+@import "bulma/sass/layout/footer";     // Footer
+@import "bulma/sass/layout/hero";       // Hero banners
+@import "bulma/sass/layout/level";      // Level (horizontal layout)
+@import "bulma/sass/layout/media";      // Media object
 
 //==========================
 // 5️⃣ GRID
 //==========================
-@import "../../../../../node_modules/bulma/sass/grid/columns";  // Flexbox column grid
-@import "../../../../../node_modules/bulma/sass/grid/grid";     // CSS grid
+@import "bulma/sass/grid/columns";  // Flexbox column grid
+@import "bulma/sass/grid/grid";     // CSS grid
 
 //==========================
 // 6️⃣ ELEMENTS – Basic HTML elements
 //==========================
-@import "../../../../../node_modules/bulma/sass/elements/block";        // Block spacing
-@import "../../../../../node_modules/bulma/sass/elements/box";          // Box container
-@import "../../../../../node_modules/bulma/sass/elements/button";       // Buttons
-@import "../../../../../node_modules/bulma/sass/elements/content";      // Rich text content
-@import "../../../../../node_modules/bulma/sass/elements/delete";       // Delete/close button
-@import "../../../../../node_modules/bulma/sass/elements/icon";         // Icons
-@import "../../../../../node_modules/bulma/sass/elements/image";        // Images
-@import "../../../../../node_modules/bulma/sass/elements/loader";       // Loader spinner
-@import "../../../../../node_modules/bulma/sass/elements/notification"; // Notifications
-@import "../../../../../node_modules/bulma/sass/elements/progress";     // Progress bars
-@import "../../../../../node_modules/bulma/sass/elements/table";        // Tables
-@import "../../../../../node_modules/bulma/sass/elements/tag";          // Tags/badges
-@import "../../../../../node_modules/bulma/sass/elements/title";        // Titles and subtitles
+@import "bulma/sass/elements/block";        // Block spacing
+@import "bulma/sass/elements/box";          // Box container
+@import "bulma/sass/elements/button";       // Buttons
+@import "bulma/sass/elements/content";      // Rich text content
+@import "bulma/sass/elements/delete";       // Delete/close button
+@import "bulma/sass/elements/icon";         // Icons
+@import "bulma/sass/elements/image";        // Images
+@import "bulma/sass/elements/loader";       // Loader spinner
+@import "bulma/sass/elements/notification"; // Notifications
+@import "bulma/sass/elements/progress";     // Progress bars
+@import "bulma/sass/elements/table";        // Tables
+@import "bulma/sass/elements/tag";          // Tags/badges
+@import "bulma/sass/elements/title";        // Titles and subtitles
 
 //==========================
 // 7️⃣ FORM
 //==========================
-@import "../../../../../node_modules/bulma/sass/form/shared";          // Shared form styles
-@import "../../../../../node_modules/bulma/sass/form/tools";           // Form tools and field wrappers
-@import "../../../../../node_modules/bulma/sass/form/input-textarea";  // Inputs and textareas
-@import "../../../../../node_modules/bulma/sass/form/select";          // Select dropdowns
-@import "../../../../../node_modules/bulma/sass/form/checkbox-radio";  // Checkboxes and radios
-@import "../../../../../node_modules/bulma/sass/form/file";            // File upload
+@import "bulma/sass/form/shared";          // Shared form styles
+@import "bulma/sass/form/tools";           // Form tools and field wrappers
+@import "bulma/sass/form/input-textarea";  // Inputs and textareas
+@import "bulma/sass/form/select";          // Select dropdowns
+@import "bulma/sass/form/checkbox-radio";  // Checkboxes and radios
+@import "bulma/sass/form/file";            // File upload
 
 //==========================
 // 8️⃣ COMPONENTS
 //==========================
-@import "../../../../../node_modules/bulma/sass/components/breadcrumb";  // Breadcrumbs
-@import "../../../../../node_modules/bulma/sass/components/card";        // Cards
-@import "../../../../../node_modules/bulma/sass/components/dropdown";    // Dropdowns
-@import "../../../../../node_modules/bulma/sass/components/menu";        // Vertical menu
-@import "../../../../../node_modules/bulma/sass/components/message";     // Message boxes
-@import "../../../../../node_modules/bulma/sass/components/modal";       // Modals
-@import "../../../../../node_modules/bulma/sass/components/navbar";      // Navbar
-@import "../../../../../node_modules/bulma/sass/components/pagination";  // Pagination
-@import "../../../../../node_modules/bulma/sass/components/panel";       // Panel
-@import "../../../../../node_modules/bulma/sass/components/tabs";        // Tabs
+@import "bulma/sass/components/breadcrumb";  // Breadcrumbs
+@import "bulma/sass/components/card";        // Cards
+@import "bulma/sass/components/dropdown";    // Dropdowns
+@import "bulma/sass/components/menu";        // Vertical menu
+@import "bulma/sass/components/message";     // Message boxes
+@import "bulma/sass/components/modal";       // Modals
+@import "bulma/sass/components/navbar";      // Navbar
+@import "bulma/sass/components/pagination";  // Pagination
+@import "bulma/sass/components/panel";       // Panel
+@import "bulma/sass/components/tabs";        // Tabs
 
 //==========================
 // 9️⃣ HELPERS
 //==========================
-@import "../../../../../node_modules/bulma/sass/helpers/aspect-ratio";  // Aspect ratio
-@import "../../../../../node_modules/bulma/sass/helpers/border";        // Border utilities
-@import "../../../../../node_modules/bulma/sass/helpers/color";         // Color utilities
-@import "../../../../../node_modules/bulma/sass/helpers/flexbox";       // Flexbox utilities
-@import "../../../../../node_modules/bulma/sass/helpers/float";         // Float utilities
-@import "../../../../../node_modules/bulma/sass/helpers/gap";           // Gap utilities
-@import "../../../../../node_modules/bulma/sass/helpers/other";         // Other utilities
-@import "../../../../../node_modules/bulma/sass/helpers/overflow";      // Overflow utilities
-@import "../../../../../node_modules/bulma/sass/helpers/position";      // Position utilities
-@import "../../../../../node_modules/bulma/sass/helpers/spacing";       // Spacing utilities (m-, p-)
-@import "../../../../../node_modules/bulma/sass/helpers/typography";    // Typography utilities
-@import "../../../../../node_modules/bulma/sass/helpers/visibility";    // Visibility utilities
+@import "bulma/sass/helpers/aspect-ratio";  // Aspect ratio
+@import "bulma/sass/helpers/border";        // Border utilities
+@import "bulma/sass/helpers/color";         // Color utilities
+@import "bulma/sass/helpers/flexbox";       // Flexbox utilities
+@import "bulma/sass/helpers/float";         // Float utilities
+@import "bulma/sass/helpers/gap";           // Gap utilities
+@import "bulma/sass/helpers/other";         // Other utilities
+@import "bulma/sass/helpers/overflow";      // Overflow utilities
+@import "bulma/sass/helpers/position";      // Position utilities
+@import "bulma/sass/helpers/spacing";       // Spacing utilities (m-, p-)
+@import "bulma/sass/helpers/typography";    // Typography utilities
+@import "bulma/sass/helpers/visibility";    // Visibility utilities

@@ -61,7 +61,7 @@ To enable/disable them you have to modify 3 files around the project by just com
 {# Bulma — no JS needed #}
 ```
 
-### 3. `.eleventy.js`
+### 3. .eleventy.js
 
 ```javascript
 eleventyConfig.addPassthroughCopy({
@@ -83,8 +83,8 @@ eleventyConfig.addPassthroughCopy({
 ### Reducing bundle size
 To reduce the bundle size, open the corresponding framework file (`src/frontend/scss/modules/frameworks/`) and comment out any modules you don't need
 ```scss
-@import "../../../../../node_modules/bootstrap/scss/card"; // Cards
-@import "../../../../../node_modules/bootstrap/scss/carousel"; // Carousel
+@import "bootstrap/scss/card"; // Cards
+@import "bootstrap/scss/carousel"; // Carousel
 ```
 
 ## Global Variables

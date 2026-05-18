@@ -19,11 +19,11 @@ const PROJECT_PACKAGE = {
     version: '1.0.47',
     private: true,
     scripts: {
-        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
+        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
         "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
         "build:11ty": "eleventy",
         "build": "npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
+        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
         "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
