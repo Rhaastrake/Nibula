@@ -3,7 +3,7 @@
 
 This json holds global settings used across all pages in `base.njk` and other components:
 
-### site.json <small>`src/frontend/data/`</small>
+### site.json <small>`(src/frontend/data/)`</small>
 ```json
 "site_name": "Site name",
 "title": "Site title",
@@ -25,7 +25,7 @@ Each page entry is keyed by its camelCase `title` from the front matter:
 
 If you don't want to use a particular cdn inserting it in `base.njk` for all pages, you can add extra specific cdn (css, js) by inserting the link in each page of site.json separating them with a `,` and setting them in ""
 
-### site.json <small>`src/frontend/data/`</small>
+### site.json <small>`(src/frontend/data/)`</small>
 ```json
 "pages": {
     ...

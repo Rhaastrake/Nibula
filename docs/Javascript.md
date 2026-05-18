@@ -1,30 +1,14 @@
-# To be finished...
-
 # JavaScript
 
-## Page files
+## Page JS
 
-Each page has a JS entry point in `src/js/pages/`. It is bundled by esbuild and loaded automatically by `base.njk`. Import only what the page needs.
+Each page has its own JS entry point in `src/frontend/js/pages/`
 
-## Module categories
+It is bundled and minified by esbuild and loaded automatically by `base.njk`
 
-**Call inside `DOMContentLoaded`** — these interact with the DOM and require the page to be fully loaded:
+Import only what the page needs.
 
-| Module | Function |
-|---|---|
-| `modules/langSwitcher.js` | `initLangSwitcher()` |
-| `modules/forms/form.js` | `initFormListener()` |
-| `modules/forms/textAreaAutoExpand.js` | `initTextAreaAutoExpand()` |
-| `modules/forms/normalizePhoneNumber.js` | `initNormalizePhoneNumber()` |
-
-**Call anywhere** — these create DOM elements dynamically and can be called at any point after the script loads:
-
-| Module | Function |
-|---|---|
-| `modules/notification.js` | `showNotification(text, type, duration)` |
-
-## Usage example
-
+### examplePage.js <small>(`src/frontend/js/pages/`)</small>
 ```js
 import { initLangSwitcher } from '../modules/langSwitcher.js';
 import { showNotification } from '../modules/notification.js';
@@ -36,7 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
 showNotification("Page loaded", "success", 3000);
 ```
 
-## `showNotification` reference
+## Modules
+
+Modules live in `src/frontend/js/modules/`. Some must be called inside `DOMContentLoaded` as they interact with the DOM; others create elements dynamically and can be called anywhere.
+
+### Call inside `DOMContentLoaded`
+
+| Module | Function |
+|---|---|
+| `modules/langSwitcher.js` | `initLangSwitcher()` |
+| `modules/forms/form.js` | `initFormListener()` |
+| `modules/forms/textAreaAutoExpand.js` | `initTextAreaAutoExpand()` |
+| `modules/forms/normalizePhoneNumber.js` | `initNormalizePhoneNumber()` |
+
+### Call anywhere
+
+| Module | Function |
+|---|---|
+| `modules/notification.js` | `showNotification(text, type, duration)` |
+
+### `showNotification` parameters
 
 | Parameter | Type | Default | Values |
 |---|---|---|---|
@@ -46,8 +49,21 @@ showNotification("Page loaded", "success", 3000);
 
 ## Adding a module
 
-Create a file in `src/js/modules/`, export your function, and import it in the pages that need it. Use ESM syntax (`import` / `export`) — this code is processed by esbuild.
+Create a new `.js` file in `src/frontend/js/modules/`. You can organize them into subfolders freely.
 
-## `assistant_utils/`
+Use ESM syntax — esbuild handles the bundling:
 
-These scripts run directly in Node.js without a bundler. Use CommonJS syntax (`require` / `module.exports`) here, not ESM.
+```js
+// _yourModule.js
+export function yourFunction() {
+  // ...
+}
+```
+
+Then import it in the pages that need it:
+
+```js
+import { yourFunction } from '../modules/yourModule.js';
+```
+
+> ⚠️ Files inside `_tools/` run directly in Node.js without a bundler — use CommonJS (`require` / `module.exports`) there, not ESM.
