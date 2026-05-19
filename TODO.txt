@@ -1,7 +1,11 @@
 Aggiungere x-api-key configurabile per ogni endpoint protetto
 Aggiungere funzioni per configurare endpoint tramite metodi
 
-Aggiungere configurazione iniziale e comando per cambiare framework
+Configurazione prima installazione:
+    Chiedere framework da utilizzare
+    Chiedere se integrare il backend
+    Chiedere se integrare i moduli react js
+    
 
 Aggiungere licenza
 Pulire assistant.js

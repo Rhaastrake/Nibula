@@ -14,14 +14,14 @@ export function initTextAreaAutoExpand() {
     element.addEventListener("input", () => expand(element));
     if (element.value) expand(element);
   }
-
+  
   function expand(element) {
     element.rows = element.dataset.minRows;
     while (element.scrollHeight > element.clientHeight && element.rows < MAX_ROWS) {
       element.rows += 1;
     }
   }
-
+  
   document.querySelectorAll("textarea").forEach(setup);
 
   const observer = new MutationObserver((mutations) => {
