@@ -4,11 +4,25 @@ const path = require('path');
 const ELEVENTY_CONFIG = path.resolve(__dirname, '../../.eleventy.js');
 const PACKAGE_JSON = path.resolve(__dirname, '../../package.json');
 
+// Regex to locate the OUTPUT_DIR declaration in .eleventy.js.
+// Extracted as a constant to avoid writing it by hand in multiple places.
+const OUTPUT_DIR_REGEX = /const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/;
+
+// --- Helpers ---
+
+// Reads OUTPUT_DIR value from a given file content string, or returns null
+function parseOutputDir(content) {
+    const match = content.match(OUTPUT_DIR_REGEX);
+    return match ? match[1] : null;
+}
+
+// --- Updaters ---
+
 function updateEleventyConfig(newPath) {
-    let content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
+    const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
 
     const updated = content.replace(
-        /const OUTPUT_DIR\s*=\s*['"`][^'"`]*['"`]/,
+        OUTPUT_DIR_REGEX,
         `const OUTPUT_DIR = "${newPath}"`
     );
 
@@ -23,34 +37,37 @@ function updateEleventyConfig(newPath) {
 }
 
 function updatePackageJson(newPath) {
-    const raw = fs.readFileSync(PACKAGE_JSON, 'utf-8');
-    const pkg = JSON.parse(raw);
+    const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
 
+    // Reconstruct all output-dependent scripts from scratch to avoid
+    // partial string replacement bugs on the outdir flag
     pkg.scripts['build:css'] = `sass src/frontend/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
-    pkg.scripts['build:js'] = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
+    pkg.scripts['build:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
     pkg.scripts['serve:css'] = `sass --watch src/frontend/scss:${newPath}/css --no-source-map --quiet`;
-    pkg.scripts['serve:js'] = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
+    pkg.scripts['serve:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
 
     fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
     console.log(`(✓) package.json updated → ${newPath}`);
     return true;
 }
 
+// --- Public API ---
+
 function updateOutputPath(newPath) {
     const trimmed = newPath.trim().replace(/\\/g, '/');
 
-    let normalizedPath;
-    if (trimmed === '.') {
-        normalizedPath = 'out';
-    } else {
-        const projectName = path.basename(process.cwd());
-        normalizedPath = trimmed.replace(/\/$/, '') + '/' + projectName + '-out';
-    }
+    // Normalize the path: bare "." becomes "out", everything else gets a
+    // project-scoped suffix to avoid collisions
+    const normalizedPath = trimmed === '.'
+        ? 'out'
+        : `${trimmed.replace(/\/$/, '')}/${path.basename(process.cwd())}-out`;
 
+    // Read the config once and reuse it to get the old path —
+    // avoids a second disk read inside updateEleventyConfig
     const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-    const match = eleventyContent.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
-    const oldPath = match ? match[1] : null;
+    const oldPath = parseOutputDir(eleventyContent);
 
+    // Delete the old output folder if it exists
     if (oldPath) {
         const oldAbsPath = path.resolve(__dirname, '../../', oldPath);
         if (fs.existsSync(oldAbsPath)) {
@@ -67,19 +84,11 @@ function updateOutputPath(newPath) {
     updateEleventyConfig(normalizedPath);
 }
 
+// Returns the current OUTPUT_DIR value from .eleventy.js, or null on failure
 function getCurrentOutputPath() {
     try {
         const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-        const match = content.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
-        if (!match) return null;
-
-        const outputDir = match[1];
-
-        
-        const parent = path.dirname(outputDir);
-        const projectName = path.basename(outputDir);
-
-        return `${parent}/${projectName}`;
+        return parseOutputDir(content);
     } catch {
         return null;
     }
