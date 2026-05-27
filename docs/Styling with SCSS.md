@@ -28,6 +28,58 @@ body {
 }
 ```
 
+## Global Variables
+
+Instead of using `:root` in your custom modules or pages, the best thing to do is to centralize all your variables in a single file (that will be tree-shaken automatically by Sass)
+
+### _root.scss <small>(`src/frontend/scss/modules/`)</small>
+```scss
+$header-height: 10vh;
+
+// Usage example (in any other file): 
+header {
+  height: root.$header-height;
+}
+```
+## Scss modules
+You can create your custom css modules by creating a new `.scss` file in `src/frontend/scss/modules/` (the name of the file must start with `_`)
+
+You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them
+
+### _yourModule.scss <small>(`src/frontend/scss/modules/subfolder/`)</small>
+```scss
+@use '../root' as root;
+
+body {
+  background-color: root.$primary;
+}
+```
+
+### examplePage.scss
+```scss
+@import "../modules/subfolder/yourModule";
+
+// This page will now inherit the body tag rules
+// If the same property is declared in both, the last imported one wins
+body {
+  color: root.$dark;
+}
+```
+
+### Pre-existing modules
+
+| File | Purpose |
+|---|---|
+| `_root.scss` | Global variables (colors, spacing) |
+| `_global.scss` | Site-wide base rules and frameworks |
+| `_typography.scss` | Font rules
+| `_header.scss` | Header styles |
+| `_footer.scss` | Footer styles |
+| `_mobile.scss` | Media query rules |
+| `_buttons.scss` | Style and hovers for buttons 
+| `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
+| `_notification.scss` | Notification component style |
+
 ## CSS Framework
 
 Some of the most popular css frameworks that supports scss with modules are already installed in `node_modules`
@@ -86,55 +138,3 @@ To reduce the bundle size, open the corresponding framework file (`src/frontend/
 @import "bootstrap/scss/card"; // Cards
 @import "bootstrap/scss/carousel"; // Carousel
 ```
-
-## Global Variables
-
-Instead of using `:root` in your custom modules or pages, the best thing to do is to centralize all your variables in a single file (that will be tree-shaken automatically by Sass)
-
-### _root.scss <small>(`src/frontend/scss/modules/`)</small>
-```scss
-$header-height: 10vh;
-
-// Usage example (in any other file): 
-header {
-  height: root.$header-height;
-}
-```
-## Scss modules
-You can create your custom css modules by creating a new `.scss` file in `src/frontend/scss/modules/` (the name of the file must start with `_`)
-
-You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them
-
-### _yourModule.scss <small>(`src/frontend/scss/modules/subfolder/`)</small>
-```scss
-@use '../root' as root;
-
-body {
-  background-color: root.$primary;
-}
-```
-
-### examplePage.scss
-```scss
-@import "../modules/subfolder/yourModule";
-
-// This page will now inherit the body tag rules
-// If the same property is declared in both, the last imported one wins
-body {
-  color: root.$dark;
-}
-```
-
-### Pre-existing modules
-
-| File | Purpose |
-|---|---|
-| `_root.scss` | Global variables (colors, spacing) |
-| `_global.scss` | Site-wide base rules and frameworks |
-| `_typography.scss` | Font rules
-| `_header.scss` | Header styles |
-| `_footer.scss` | Footer styles |
-| `_mobile.scss` | Media query rules |
-| `_buttons.scss` | Style and hovers for buttons 
-| `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
-| `_notification.scss` | Notification component style |
