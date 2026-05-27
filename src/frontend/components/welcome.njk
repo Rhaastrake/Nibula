@@ -220,14 +220,15 @@ body {
         <p>It is bundled and minified by esbuild and loaded automatically by <code>base.njk</code></p>
         <p>Import only what the page needs.</p>
         <h4>examplePage.js <small>(<code>src/frontend/js/pages/</code>)</small></h4>
-        <pre><code>import { initLangSwitcher } from '../modules/langSwitcher.js';
-    import { showNotification } from '../modules/notification.js';
+        <pre><code>
+import { initLangSwitcher } from '../modules/langSwitcher.js';
+import { showNotification } from '../modules/notification.js';
 
-    document.addEventListener("DOMContentLoaded", () => {
-      initLangSwitcher();
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  initLangSwitcher();
+});
 
-    showNotification("Page loaded", "success", 3000);</code></pre>
+showNotification("Page loaded", "success", 3000);</code></pre>
         <h3>Modules</h3>
         <p>Modules live in <code>src/frontend/js/modules/</code>. Some must be called inside <code>DOMContentLoaded</code> as they interact with the DOM; others create elements dynamically and can be called anywhere.</p>
         <h4>Call inside <code>DOMContentLoaded</code></h4>
@@ -266,9 +267,9 @@ body {
         <p>Create a new <code>.js</code> file in <code>src/frontend/js/modules/</code>. You can organize them into subfolders freely.</p>
         <p>Use ESM syntax — esbuild handles the bundling:</p>
         <pre><code>// _yourModule.js
-    export function yourFunction() {
-      // ...
-    }</code></pre>
+export function yourFunction() {
+  // ...
+}</code></pre>
         <p>Then import it in the pages that need it:</p>
         <pre><code>import { yourFunction } from '../modules/yourModule.js';</code></pre>
         <blockquote>⚠️ Files inside <code>_tools/</code> run directly in Node.js without a bundler — use CommonJS (<code>require</code> / <code>module.exports</code>) there, not ESM.</blockquote>
