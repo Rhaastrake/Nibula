@@ -1,7 +1,7 @@
 <div class="container my-3">
   <h1>Welcome to <span class="berna-stencil">Berna-Stencil</span></h1>
   <div class="slogan">The boilerplate you need, simplified</div>
-  
+
   <div class="guide-filter">
     <label>
       <input type="radio" name="guide-filter" value="welcome" checked />
@@ -19,7 +19,7 @@
       <input type="radio" name="guide-filter" value="javascript" />
       <span class="filter-pill">Javascript</span>
     </label>
-<label>
+    <label>
       <input type="radio" name="guide-filter" value="creating-pages" />
       <span class="filter-pill">Creating Pages</span>
     </label>
@@ -37,88 +37,50 @@
     </label>
   </div>
 
-<div class="tabs-container">
+  <div class="tabs-container">
+    
     <div id="content-welcome" class="tab-content active">
       <div class="grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a
-          href="https://bernastencil.com"
-          class="card"
-          target="_blank"
-          rel="noopener noreferrer"
-          style="flex: 1; min-width: 250px;"
-        >
+        <a href="https://bernastencil.com" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
           <i class="bi bi-book card-icon" aria-hidden="true"></i>
           <h3>Documentation</h3>
-          <p>
-            Everything you need to get started, from setup to advanced topics and
-            customizations
-          </p>
-          <span class="card-link"
-            >Go to documentation <span class="bi bi-arrow-right"></span
-          ></span>
+          <p>Everything you need to get started, from setup to advanced topics and customizations</p>
+          <span class="card-link">Go to documentation <span class="bi bi-arrow-right"></span></span>
         </a>
-
-        <a
-          href="https://github.com/rhaastrake/berna-stencil"
-          class="card"
-          target="_blank"
-          rel="noopener noreferrer"
-          style="flex: 1; min-width: 250px;"
-        >
+        <a href="https://github.com/rhaastrake/berna-stencil" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
           <i class="bi bi-github card-icon" aria-hidden="true"></i>
           <h3>Github repository</h3>
           <p>Community-driven. Contributions, issues and PRs are welcome.</p>
-          <span class="card-link"
-            >Open the repository <span class="bi bi-arrow-right"></span
-          ></span>
+          <span class="card-link">Open the repository <span class="bi bi-arrow-right"></span></span>
         </a>
       </div>
     </div>
-    {# ASSISTANT #}
+
     <div id="content-assistant" class="tab-content">
       <div class="markdown-body">
         <h2>Assistant CLI</h2>
         <p>An interactive CLI to manage pages without touching files manually.</p>
-        
         <pre><code>npm run assistant</code></pre>
-
         <h3>Menu</h3>
         <pre><code>1. Create page
 2. Remove page
 3. Rename page
 4. Configure output path</code></pre>
-
         <p>Use <code>CTRL/CMD + C</code> to exit.</p>
-
         <h3>Create page</h3>
         <p>Enter a page name in any format — the CLI converts it to kebab-case automatically.</p>
         <p>For a page named <code>my-page</code>, the following files are created:</p>
-
         <table>
           <thead>
-            <tr>
-              <th>File</th>
-              <th>Purpose</th>
-            </tr>
+            <tr><th>File</th><th>Purpose</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>src/frontend/scss/pages/myPage.scss</code></td>
-              <td>SCSS entry point</td>
-            </tr>
-            <tr>
-              <td><code>src/frontend/js/pages/myPage.js</code></td>
-              <td>JS entry point</td>
-            </tr>
-            <tr>
-              <td><code>src/frontend/_routes/my-page.njk</code></td>
-              <td>Nunjucks template</td>
-            </tr>
+            <tr><td><code>src/frontend/scss/pages/myPage.scss</code></td><td>SCSS entry point</td></tr>
+            <tr><td><code>src/frontend/js/pages/myPage.js</code></td><td>JS entry point</td></tr>
+            <tr><td><code>src/frontend/_routes/my-page.njk</code></td><td>Nunjucks template</td></tr>
           </tbody>
         </table>
-
         <p>It also adds an <code>elif</code> block in <code>includes.njk</code> and a stub entry in <code>site.json</code>:</p>
-
         <pre><code>"myPage": {
   "seo": {
     "title": "My Page",
@@ -129,29 +91,23 @@
     "js": []
   }
 }</code></pre>
-
         <h3>Remove page</h3>
         <p>Deletes all source files for the page and cleans up the output directory, <code>includes.njk</code>, and <code>site.json</code>.</p>
-
         <h3>Rename page</h3>
         <p>Renames all three source files, updates the <code>elif</code> block in <code>includes.njk</code>, and renames the record in <code>site.json</code> while preserving all existing fields.</p>
-
         <h3>Configure output path</h3>
         <p>Updates the output directory across <code>.eleventy.js</code> and all relevant <code>package.json</code> scripts in one shot. The old output folder is deleted automatically.</p>
-
         <blockquote>⚠️ <code>homepage</code> and <code>404</code> are protected — they cannot be created, removed, or renamed via the CLI.</blockquote>
       </div>
     </div>
-    {# STYLING #}
+
     <div id="content-styling" class="tab-content">
       <div class="markdown-body">
         <h2>Styling with SCSS</h2>
-
         <h3>Page CSS</h3>
         <p>Each page has its own SCSS entry point in <code>src/frontend/scss/pages/</code></p>
         <p>It must contain <code>_root.scss</code> + other modules like <code>_global.scss</code> or any other one that you need and its own specific css rules.</p>
         <p><code>_root.scss</code> uses <code>@use</code> to enable namespaced access (<code>root.$var</code>); other modules use <code>@import</code> as they don't expose variables.</p>
-
         <h4>examplePage.scss <small>(<code>src/frontend/scss/pages/</code>)</small></h4>
         <pre><code>//==========================
 // CSS MODULES IMPORTS
@@ -170,10 +126,8 @@
 body {
   background-color: root.$primary;
 }</code></pre>
-
         <h3>Global Variables</h3>
         <p>Instead of using <code>:root</code> in your custom modules or pages, the best thing to do is to centralize all your variables in a single file (that will be tree-shaken automatically by Sass).</p>
-
         <h4>_root.scss <small>(<code>src/frontend/scss/modules/</code>)</small></h4>
         <pre><code>$header-height: 10vh;
 
@@ -181,18 +135,15 @@ body {
 header {
   height: root.$header-height;
 }</code></pre>
-
         <h3>Scss modules</h3>
         <p>You can create your custom css modules by creating a new <code>.scss</code> file in <code>src/frontend/scss/modules/</code> (the name of the file must start with <code>_</code>).</p>
         <p>You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them.</p>
-
         <h4>_yourModule.scss <small>(<code>src/frontend/scss/modules/subfolder/</code>)</small></h4>
         <pre><code>@use '../root' as root;
 
 body {
   background-color: root.$primary;
 }</code></pre>
-
         <h4>examplePage.scss</h4>
         <pre><code>@import "../modules/subfolder/yourModule";
 
@@ -201,79 +152,44 @@ body {
 body {
   color: root.$dark;
 }</code></pre>
-
         <h4>Pre-existing modules</h4>
         <table>
           <thead>
-            <tr>
-              <th>File</th>
-              <th>Purpose</th>
-            </tr>
+            <tr><th>File</th><th>Purpose</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>_root.scss</code></td>
-              <td>Global variables (colors, spacing)</td>
-            </tr>
-            <tr>
-              <td><code>_global.scss</code></td>
-              <td>Site-wide base rules and frameworks</td>
-            </tr>
-            <tr>
-              <td><code>_typography.scss</code></td>
-              <td>Font rules</td>
-            </tr>
-            <tr>
-              <td><code>_header.scss</code></td>
-              <td>Header styles</td>
-            </tr>
-            <tr>
-              <td><code>_footer.scss</code></td>
-              <td>Footer styles</td>
-            </tr>
-            <tr>
-              <td><code>_mobile.scss</code></td>
-              <td>Media query rules</td>
-            </tr>
-            <tr>
-              <td><code>_buttons.scss</code></td>
-              <td>Style and hovers for buttons</td>
-            </tr>
-            <tr>
-              <td><code>_animations.scss</code></td>
-              <td>Keyframe animations (<code>fade-in</code>, <code>spin</code>)</td>
-            </tr>
-            <tr>
-              <td><code>_notification.scss</code></td>
-              <td>Notification component style</td>
-            </tr>
+            <tr><td><code>_root.scss</code></td><td>Global variables (colors, spacing)</td></tr>
+            <tr><td><code>_global.scss</code></td><td>Site-wide base rules and frameworks</td></tr>
+            <tr><td><code>_typography.scss</code></td><td>Font rules</td></tr>
+            <tr><td><code>_header.scss</code></td><td>Header styles</td></tr>
+            <tr><td><code>_footer.scss</code></td><td>Footer styles</td></tr>
+            <tr><td><code>_mobile.scss</code></td><td>Media query rules</td></tr>
+            <tr><td><code>_buttons.scss</code></td><td>Style and hovers for buttons</td></tr>
+            <tr><td><code>_animations.scss</code></td><td>Keyframe animations (<code>fade-in</code>, <code>spin</code>)</td></tr>
+            <tr><td><code>_notification.scss</code></td><td>Notification component style</td></tr>
           </tbody>
         </table>
-
         <h3>CSS Framework</h3>
         <p>Some of the most popular css frameworks that supports scss with modules are already installed in <code>node_modules</code>.</p>
         <p>You can choose one or none of them (more than 1 works, but you may get in various conflicts).</p>
         <p>To enable/disable them you have to modify 3 files around the project by just commenting them.</p>
-
         <h4>1. _global.scss <small>(<code>src/frontend/scss/modules/</code>)</small></h4>
         <pre><code>@import "../modules/frameworks/bootstrap";
 // @import "../modules/frameworks/bulma";
 // @import "../modules/frameworks/foundation";
 // @import "../modules/frameworks/uikit";</code></pre>
-
         <h4>2. base.njk <small>(<code>src/frontend/components/layouts/</code>)</small></h4>
-        <pre><code>{# Bootstrap JS #}
-&lt;script src="/js/bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;
+        <pre><code>&lt;!-- Bootstrap --&gt;
+&lt;!-- &lt;script src="/js/bootstrap.bundle.min.js" defer&gt;&lt;/script&gt; --&gt;
 
-{# Foundation JS #}
-{# &lt;script src="/js/foundation.min.js" defer&gt;&lt;/script&gt; #}
+&lt;!-- Foundation --&gt;
+&lt;!-- &lt;script src="/js/foundation.min.js" defer&gt;&lt;/script&gt; --&gt;
 
-{# UIkit JS #}
-{# &lt;script src="/js/uikit.min.js" defer&gt;&lt;/script&gt; #}
-{# &lt;script src="/js/uikit-icons.min.js" defer&gt;&lt;/script&gt; #}
+&lt;!-- UIkit --&gt;
+&lt;!-- &lt;script src="/js/uikit.min.js" defer&gt;&lt;/script&gt; --&gt;
+&lt;!-- &lt;script src="/js/uikit-icons.min.js" defer&gt;&lt;/script&gt; --&gt;
 
-{# Bulma — no JS needed #}</code></pre>
-
+&lt;!-- Bulma — no JS needed --&gt;</code></pre>
         <h4>3. .eleventy.js</h4>
         <pre><code>eleventyConfig.addPassthroughCopy({
   // Bootstrap
@@ -289,23 +205,20 @@ body {
 
   // Bulma — CSS only, no JS passthrough needed
 });</code></pre>
-
         <h4>Reducing bundle size</h4>
         <p>To reduce the bundle size, open the corresponding framework file (<code>src/frontend/scss/modules/frameworks/</code>) and comment out any modules you don't need.</p>
         <pre><code>@import "bootstrap/scss/card"; // Cards
 @import "bootstrap/scss/carousel"; // Carousel</code></pre>
       </div>
     </div>
-    {# JAVASCRIPT #}
+
     <div id="content-javascript" class="tab-content">
       <div class="markdown-body">
         <h2>JavaScript</h2>
-
         <h3>Page JS</h3>
         <p>Each page has its own JS entry point in <code>src/frontend/js/pages/</code></p>
         <p>It is bundled and minified by esbuild and loaded automatically by <code>base.njk</code></p>
         <p>Import only what the page needs.</p>
-
         <h4>examplePage.js <small>(<code>src/frontend/js/pages/</code>)</small></h4>
         <pre><code>import { initLangSwitcher } from '../modules/langSwitcher.js';
     import { showNotification } from '../modules/notification.js';
@@ -315,107 +228,382 @@ body {
     });
 
     showNotification("Page loaded", "success", 3000);</code></pre>
-
         <h3>Modules</h3>
         <p>Modules live in <code>src/frontend/js/modules/</code>. Some must be called inside <code>DOMContentLoaded</code> as they interact with the DOM; others create elements dynamically and can be called anywhere.</p>
-
         <h4>Call inside <code>DOMContentLoaded</code></h4>
         <table>
           <thead>
-            <tr>
-              <th>Module</th>
-              <th>Function</th>
-            </tr>
+            <tr><th>Module</th><th>Function</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>modules/langSwitcher.js</code></td>
-              <td><code>initLangSwitcher()</code></td>
-            </tr>
-            <tr>
-              <td><code>modules/forms/form.js</code></td>
-              <td><code>initFormListener()</code></td>
-            </tr>
-            <tr>
-              <td><code>modules/forms/textAreaAutoExpand.js</code></td>
-              <td><code>initTextAreaAutoExpand()</code></td>
-            </tr>
-            <tr>
-              <td><code>modules/forms/normalizePhoneNumber.js</code></td>
-              <td><code>initNormalizePhoneNumber()</code></td>
-            </tr>
+            <tr><td><code>modules/langSwitcher.js</code></td><td><code>initLangSwitcher()</code></td></tr>
+            <tr><td><code>modules/forms/form.js</code></td><td><code>initFormListener()</code></td></tr>
+            <tr><td><code>modules/forms/textAreaAutoExpand.js</code></td><td><code>initTextAreaAutoExpand()</code></td></tr>
+            <tr><td><code>modules/forms/normalizePhoneNumber.js</code></td><td><code>initNormalizePhoneNumber()</code></td></tr>
           </tbody>
         </table>
-
         <h4>Call anywhere</h4>
         <table>
           <thead>
-            <tr>
-              <th>Module</th>
-              <th>Function</th>
-            </tr>
+            <tr><th>Module</th><th>Function</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>modules/notification.js</code></td>
-              <td><code>showNotification(text, type, duration)</code></td>
-            </tr>
+            <tr><td><code>modules/notification.js</code></td><td><code>showNotification(text, type, duration)</code></td></tr>
           </tbody>
         </table>
-
         <h4><code>showNotification</code> parameters</h4>
         <table>
           <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Type</th>
-              <th>Default</th>
-              <th>Values</th>
-            </tr>
+            <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Values</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>text</code></td>
-              <td>string</td>
-              <td>—</td>
-              <td>Any string</td>
-            </tr>
-            <tr>
-              <td><code>type</code></td>
-              <td>string</td>
-              <td><code>"info"</code></td>
-              <td><code>"success"</code>, <code>"info"</code>, <code>"error"</code></td>
-            </tr>
-            <tr>
-              <td><code>duration</code></td>
-              <td>number</td>
-              <td><code>5000</code></td>
-              <td>ms, or <code>-1</code> for persistent with spinner</td>
-            </tr>
+            <tr><td><code>text</code></td><td>string</td><td>—</td><td>Any string</td></tr>
+            <tr><td><code>type</code></td><td>string</td><td><code>"info"</code></td><td><code>"success"</code>, <code>"info"</code>, <code>"error"</code></td></tr>
+            <tr><td><code>duration</code></td><td>number</td><td><code>5000</code></td><td>ms, or <code>-1</code> for persistent with spinner</td></tr>
           </tbody>
         </table>
-
         <h3>Adding a module</h3>
         <p>Create a new <code>.js</code> file in <code>src/frontend/js/modules/</code>. You can organize them into subfolders freely.</p>
         <p>Use ESM syntax — esbuild handles the bundling:</p>
-
         <pre><code>// _yourModule.js
     export function yourFunction() {
       // ...
     }</code></pre>
-
         <p>Then import it in the pages that need it:</p>
-
         <pre><code>import { yourFunction } from '../modules/yourModule.js';</code></pre>
-
         <blockquote>⚠️ Files inside <code>_tools/</code> run directly in Node.js without a bundler — use CommonJS (<code>require</code> / <code>module.exports</code>) there, not ESM.</blockquote>
       </div>
     </div>
 
-    <div id="content-deployment" class="tab-content">
+    <div id="content-creating-pages" class="tab-content">
       <div class="markdown-body">
-        <h2>Deployment</h2>
-        <p>Extra 2</p>
+        <h2>Creating Pages</h2>
+        <p>The recommended way is via the <a href="#" class="nav-to-assistant">Assistant CLI</a>.</p>
+        <h3>What gets created</h3>
+        <p>For a page named <code>my-page</code>:</p>
+        <table>
+          <thead>
+            <tr><th>File</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>src/pages/my-page.njk</code></td><td>Template with front matter</td></tr>
+            <tr><td><code>src/scss/pages/myPage.scss</code></td><td>Imports framework + modules</td></tr>
+            <tr><td><code>src/js/pages/myPage.js</code></td><td>Imports JS modules</td></tr>
+          </tbody>
+        </table>
+        <h3>Adding content</h3>
+        <ol>
+          <li>Create a component in <code>src/components/</code> (e.g., <code>_myPage.njk</code>)</li>
+          <li>Include it in <code>src/layouts/includes.njk</code> inside the generated <code>elif</code> block:</li>
+        </ol>
+        <pre><code>&#123;% elif title == "myPage" %&#125;
+  &#123;% include "_myPage.njk" %&#125;</code></pre>
+        <p>See <a href="components.html">components.md</a> for details.</p>
+        <h3>URL and title</h3>
+        <p>The URL is the kebab-case name (<code>/my-page/</code>). The <code>title</code> in the front matter is camelCase (<code>myPage</code>) and is used internally to load the correct CSS and JS files — <strong>do not change it</strong>.</p>
+        <h3>SEO</h3>
+        <p>The CLI creates a stub entry in <code>src/data/site.json</code>. Fill it in:</p>
+        <pre><code>"myPage": {
+  "seo": {
+    "title": "My Page | Site Name",
+    "description": "Page description"
+  }
+}</code></pre>
+        <p>See <a href="head-and-seo.html">head-and-seo.md</a> for all available options.</p>
+      </div>
+    </div>
+
+    <div id="content-components" class="tab-content">
+      <div class="markdown-body">
+        <h2>Nunjucks (HTML) Components</h2>
+        <h3>What is Nunjucks</h3>
+        <p>Nunjucks (<code>.njk</code>) is an HTML file that supports logic like variables, <code>if</code> statements, and <code>for</code> loops. It can extend a base layout and include other <code>.njk</code> components.</p>
+        <h3>Create a component</h3>
+        <p>Create a new <code>.njk</code> file anywhere inside <code>src/frontend/components/</code>. You can organize them into subfolders freely:</p>
+        <pre><code>src/frontend/components/
+├── global/
+├── layouts/
+├── modals/
+│   └── privacyModal.njk 
+└── welcome.njk</code></pre>
+        <h3>Include a component</h3>
+        <p>To render a component inside a page, navigate to <code>src/frontend/components/layouts/</code> and edit <code>includes.njk</code>.</p>
+        <h4>includes.njk <small>(<code>src/frontend/components/layouts/</code>)</small></h4>
+        <pre><code>&#123;% if title == "homepage" %&#125;
+  &#123;% include "welcome.njk" %&#125;
+
+&#123;% elif title == "examplePage" %&#125;
+  &#123;% include "exampleComponent1.njk" %&#125;
+  &#123;% include "subfolder/exampleComponent2.njk" %&#125;
+
+&#123;% else %&#125;
+  &#123;% include "404/_404.njk" %&#125;
+  &#123;&#123; content | safe &#125;&#125;
+&#123;% endif %&#125;</code></pre>
+        <p>Add a new <code>&#123;% elif %&#125;</code> block for each page, listing its components in order. If a component lives in a subfolder, specify the relative path accordingly.</p>
+        <blockquote>⚠️ A new <code>elif</code> block is automatically added when you create a page via the Assistant CLI.</blockquote>
+        <blockquote>⚠️ If you move or delete a component, always update <code>includes.njk</code> or the site will break.</blockquote>
+        <h3>Nest components</h3>
+        <p>A component can include other components. This is useful for breaking complex sections into smaller, reusable pieces.</p>
+        <h4>exampleComponent.njk</h4>
+        <pre><code>&lt;section class="hero"&gt;
+  &#123;% include "ui/heroTitle.njk" %&#125;
+  &#123;% include "ui/heroButton.njk" %&#125;
+&lt;/section&gt;</code></pre>
+        <blockquote>The same path rules apply: if the included component is in a subfolder, specify the full relative path.</blockquote>
+        <h3>Global components</h3>
+        <p>Header and footer live in <code>src/frontend/components/global/</code> and are automatically included in every page via <code>base.njk</code>. Edit them to change the site-wide layout.</p>
+        <h3>Site data in components</h3>
+        <p>All values defined in <code>src/data/site.json</code> are globally available in every component via <code>&#123;&#123; site.* &#125;&#125;</code>.</p>
+        <h4>site.json <small>(<code>src/data/</code>)</small></h4>
+        <pre><code>{
+  "title": "My Site",
+  "logo": "/img/logo.png",
+  "legal": {
+    "privacy": "/privacy"
+  }
+}</code></pre>
+        <h4>Usage in any <code>.njk</code> file</h4>
+        <pre><code>&lt;p&gt;&#123;&#123; site.title &#125;&#125;&lt;/p&gt;
+&lt;a href="&#123;&#123; site.legal.privacy &#125;&#125;"&gt;Privacy Policy&lt;/a&gt;
+&lt;img src="&#123;&#123; site.logo &#125;&#125;" alt="&#123;&#123; site.title &#125;&#125;"&gt;</code></pre>
+      </div>
+    </div>
+
+    <div id="content-head-seo" class="tab-content">
+      <div class="markdown-body">
+        <h2>Head & SEO</h2>
+        <p>This json holds global settings used across all pages in <code>base.njk</code> and other components:</p>
+        <h3>site.json <small>(<code>src/frontend/data/</code>)</small></h3>
+        <pre><code>{
+  "site_name": "Site name",
+  "title": "Site title",
+  "description": "Site description",
+  "keywords": "keyword1, keyword2, keyword3",
+  "domain": "yoursite.com",
+  "url": "https://yoursite.com",
+  "lang": "en",
+  "author": "Name and surname",
+  "data_bs_theme": "dark",
+  "favicon": "/assets/brand/favicon.svg",
+  "logo": "/assets/brand/logo.svg"
+}</code></pre>
+        <h2>Per-page SEO and CDN</h2>
+        <p>Each page entry is keyed by its camelCase <code>title</code> from the front matter.</p>
+        <p>If you don't want to use a particular CDN inserting it in <code>base.njk</code> for all pages, you can add extra specific CDN (CSS, JS) by inserting the link in each page of <code>site.json</code> separating them with a <code>,</code> and setting them in <code>""</code>.</p>
+        <h3>site.json <small>(<code>src/frontend/data/</code>)</small></h3>
+        <pre><code>"pages": {
+    "examplePage": {
+      "seo": {
+        "title": "Example Page",
+        "description": "description"
+      },
+      "cdn": {
+        // You can leave the [] empty
+        "css": ["https://example1.com/lib.min.css", "https://example2.com/lib.min.css"],
+        "js": ["https://example1.com/lib.min.js", "https://example2.com/lib.min.js"]
+      }
+    }
+}</code></pre>
+        <h2>AI & SEO bots</h2>
+        <p><code>llms.txt</code> and <code>robots.txt</code> are generated automatically from <code>site.json</code> via their respective <code>.njk</code> files — no manual editing needed.</p>
+        <table>
+          <thead>
+            <tr><th>File</th><th>Purpose</th><th>Reachable at</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>llms.njk</code></td><td>Tells AI models what your site is about</td><td><code>yoursite.com/llms.txt</code></td></tr>
+            <tr><td><code>robots.njk</code></td><td>Controls search engine crawling</td><td><code>yoursite.com/robots.txt</code></td></tr>
+          </tbody>
+        </table>
+        <p>To customize them, edit <code>src/llms.njk</code> or <code>src/robots.njk</code> directly.</p>
+        <h2>Configuration field description</h2>
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>site_name</code></td><td>Brand name (used in meta tags)</td></tr>
+            <tr><td><code>title</code></td><td>Default page title</td></tr>
+            <tr><td><code>description</code></td><td>Default meta description</td></tr>
+            <tr><td><code>keywords</code></td><td>Default meta keywords</td></tr>
+            <tr><td><code>domain</code> / <code>url</code></td><td>Used for canonical URLs and og:url</td></tr>
+            <tr><td><code>lang</code></td><td>HTML <code>lang</code> attribute</td></tr>
+            <tr><td><code>author</code></td><td>Meta author tag</td></tr>
+            <tr><td><code>data_bs_theme</code></td><td>Bootstrap color scheme (<code>light</code> / <code>dark</code>)</td></tr>
+            <tr><td><code>favicon</code></td><td>Path to the favicon</td></tr>
+            <tr><td><code>logo</code></td><td>Path to the logo (available as <code>&#123;&#123; site.logo &#125;&#125;</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="content-backend" class="tab-content">
+      <div class="markdown-body">
+        <h2>Backend</h2>
+        <p>The backend is a PHP REST API located in <code>src/backend/</code>, copied to the output directory automatically at build time.</p>
+        <h3>Structure</h3>
+        <pre><code>src/backend/
+├── api/
+│   ├── public/     # Endpoints accessible without an API key
+│   └── protected/    # Endpoints requiring X-Api-Key header
+├── database/
+│   ├── Database.php
+│   ├── models/
+│   └── migrations/
+├── config.php        # Your local config — never commit this
+└── config.example.php</code></pre>
+        <h3>Configuration</h3>
+        <p><code>config.php</code> works like a <code>.env</code> file — it holds secrets and environment settings that stay local and out of version control.</p>
+        <p>Copy <code>config.example.php</code> to <code>config.php</code> and fill in your values:</p>
+        <h4>config.php <small>(<code>src/backend/</code>)</small></h4>
+        <pre><code>return [
+    'APP_ENV' => 'development', // or 'production'
+    'API_KEY' => 'your-default-key',
+
+    'ENDPOINT_KEYS' => [
+        'subfolder/example-protected' => 'specific-key',
+    ],
+
+    'DB_HOST' => '127.0.0.1',
+    'DB_NAME' => 'example_db',
+    'DB_USER' => 'root',
+    'DB_PASS' => '',
+];</code></pre>
+        <p><code>API_KEY</code> is the fallback key for all protected endpoints. Use <code>ENDPOINT_KEYS</code> to assign a different key to a specific endpoint — for subfolder endpoints, use the relative path as the key.</p>
+        <h3>How routing works</h3>
+        <p>The file path inside <code>api/</code> maps directly to the URL. Extra URL segments become route parameters available as <code>$requestParams[]</code>.</p>
+        <p>Every endpoint file has access to:</p>
+        <table>
+          <thead>
+            <tr><th>Variable</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>$method</code></td><td>HTTP method (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>)</td></tr>
+            <tr><td><code>$requestParams</code></td><td>Extra URL segments (e.g. <code>/api/posts/42</code> → <code>['42']</code>)</td></tr>
+          </tbody>
+        </table>
+        <h3>Creating a public endpoint</h3>
+        <p>Create a <code>.php</code> file anywhere inside <code>api/public/</code></p>
+        <pre><code>&lt;?php
+declare(strict_types=1);
+
+require_once CORE_PATH . '/modules/Response.php';
+
+if ($method !== 'GET') {
+    Response::error('Method not allowed', 405);
+}
+
+$id = isset($requestParams[0]) ? (int)$requestParams[0] : null;
+
+Response::success(['id' => $id]);</code></pre>
+        <p>Reachable at <code>/api/posts</code> or <code>/api/posts/42</code></p>
+        <h3>Creating a protected endpoint</h3>
+        <p>Create a <code>.php</code> file inside <code>api/protected/</code>. The API key check happens automatically before your file runs.</p>
+        <pre><code>&lt;?php
+declare(strict_types=1);
+
+require_once CORE_PATH . '/modules/Response.php';
+
+if ($method !== 'GET') {
+    Response::error('Method not allowed', 405);
+}
+
+Response::success(['visits' => 1024]);</code></pre>
+        <p>To assign a dedicated key, add it to <code>config.php</code>:</p>
+        <pre><code>'ENDPOINT_KEYS' => [
+    'admin/stats' => 'secret-stats-key',
+],</code></pre>
+        <h3>The Response helper</h3>
+        <pre><code>Response::success($data, $code);         // default 200
+Response::error($message, $code, $details); // default 400
+Response::noContent();                      // 204</code></pre>
+        <h3>Handling multiple methods</h3>
+        <pre><code>$id   = isset($requestParams[0]) ? (int)$requestParams[0] : null;
+$input = json_decode(file_get_contents('php://input'), true) ?? [];
+
+switch ($method) {
+    case 'GET':
+        Response::success(['id' => $id]);
+        break;
+
+    case 'POST':
+        if (empty($input['title'])) Response::error('Missing title', 400);
+        Response::success(['message' => 'Created'], 201);
+        break;
+
+    case 'DELETE':
+        if (!$id) Response::error('ID required', 400);
+        Response::success(['message' => 'Deleted']);
+        break;
+
+    default:
+        Response::error('Method not allowed', 405);
+}</code></pre>
+        <h3>Using the database</h3>
+        <h4>database/models/Post.php</h4>
+        <pre><code>&lt;?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../Database.php';
+
+class Post {
+    private PDO $db;
+
+    public function __construct() {
+        $this->db = Database::getInstance();
+    }
+
+    public function getAll(): array {
+        return $this->db->query("SELECT * FROM posts")->fetchAll();
+    }
+
+    public function getById(int $id): ?array {
+        $stmt = $this->db->prepare("SELECT * FROM posts WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch() ?: null;
+    }
+
+    public function create(string $title): int {
+        $stmt = $this->db->prepare("INSERT INTO posts (title) VALUES (:title)");
+        $stmt->execute(['title' => htmlspecialchars(strip_tags(trim($title)))]);
+        return (int)$this->db->lastInsertId();
+    }
+}</code></pre>
+        <p>Then use it inside an endpoint:</p>
+        <pre><code>require_once __DIR__ . '/../../database/models/Post.php';
+
+$post = new Post();
+Response::success($post->getAll());</code></pre>
+        <p>Migrations live in <code>database/migrations/</code> as plain SQL files — run them manually against your database.</p>
+        <h3>Calling endpoints from the frontend</h3>
+        <pre><code>// Public
+const res = await fetch('/api/posts/42');
+
+// Protected
+const res = await fetch('/api/admin/stats', {
+    headers: { 'X-Api-Key': 'secret-stats-key' }
+});
+
+// POST
+const res = await fetch('/api/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Api-Key': 'your-key' },
+    body: JSON.stringify({ title: 'Hello world' })
+});</code></pre>
+        <h3>Pre-built endpoints</h3>
+        <table>
+          <thead>
+            <tr><th>Route</th><th>Auth</th><th>Methods</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/api/example-public</code></td><td>No</td><td><code>GET</code></td><td>Smoke test for public routing</td></tr>
+            <tr><td><code>/api/subfolder/example-protected</code></td><td>Yes</td><td><code>GET</code></td><td>Smoke test for protected routing</td></tr>
+            <tr><td><code>/api/auth/register</code></td><td>No</td><td><code>POST</code></td><td>Register a new user</td></tr>
+            <tr><td><code>/api/auth/login</code></td><td>No</td><td><code>POST</code></td><td>Login and retrieve user data</td></tr>
+            <tr><td><code>/api/auth-system</code></td><td>Yes</td><td><code>GET POST PUT PATCH DELETE</code></td><td>Full CRUD on users</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -425,10 +613,10 @@ body {
   h1 {
     text-align: center;
     font-weight: 400;
-    .berna-stencil {
-      color: #42b883;
-      font-weight: 600;
-    }
+  }
+  h1 .berna-stencil {
+    color: #42b883;
+    font-weight: 600;
   }
   .slogan {
     text-align: center;
@@ -506,14 +694,12 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 2rem;
-
-    label {
-      cursor: pointer;
-
-      input[type="radio"] {
-        display: none;
-      }
-    }
+  }
+  .guide-filter label {
+    cursor: pointer;
+  }
+  .guide-filter label input[type="radio"] {
+    display: none;
   }
 
   .filter-pill {
@@ -636,5 +822,16 @@ body {
         targetContent.classList.add("active");
       }
     });
+  });
+  document.querySelector('.nav-to-assistant').addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    const assistantRadio = document.querySelector('input[name="guide-filter"][value="assistant"]');
+    
+    if (assistantRadio) {
+      assistantRadio.checked = true;
+      assistantRadio.dispatchEvent(new Event('change'));
+      document.querySelector('.tabs-container');
+    }
   });
 </script>

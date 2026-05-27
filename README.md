@@ -44,7 +44,7 @@ Building a website from scratch involves a lot of moving parts: templating engin
 
 ## Changelog
 
-### [1.0.0] - 2025-05-27
+### [2.0.0] - 2025-05-28
 * Initial release
 * Eleventy v3.1.2 support
 * Base project structure and scaffolding CLI
