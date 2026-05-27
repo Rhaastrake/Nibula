@@ -10,6 +10,7 @@ module.exports = function (eleventyConfig) {
 
   function copyRecursiveSync(src, dest) {
   if (!fs.existsSync(src)) return;
+  if (src.includes('.git')) return;
   const stat = fs.statSync(src);
   if (stat.isDirectory()) {
     fs.mkdirSync(dest, { recursive: true });

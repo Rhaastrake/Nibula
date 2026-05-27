@@ -1,35 +1,426 @@
 <div class="container my-3">
   <h1>Welcome to <span class="berna-stencil">Berna-Stencil</span></h1>
-  <div class="slogan">The framework you need, simplified</div>
+  <div class="slogan">The boilerplate you need, simplified</div>
+  
+  <div class="guide-filter">
+    <label>
+      <input type="radio" name="guide-filter" value="welcome" checked />
+      <span class="filter-pill">Welcome</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="assistant" />
+      <span class="filter-pill">Assistant</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="styling" />
+      <span class="filter-pill">Styling</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="javascript" />
+      <span class="filter-pill">Javascript</span>
+    </label>
+<label>
+      <input type="radio" name="guide-filter" value="creating-pages" />
+      <span class="filter-pill">Creating Pages</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="components" />
+      <span class="filter-pill">Components</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="head-seo" />
+      <span class="filter-pill">Head & SEO</span>
+    </label>
+    <label>
+      <input type="radio" name="guide-filter" value="backend" />
+      <span class="filter-pill">Backend</span>
+    </label>
+  </div>
 
-  <div class="grid">
-    <a
-      href="https://bernastencil.com"
-      class="card"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <i class="bi bi-book card-icon" aria-hidden="true"></i>
-      <h3>Documentation</h3>
-      <p>
-        Everything you need to get started, from setup to advanced topics and customizations
-      </p>
-      <span class="card-link">Go to documentation <span class="bi bi-arrow-right"></span></span>
-    </a>
+<div class="tabs-container">
+    <div id="content-welcome" class="tab-content active">
+      <div class="grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a
+          href="https://bernastencil.com"
+          class="card"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="flex: 1; min-width: 250px;"
+        >
+          <i class="bi bi-book card-icon" aria-hidden="true"></i>
+          <h3>Documentation</h3>
+          <p>
+            Everything you need to get started, from setup to advanced topics and
+            customizations
+          </p>
+          <span class="card-link"
+            >Go to documentation <span class="bi bi-arrow-right"></span
+          ></span>
+        </a>
 
-    <a
-      href="https://github.com/rhaastrake/berna-stencil"
-      class="card"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <i class="bi bi-github card-icon" aria-hidden="true"></i>
-      <h3>Github repository</h3>
-      <p>Community-driven. Contributions, issues and PRs are welcome.</p>
-      <span class="card-link">Open the repository <span class="bi bi-arrow-right"></span></span>
-    </a>
+        <a
+          href="https://github.com/rhaastrake/berna-stencil"
+          class="card"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="flex: 1; min-width: 250px;"
+        >
+          <i class="bi bi-github card-icon" aria-hidden="true"></i>
+          <h3>Github repository</h3>
+          <p>Community-driven. Contributions, issues and PRs are welcome.</p>
+          <span class="card-link"
+            >Open the repository <span class="bi bi-arrow-right"></span
+          ></span>
+        </a>
+      </div>
+    </div>
+    {# ASSISTANT #}
+    <div id="content-assistant" class="tab-content">
+      <div class="markdown-body">
+        <h2>Assistant CLI</h2>
+        <p>An interactive CLI to manage pages without touching files manually.</p>
+        
+        <pre><code>npm run assistant</code></pre>
+
+        <h3>Menu</h3>
+        <pre><code>1. Create page
+2. Remove page
+3. Rename page
+4. Configure output path</code></pre>
+
+        <p>Use <code>CTRL/CMD + C</code> to exit.</p>
+
+        <h3>Create page</h3>
+        <p>Enter a page name in any format — the CLI converts it to kebab-case automatically.</p>
+        <p>For a page named <code>my-page</code>, the following files are created:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>src/frontend/scss/pages/myPage.scss</code></td>
+              <td>SCSS entry point</td>
+            </tr>
+            <tr>
+              <td><code>src/frontend/js/pages/myPage.js</code></td>
+              <td>JS entry point</td>
+            </tr>
+            <tr>
+              <td><code>src/frontend/_routes/my-page.njk</code></td>
+              <td>Nunjucks template</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>It also adds an <code>elif</code> block in <code>includes.njk</code> and a stub entry in <code>site.json</code>:</p>
+
+        <pre><code>"myPage": {
+  "seo": {
+    "title": "My Page",
+    "description": "description"
+  },
+  "cdn": {
+    "css": [],
+    "js": []
+  }
+}</code></pre>
+
+        <h3>Remove page</h3>
+        <p>Deletes all source files for the page and cleans up the output directory, <code>includes.njk</code>, and <code>site.json</code>.</p>
+
+        <h3>Rename page</h3>
+        <p>Renames all three source files, updates the <code>elif</code> block in <code>includes.njk</code>, and renames the record in <code>site.json</code> while preserving all existing fields.</p>
+
+        <h3>Configure output path</h3>
+        <p>Updates the output directory across <code>.eleventy.js</code> and all relevant <code>package.json</code> scripts in one shot. The old output folder is deleted automatically.</p>
+
+        <blockquote>⚠️ <code>homepage</code> and <code>404</code> are protected — they cannot be created, removed, or renamed via the CLI.</blockquote>
+      </div>
+    </div>
+    {# STYLING #}
+    <div id="content-styling" class="tab-content">
+      <div class="markdown-body">
+        <h2>Styling with SCSS</h2>
+
+        <h3>Page CSS</h3>
+        <p>Each page has its own SCSS entry point in <code>src/frontend/scss/pages/</code></p>
+        <p>It must contain <code>_root.scss</code> + other modules like <code>_global.scss</code> or any other one that you need and its own specific css rules.</p>
+        <p><code>_root.scss</code> uses <code>@use</code> to enable namespaced access (<code>root.$var</code>); other modules use <code>@import</code> as they don't expose variables.</p>
+
+        <h4>examplePage.scss <small>(<code>src/frontend/scss/pages/</code>)</small></h4>
+        <pre><code>//==========================
+// CSS MODULES IMPORTS
+//==========================
+
+@use "../modules/root" as root;
+
+@import "../modules/global";
+
+@import "../modules/notification";
+
+//==========================
+// PAGE CUSTOM CSS RULES
+//==========================
+
+body {
+  background-color: root.$primary;
+}</code></pre>
+
+        <h3>Global Variables</h3>
+        <p>Instead of using <code>:root</code> in your custom modules or pages, the best thing to do is to centralize all your variables in a single file (that will be tree-shaken automatically by Sass).</p>
+
+        <h4>_root.scss <small>(<code>src/frontend/scss/modules/</code>)</small></h4>
+        <pre><code>$header-height: 10vh;
+
+// Usage example (in any other file): 
+header {
+  height: root.$header-height;
+}</code></pre>
+
+        <h3>Scss modules</h3>
+        <p>You can create your custom css modules by creating a new <code>.scss</code> file in <code>src/frontend/scss/modules/</code> (the name of the file must start with <code>_</code>).</p>
+        <p>You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them.</p>
+
+        <h4>_yourModule.scss <small>(<code>src/frontend/scss/modules/subfolder/</code>)</small></h4>
+        <pre><code>@use '../root' as root;
+
+body {
+  background-color: root.$primary;
+}</code></pre>
+
+        <h4>examplePage.scss</h4>
+        <pre><code>@import "../modules/subfolder/yourModule";
+
+// This page will now inherit the body tag rules
+// If the same property is declared in both, the last imported one wins
+body {
+  color: root.$dark;
+}</code></pre>
+
+        <h4>Pre-existing modules</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_root.scss</code></td>
+              <td>Global variables (colors, spacing)</td>
+            </tr>
+            <tr>
+              <td><code>_global.scss</code></td>
+              <td>Site-wide base rules and frameworks</td>
+            </tr>
+            <tr>
+              <td><code>_typography.scss</code></td>
+              <td>Font rules</td>
+            </tr>
+            <tr>
+              <td><code>_header.scss</code></td>
+              <td>Header styles</td>
+            </tr>
+            <tr>
+              <td><code>_footer.scss</code></td>
+              <td>Footer styles</td>
+            </tr>
+            <tr>
+              <td><code>_mobile.scss</code></td>
+              <td>Media query rules</td>
+            </tr>
+            <tr>
+              <td><code>_buttons.scss</code></td>
+              <td>Style and hovers for buttons</td>
+            </tr>
+            <tr>
+              <td><code>_animations.scss</code></td>
+              <td>Keyframe animations (<code>fade-in</code>, <code>spin</code>)</td>
+            </tr>
+            <tr>
+              <td><code>_notification.scss</code></td>
+              <td>Notification component style</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>CSS Framework</h3>
+        <p>Some of the most popular css frameworks that supports scss with modules are already installed in <code>node_modules</code>.</p>
+        <p>You can choose one or none of them (more than 1 works, but you may get in various conflicts).</p>
+        <p>To enable/disable them you have to modify 3 files around the project by just commenting them.</p>
+
+        <h4>1. _global.scss <small>(<code>src/frontend/scss/modules/</code>)</small></h4>
+        <pre><code>@import "../modules/frameworks/bootstrap";
+// @import "../modules/frameworks/bulma";
+// @import "../modules/frameworks/foundation";
+// @import "../modules/frameworks/uikit";</code></pre>
+
+        <h4>2. base.njk <small>(<code>src/frontend/components/layouts/</code>)</small></h4>
+        <pre><code>{# Bootstrap JS #}
+&lt;script src="/js/bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;
+
+{# Foundation JS #}
+{# &lt;script src="/js/foundation.min.js" defer&gt;&lt;/script&gt; #}
+
+{# UIkit JS #}
+{# &lt;script src="/js/uikit.min.js" defer&gt;&lt;/script&gt; #}
+{# &lt;script src="/js/uikit-icons.min.js" defer&gt;&lt;/script&gt; #}
+
+{# Bulma — no JS needed #}</code></pre>
+
+        <h4>3. .eleventy.js</h4>
+        <pre><code>eleventyConfig.addPassthroughCopy({
+  // Bootstrap
+  "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
+  "node_modules/bootstrap-icons/font/fonts": "css/fonts",
+
+  // Foundation
+  // "node_modules/foundation-sites/dist/js/foundation.min.js": "js/foundation.min.js",
+
+  // UIkit
+  // "node_modules/uikit/dist/js/uikit.min.js": "js/uikit.min.js",
+  // "node_modules/uikit/dist/js/uikit-icons.min.js": "js/uikit-icons.min.js",
+
+  // Bulma — CSS only, no JS passthrough needed
+});</code></pre>
+
+        <h4>Reducing bundle size</h4>
+        <p>To reduce the bundle size, open the corresponding framework file (<code>src/frontend/scss/modules/frameworks/</code>) and comment out any modules you don't need.</p>
+        <pre><code>@import "bootstrap/scss/card"; // Cards
+@import "bootstrap/scss/carousel"; // Carousel</code></pre>
+      </div>
+    </div>
+    {# JAVASCRIPT #}
+    <div id="content-javascript" class="tab-content">
+      <div class="markdown-body">
+        <h2>JavaScript</h2>
+
+        <h3>Page JS</h3>
+        <p>Each page has its own JS entry point in <code>src/frontend/js/pages/</code></p>
+        <p>It is bundled and minified by esbuild and loaded automatically by <code>base.njk</code></p>
+        <p>Import only what the page needs.</p>
+
+        <h4>examplePage.js <small>(<code>src/frontend/js/pages/</code>)</small></h4>
+        <pre><code>import { initLangSwitcher } from '../modules/langSwitcher.js';
+    import { showNotification } from '../modules/notification.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initLangSwitcher();
+    });
+
+    showNotification("Page loaded", "success", 3000);</code></pre>
+
+        <h3>Modules</h3>
+        <p>Modules live in <code>src/frontend/js/modules/</code>. Some must be called inside <code>DOMContentLoaded</code> as they interact with the DOM; others create elements dynamically and can be called anywhere.</p>
+
+        <h4>Call inside <code>DOMContentLoaded</code></h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>modules/langSwitcher.js</code></td>
+              <td><code>initLangSwitcher()</code></td>
+            </tr>
+            <tr>
+              <td><code>modules/forms/form.js</code></td>
+              <td><code>initFormListener()</code></td>
+            </tr>
+            <tr>
+              <td><code>modules/forms/textAreaAutoExpand.js</code></td>
+              <td><code>initTextAreaAutoExpand()</code></td>
+            </tr>
+            <tr>
+              <td><code>modules/forms/normalizePhoneNumber.js</code></td>
+              <td><code>initNormalizePhoneNumber()</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Call anywhere</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>modules/notification.js</code></td>
+              <td><code>showNotification(text, type, duration)</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4><code>showNotification</code> parameters</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Values</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>text</code></td>
+              <td>string</td>
+              <td>—</td>
+              <td>Any string</td>
+            </tr>
+            <tr>
+              <td><code>type</code></td>
+              <td>string</td>
+              <td><code>"info"</code></td>
+              <td><code>"success"</code>, <code>"info"</code>, <code>"error"</code></td>
+            </tr>
+            <tr>
+              <td><code>duration</code></td>
+              <td>number</td>
+              <td><code>5000</code></td>
+              <td>ms, or <code>-1</code> for persistent with spinner</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Adding a module</h3>
+        <p>Create a new <code>.js</code> file in <code>src/frontend/js/modules/</code>. You can organize them into subfolders freely.</p>
+        <p>Use ESM syntax — esbuild handles the bundling:</p>
+
+        <pre><code>// _yourModule.js
+    export function yourFunction() {
+      // ...
+    }</code></pre>
+
+        <p>Then import it in the pages that need it:</p>
+
+        <pre><code>import { yourFunction } from '../modules/yourModule.js';</code></pre>
+
+        <blockquote>⚠️ Files inside <code>_tools/</code> run directly in Node.js without a bundler — use CommonJS (<code>require</code> / <code>module.exports</code>) there, not ESM.</blockquote>
+      </div>
+    </div>
+
+    <div id="content-deployment" class="tab-content">
+      <div class="markdown-body">
+        <h2>Deployment</h2>
+        <p>Extra 2</p>
+      </div>
+    </div>
   </div>
 </div>
+
 <style>
   h1 {
     text-align: center;
@@ -45,6 +436,20 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
+  
+  /* Tabs Logic */
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .card {
     background: #0d1526;
     border: 0.8px solid #1e2d4a;
@@ -58,6 +463,7 @@
     transition:
       border-color 0.2s,
       transform 0.15s;
+    text-decoration: none;
   }
   .card:hover {
     border-color: #42b883;
@@ -72,11 +478,13 @@
     font-weight: 600;
     color: #cbd5e1;
     letter-spacing: 0.01em;
+    margin: 0;
   }
   .card p {
     font-size: 1rem;
     color: #38649b;
     line-height: 1.6;
+    margin: 0;
   }
   .card-link {
     display: flex;
@@ -86,8 +494,147 @@
     color: #42b883;
     opacity: 0.8;
     transition: opacity 0.15s;
+    margin-top: auto;
   }
   .card:hover .card-link {
     opacity: 1;
   }
+  
+  .guide-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    label {
+      cursor: pointer;
+
+      input[type="radio"] {
+        display: none;
+      }
+    }
+  }
+
+  .filter-pill {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 0.8px solid #1e2d4a;
+    background: #0d1526;
+    color: #38649b;
+    font-size: 0.9rem;
+    transition:
+      border-color 0.2s,
+      color 0.2s,
+      background 0.2s;
+    user-select: none;
+  }
+
+  .guide-filter input[type="radio"]:checked + .filter-pill {
+    border-color: #42b883;
+    color: #42b883;
+    background: rgba(66, 184, 131, 0.08);
+  }
+
+  .guide-filter label:hover .filter-pill {
+    border-color: #42b883;
+    color: #42b883;
+  }
+
+  /* Markdown Body Styles */
+  .markdown-body {
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .markdown-body h2 {
+    color: #42b883;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  .markdown-body h3 {
+    color: #cbd5e1;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+  }
+  .markdown-body h4 {
+    color: #cbd5e1;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .markdown-body h4 small {
+    color: #8da4c2;
+    font-weight: 400;
+    font-size: 0.85em;
+  }
+  .markdown-body p {
+    margin-bottom: 1rem;
+    color: #8da4c2;
+  }
+  .markdown-body pre {
+    background: #0d1526;
+    border: 0.8px solid #1e2d4a;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  .markdown-body pre code {
+    background: transparent;
+    padding: 0;
+    color: #cbd5e1;
+  }
+  .markdown-body code {
+    font-family: monospace;
+    background: rgba(66, 184, 131, 0.15);
+    color: #42b883;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .markdown-body th, .markdown-body td {
+    border: 0.8px solid #1e2d4a;
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+  .markdown-body th {
+    background: #0d1526;
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+  .markdown-body blockquote {
+    border-left: 4px solid #42b883;
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: rgba(66, 184, 131, 0.05);
+    border-radius: 0 8px 8px 0;
+    color: #a0aec0;
+  }
 </style>
+
+<script>
+  document.querySelectorAll('input[name="guide-filter"]').forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      document.querySelectorAll(".tab-content").forEach((content) => {
+        content.classList.remove("active");
+      });
+      
+      const targetId = `content-${e.target.value}`;
+      const targetContent = document.getElementById(targetId);
+      
+      if (targetContent) {
+        targetContent.classList.add("active");
+      }
+    });
+  });
+</script>
