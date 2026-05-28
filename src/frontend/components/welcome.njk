@@ -310,7 +310,7 @@ export function yourFunction() {
     "description": "Page description"
   }
 }</code></pre>
-        <p>See <a href="head-and-seo.html">head-and-seo.md</a> for all available options.</p>
+        <p>See <a href="#" class="nav-to-head-seo">Head & SEO</a> for all available options</p>
       </div>
     </div>
 
@@ -832,7 +832,16 @@ const res = await fetch('/api/posts', {
     if (assistantRadio) {
       assistantRadio.checked = true;
       assistantRadio.dispatchEvent(new Event('change'));
-      document.querySelector('.tabs-container');
+    }
+  });
+    document.querySelector('.nav-to-head-seo').addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    const headAndSeoRadio = document.querySelector('input[name="guide-filter"][value="head-seo"]');
+    
+    if (headAndSeoRadio) {
+      headAndSeoRadio.checked = true;
+      headAndSeoRadio.dispatchEvent(new Event('change'));
     }
   });
 </script>
