@@ -13,16 +13,23 @@ const COPY_TARGETS = [
     '.eleventyignore',
 ];
 
+const configExample = path.join(targetDir, 'src/backend/config.example.php');
+const configDest = path.join(targetDir, 'src/backend/config.php');
+if (fs.existsSync(configExample) && !fs.existsSync(configDest)) {
+    fs.copyFileSync(configExample, configDest);
+    fs.unlinkSync(configExample);
+}
+
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '1.0.47',
+    version: '2.0.3',
     private: true,
     scripts: {
-        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
+        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
         "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
         "build:11ty": "eleventy",
-        "build": "npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
+        "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
+        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
         "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",

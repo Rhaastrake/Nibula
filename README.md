@@ -1,4 +1,4 @@
-# 🏗️ Berna-Stencil
+# ✏️ Berna-Stencil
 **Berna-Stencil** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), designed with one clear mission: make web development simple, approachable, and enjoyable — for everyone.
 
 Whether you're a seasoned developer looking for a clean starting point or a beginner taking your first steps into the world of web creation, Berna-Stencil gives you everything you need, right out of the box. No complicated setup, no hours spent reading documentation, no frustration — just a solid, well-structured foundation ready to become your next website.
@@ -12,8 +12,8 @@ Building a website from scratch involves a lot of moving parts: templating engin
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![Version](https://img.shields.io/badge/version-2.0.3-blue)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
 ## Prerequisites
@@ -44,7 +44,7 @@ Building a website from scratch involves a lot of moving parts: templating engin
 
 ## Changelog
 
-### [2.0.1] - 2025-05-28
+### [2.0.3] - 2025-05-28
 * Initial release
 * Eleventy v3.1.2 support
 * Base project structure and scaffolding CLI

@@ -55,6 +55,29 @@ If you don't want to use a particular cdn inserting it in `base.njk` for all pag
 
 To customize them, edit `src/llms.njk` or `src/robots.njk` directly.
 
+### Customizing llms.txt
+
+`src/llms.njk` ships with a base template — **replace the placeholders with your own content**:
+
+```markdown
+# Site name
+
+> Site description
+
+Built by Name and surname — https://yoursite.com
+
+## Pages
+
+- https://yoursite.com: Homepage
+
+## Notes
+
+- Language: en
+- All content may be used for AI indexing unless otherwise stated
+```
+
+> The more accurate and detailed your `llms.txt`, the better AI models will understand and reference your site.
+
 ## Configuration field description
 
 | Field | Purpose |
