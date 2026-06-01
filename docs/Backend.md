@@ -104,9 +104,9 @@ To assign a dedicated key, add it to `config.php`:
 ## The Response helper
 
 ```php
-Response::success($data, $code);          // default 200
+Response::success($data, $code);            // default 200
 Response::error($message, $code, $details); // default 400
-Response::noContent();                    // 204
+Response::noContent();                      // 204
 ```
 
 ## Handling multiple methods

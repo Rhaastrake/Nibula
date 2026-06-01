@@ -10,11 +10,12 @@ Import only what the page needs.
 
 ### examplePage.js <small>(`src/frontend/js/pages/`)</small>
 ```js
-import { initLangSwitcher } from '../modules/langSwitcher.js';
 import { showNotification } from '../modules/notification.js';
 
+import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
+
 document.addEventListener("DOMContentLoaded", () => {
-  initLangSwitcher();
+  initNormalizePhoneNumber();
 });
 
 showNotification("Page loaded", "success", 3000);

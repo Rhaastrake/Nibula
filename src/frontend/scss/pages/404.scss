@@ -18,6 +18,11 @@
 
 // Add any custom rule specific to this page below
 // These rules override the framework and module styles
-// body {
-//     background-color: root.$primary;
-// }
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+}

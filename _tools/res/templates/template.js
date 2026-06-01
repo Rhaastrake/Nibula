@@ -5,7 +5,7 @@
 // Call anywhere
 import { showNotification } from '../modules/notification.js';
 
-// Uncomment to enable optional modules (call inside DOMContentLoaded)
+// Example of pre-existing modules
 // import { initTextAreaAutoExpand } from '../modules/forms/textAreaAutoExpand.js';
 // import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
 
@@ -14,6 +14,8 @@ import { showNotification } from '../modules/notification.js';
 //==========================
 
 document.addEventListener("DOMContentLoaded", () => {
+    // initTextAreaAutoExpand();
+    // initNormalizePhoneNumber();
 });
 
 showNotification("Example notification", "success", 3000);
