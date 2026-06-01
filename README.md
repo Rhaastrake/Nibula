@@ -12,7 +12,7 @@ Building a website from scratch involves a lot of moving parts: templating engin
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.0.3-blue)
+![Version](https://img.shields.io/badge/version-2.0.7-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -42,15 +42,7 @@ Building a website from scratch involves a lot of moving parts: templating engin
    npm run serve
    ```
 
-## Changelog
-
-### [2.0.3] - 2025-05-28
-* Initial release
-* Eleventy v3.1.2 support
-* Base project structure and scaffolding CLI
-
 ## Roadmap
 * [ ] Add support for multiple themes
-* [ ] Improve CLI with interactive prompts
-* [ ] Add TypeScript support
 * [ ] Extend documentation with advanced usage examples
+* [ ] Assistant CLI improvement for safer inputs
