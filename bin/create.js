@@ -13,23 +13,16 @@ const COPY_TARGETS = [
     '.eleventyignore',
 ];
 
-const configExample = path.join(targetDir, 'src/backend/config.example.php');
-const configDest = path.join(targetDir, 'src/backend/config.php');
-if (fs.existsSync(configExample) && !fs.existsSync(configDest)) {
-    fs.copyFileSync(configExample, configDest);
-    fs.unlinkSync(configExample);
-}
-
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '2.0.3',
+    version: '2.0.4',
     private: true,
     scripts: {
-        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
+        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
         "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
         "build:11ty": "eleventy",
         "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
+        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
         "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
@@ -56,9 +49,9 @@ const PROJECT_PACKAGE = {
 
 const GITIGNORE_CONTENT = `
 node_modules/
-src/api/core/vendor/
+src/backend/_core/vendor/
 out/
-src/api/config.php
+src/backend/config.php
 `;
 
 const { writeSync } = require('fs');
@@ -72,11 +65,23 @@ function copyRecursive(src, dest) {
     if (stat.isDirectory()) {
         fs.mkdirSync(dest, { recursive: true });
         for (const child of fs.readdirSync(src)) {
+            if (child === '.git') continue;
             copyRecursive(path.join(src, child), path.join(dest, child));
         }
     } else {
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.copyFileSync(src, dest);
+    }
+}
+
+function deleteFileRecursive(dir, filename) {
+    for (const child of fs.readdirSync(dir)) {
+        const fullPath = path.join(dir, child);
+        if (fs.statSync(fullPath).isDirectory()) {
+            deleteFileRecursive(fullPath, filename);
+        } else if (child === filename) {
+            fs.unlinkSync(fullPath);
+        }
     }
 }
 
@@ -94,6 +99,15 @@ for (const target of COPY_TARGETS) {
         log(`+ ${target}`);
     }
 }
+
+// config.php
+const configDest = path.join(targetDir, 'src/backend/config.php');
+const configExample = path.join(targetDir, 'src/backend/config.example.php');
+if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
+    fs.copyFileSync(configExample, configDest);
+    log('+ src/backend/config.php');
+}
+deleteFileRecursive(targetDir, 'config.example.php');
 
 fs.writeFileSync(
     path.join(targetDir, 'package.json'),
