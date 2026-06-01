@@ -5,12 +5,14 @@
 // Getting root rules from _root.scss
 @use 'root' as root;
 
+// Frameworks imports
 @import "../modules/frameworks/bootstrap";
 // @import "../modules/frameworks/bulma";
 // @import "../modules/frameworks/foundation";
 // @import "../modules/frameworks/uikit";
 
 
+// Modules imports
 @import "typography";
 
 @import "header";
@@ -20,6 +22,10 @@
 @import "mobile";
 
 @import "buttons";
+
+//==========================
+// Global css rules for the entire site
+//==========================
 
 *,
 *::before,

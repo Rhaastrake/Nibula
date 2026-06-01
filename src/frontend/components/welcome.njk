@@ -41,19 +41,6 @@
     
     <div id="content-welcome" class="tab-content active">
       <div class="grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="https://bernastencil.com" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
-          <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-          </svg>
-          <h3>Documentation</h3>
-          <p>Everything you need to get started, from setup to advanced topics and customizations</p>
-          <span class="card-link">Go to documentation 
-            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-left:4px;">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-            </svg>
-          </span>
-        </a>
         <a href="https://github.com/rhaastrake/berna-stencil" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
           <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -61,6 +48,19 @@
           <h3>Github repository</h3>
           <p>Community-driven. Contributions, issues and PRs are welcome.</p>
           <span class="card-link">Open the repository 
+            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-left:4px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/Rhaastrake/Berna-Stencil/tree/main/docs" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
+          <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          <h3>Documentation</h3>
+          <p>Everything you need to get started, from setup to advanced topics and customizations</p>
+          <span class="card-link">Go to documentation 
             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-left:4px;">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
@@ -237,13 +237,13 @@ body {
         <h4>examplePage.js <small>(<code>src/frontend/js/pages/</code>)</small></h4>
         <pre><code class="language-js">import { showNotification } from '../modules/notification.js';
 
-      import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
+import { initNormalizePhoneNumber } from '../modules/forms/normalizePhoneNumber.js';
 
-      document.addEventListener("DOMContentLoaded", () => {
-        initNormalizePhoneNumber();
-      });
+document.addEventListener("DOMContentLoaded", () => {
+  initNormalizePhoneNumber();
+});
 
-      showNotification("Page loaded", "success", 3000);</code></pre>
+showNotification("Page loaded", "success", 3000);</code></pre>
 
         <h2>Modules</h2>
         <p>Modules live in <code>src/frontend/js/modules/</code>. Some must be called inside <code>DOMContentLoaded</code> as they interact with the DOM; others create elements dynamically and can be called anywhere.</p>
@@ -287,10 +287,11 @@ body {
         <p>Create a new <code>.js</code> file in <code>src/frontend/js/modules/</code>. You can organize them into subfolders freely.</p>
         <p>Use ESM syntax — esbuild handles the bundling:</p>
 
-        <pre><code class="language-js">// _yourModule.js
-      export function yourFunction() {
-        // ...
-      }</code></pre>
+        <h4>yourModule.js <small>(<code>src/frontend/js/modules/</code>)</small></h4>
+        <pre><code class="language-js">
+export function yourFunction() {
+  // ...
+}</code></pre>
 
         <p>Then import it in the pages that need it:</p>
 
@@ -403,17 +404,17 @@ body {
         
         <h3>site.json <small>(<code>src/frontend/data/</code>)</small></h3>
         <pre><code>"site_name": "Site name",
-      "title": "Site title",
-      "description": "Site description",
-      "keywords": "keyword1, keyword2, keyword3",
-      "domain": "yoursite.com",
-      "url": "https://yoursite.com",
-      "lang": "en",
-      "author": "Name and surname",
-      "data_bs_theme": "dark",
-      "favicon": "/assets/brand/favicon.svg",
-      "logo": "/assets/brand/logo.svg",
-      ...</code></pre>
+"title": "Site title",
+"description": "Site description",
+"keywords": "keyword1, keyword2, keyword3",
+"domain": "yoursite.com",
+"url": "https://yoursite.com",
+"lang": "en",
+"author": "Name and surname",
+"data_bs_theme": "dark",
+"favicon": "/assets/brand/favicon.svg",
+"logo": "/assets/brand/logo.svg",
+...</code></pre>
 
         <h2>Per-page SEO and CDN</h2>
         <p>Each page entry is keyed by its camelCase <code>title</code> from the front matter:</p>
@@ -421,20 +422,20 @@ body {
         
         <h3>site.json <small>(<code>src/frontend/data/</code>)</small></h3>
         <pre><code>"pages": {
-          ...
-          "examplePage": {
-            "seo": {
-              "title": "Example Page",
-              "description": "description"
-            },
-            "cdn": {
-              // You can leave the [] empty
-              "css": ["https://example1.com/lib.min.css", "https://example2.com/lib.min.css"],
-              "js": ["https://example1.com/lib.min.js", "https://example2.com/lib.min.js"]
-            }
-          }
-          ...
-      }</code></pre>
+  ...
+  "examplePage": {
+    "seo": {
+      "title": "Example Page",
+      "description": "description"
+    },
+    "cdn": {
+      // You can leave the [] empty
+      "css": ["https://example1.com/lib.min.css", "https://example2.com/lib.min.css"],
+      "js": ["https://example1.com/lib.min.js", "https://example2.com/lib.min.js"]
+    }
+  }
+  ...
+}</code></pre>
 
         <h2>AI & SEO bots</h2>
         <p><code>llms.txt</code> and <code>robots.txt</code> are generated automatically from <code>site.json</code> via their respective <code>.njk</code> files — no manual editing needed.</p>
@@ -454,20 +455,21 @@ body {
         <h3>Customizing llms.txt</h3>
         <p><code>src/llms.njk</code> ships with a base template — <strong>replace the placeholders with your own content</strong>:</p>
 
-        <pre><code># Site name
+        <pre><code>{% raw %}# {{ site.site_name }}
 
-      > Site description
+> {{ site.description }}
 
-      Built by Name and surname — https://yoursite.com
+Built by {{ site.author }} — {{ site.url }}
 
-      ## Pages
+## Pages
 
-      - https://yoursite.com: Homepage
+- {{ site.url }}: Homepage
 
-      ## Notes
+## Notes
 
-      - Language: en
-      - All content may be used for AI indexing unless otherwise stated</code></pre>
+- Language: {{ site.lang }}
+- All content may be used for AI indexing unless otherwise stated
+{% endraw %}</code></pre>
 
         <blockquote>The more accurate and detailed your <code>llms.txt</code>, the better AI models will understand and reference your site.</blockquote>
 
@@ -494,52 +496,72 @@ body {
 
     <div id="content-backend" class="tab-content">
       <div class="markdown-body">
-        <h2>Backend</h2>
-        <p>The backend is a PHP REST API located in <code>src/backend/</code>, copied to the output directory automatically at build time.</p>
-        <h3>Structure</h3>
-        <pre><code>src/backend/
-├── api/
-│   ├── public/     # Endpoints accessible without an API key
-│   └── protected/    # Endpoints requiring X-Api-Key header
-├── database/
-│   ├── Database.php
-│   ├── models/
-│   └── migrations/
-├── config.php        # Your local config — never commit this
-└── config.example.php</code></pre>
-        <h3>Configuration</h3>
-        <p><code>config.php</code> works like a <code>.env</code> file — it holds secrets and environment settings that stay local and out of version control.</p>
-        <p>Copy <code>config.example.php</code> to <code>config.php</code> and fill in your values:</p>
-        <h4>config.php <small>(<code>src/backend/</code>)</small></h4>
-        <pre><code>return [
-    'APP_ENV' => 'development', // or 'production'
-    'API_KEY' => 'your-default-key',
+          <h2>Backend</h2>
+          <p>The backend is a PHP REST API located in <code>src/backend/</code>, copied to the output directory automatically at build time.</p>
 
-    'ENDPOINT_KEYS' => [
-        'subfolder/example-protected' => 'specific-key',
-    ],
+          <h3>Structure</h3>
+          <pre><code>src/backend/
+  ├── api/
+  │   ├── public/       # Endpoints accessible without an API key
+  │   └── protected/    # Endpoints requiring X-Api-Key header
+  ├── database/
+  │   ├── Database.php
+  │   ├── models/
+  │   └── migrations/
+  ├── config.php        # Your local config — never commit this
+  └── config.example.php</code></pre>
 
-    'DB_HOST' => '127.0.0.1',
-    'DB_NAME' => 'example_db',
-    'DB_USER' => 'root',
-    'DB_PASS' => '',
+          <h3>Configuration</h3>
+          <p><code>config.php</code> works like a <code>.env</code> file — it holds secrets and environment settings that stay local and out of version control.</p>
+          <p>Copy <code>config.example.php</code> to <code>config.php</code> and fill in your values:</p>
+
+          <h4>config.php <small>(<code>src/backend/</code>)</small></h4>
+          <pre><code class="language-php">return [
+  // Default key for protected endpoints that don't have a specific key in ENDPOINT_KEYS
+  'API_KEY' =&gt; 'default-key',
+
+  // If you want restrict access to protected endpoints to specific clients, you can define custom keys for each endpoint
+  // For subfolder endpoints, use the relative path ('subfolder/endpoint')
+  'ENDPOINT_KEYS' =&gt; [
+      'example-protected' =&gt; 'custom-key',
+  ],
+
+  'DB_HOST' =&gt; '127.0.0.1',
+  'DB_NAME' =&gt; 'example_db',
+  'DB_USER' =&gt; 'root',
+  'DB_PASS' =&gt; '',
 ];</code></pre>
-        <p><code>API_KEY</code> is the fallback key for all protected endpoints. Use <code>ENDPOINT_KEYS</code> to assign a different key to a specific endpoint — for subfolder endpoints, use the relative path as the key.</p>
-        <h3>How routing works</h3>
-        <p>The file path inside <code>api/</code> maps directly to the URL. Extra URL segments become route parameters available as <code>$requestParams[]</code>.</p>
-        <p>Every endpoint file has access to:</p>
-        <table>
-          <thead>
-            <tr><th>Variable</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>$method</code></td><td>HTTP method (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>)</td></tr>
-            <tr><td><code>$requestParams</code></td><td>Extra URL segments (e.g. <code>/api/posts/42</code> → <code>['42']</code>)</td></tr>
-          </tbody>
-        </table>
-        <h3>Creating a public endpoint</h3>
-        <p>Create a <code>.php</code> file anywhere inside <code>api/public/</code></p>
-        <pre><code>&lt;?php
+
+          <p><code>API_KEY</code> is the fallback key for all protected endpoints. Use <code>ENDPOINT_KEYS</code> to assign a different key to a specific endpoint — for subfolder endpoints, use the relative path as the key.</p>
+
+          <h3>How routing works</h3>
+          <p>The file path inside <code>api/</code> maps directly to the URL. Extra URL segments become route parameters available as <code>$requestParams[]</code>.</p>
+          <p>Every endpoint file has access to:</p>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><code>$method</code></td>
+                      <td>HTTP method (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>)</td>
+                  </tr>
+                  <tr>
+                      <td><code>$requestParams</code></td>
+                      <td>Extra URL segments (e.g. <code>/api/posts/42</code> → <code>['42']</code>)</td>
+                  </tr>
+              </tbody>
+          </table>
+
+          <h3>Creating a public endpoint</h3>
+          <p>Create a <code>.php</code> file anywhere inside <code>api/public/</code></p>
+
+          <h4>api/public/example.php</h4>
+          <pre><code class="language-php">&lt;?php
 declare(strict_types=1);
 
 require_once CORE_PATH . '/modules/Response.php';
@@ -550,11 +572,13 @@ if ($method !== 'GET') {
 
 $id = isset($requestParams[0]) ? (int)$requestParams[0] : null;
 
-Response::success(['id' => $id]);</code></pre>
-        <p>Reachable at <code>/api/posts</code> or <code>/api/posts/42</code></p>
-        <h3>Creating a protected endpoint</h3>
-        <p>Create a <code>.php</code> file inside <code>api/protected/</code>. The API key check happens automatically before your file runs.</p>
-        <pre><code>&lt;?php
+Response::success(['id' =&gt; $id]);</code></pre>
+
+          <h3>Creating a protected endpoint</h3>
+          <p>Create a <code>.php</code> file inside <code>api/protected/</code>. The API key check happens automatically before your file runs.</p>
+
+          <h4>api/protected/example.php</h4>
+          <pre><code class="language-php">&lt;?php
 declare(strict_types=1);
 
 require_once CORE_PATH . '/modules/Response.php';
@@ -563,101 +587,40 @@ if ($method !== 'GET') {
     Response::error('Method not allowed', 405);
 }
 
-Response::success(['visits' => 1024]);</code></pre>
-        <p>To assign a dedicated key, add it to <code>config.php</code>:</p>
-        <pre><code>'ENDPOINT_KEYS' => [
-    'admin/stats' => 'secret-stats-key',
+Response::success(['visits' =&gt; 1024]);</code></pre>
+
+          <p>To assign a dedicated key, add it to <code>config.php</code>:</p>
+          <pre><code class="language-php">'ENDPOINT_KEYS' =&gt; [
+  'endpoint' =&gt; 'custom-key',
 ],</code></pre>
-        <h3>The Response helper</h3>
-        <pre><code>Response::success($data, $code);            // default 200
+
+          <h3>The Response helper</h3>
+          <pre><code class="language-php">Response::success($data, $code);            // default 200
 Response::error($message, $code, $details); // default 400
 Response::noContent();                      // 204</code></pre>
-        <h3>Handling multiple methods</h3>
-        <pre><code>$id   = isset($requestParams[0]) ? (int)$requestParams[0] : null;
-$input = json_decode(file_get_contents('php://input'), true) ?? [];
 
-switch ($method) {
-    case 'GET':
-        Response::success(['id' => $id]);
-        break;
-
-    case 'POST':
-        if (empty($input['title'])) Response::error('Missing title', 400);
-        Response::success(['message' => 'Created'], 201);
-        break;
-
-    case 'DELETE':
-        if (!$id) Response::error('ID required', 400);
-        Response::success(['message' => 'Deleted']);
-        break;
-
-    default:
-        Response::error('Method not allowed', 405);
-}</code></pre>
-        <h3>Using the database</h3>
-        <h4>database/models/Post.php</h4>
-        <pre><code>&lt;?php
-declare(strict_types=1);
-
-require_once __DIR__ . '/../Database.php';
-
-class Post {
-    private PDO $db;
-
-    public function __construct() {
-        $this->db = Database::getInstance();
-    }
-
-    public function getAll(): array {
-        return $this->db->query("SELECT * FROM posts")->fetchAll();
-    }
-
-    public function getById(int $id): ?array {
-        $stmt = $this->db->prepare("SELECT * FROM posts WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch() ?: null;
-    }
-
-    public function create(string $title): int {
-        $stmt = $this->db->prepare("INSERT INTO posts (title) VALUES (:title)");
-        $stmt->execute(['title' => htmlspecialchars(strip_tags(trim($title)))]);
-        return (int)$this->db->lastInsertId();
-    }
-}</code></pre>
-        <p>Then use it inside an endpoint:</p>
-        <pre><code>require_once __DIR__ . '/../../database/models/Post.php';
-
-$post = new Post();
-Response::success($post->getAll());</code></pre>
-        <p>Migrations live in <code>database/migrations/</code> as plain SQL files — run them manually against your database.</p>
-        <h3>Calling endpoints from the frontend</h3>
-        <pre><code>// Public
-const res = await fetch('/api/posts/42');
-
-// Protected
-const res = await fetch('/api/admin/stats', {
-    headers: { 'X-Api-Key': 'secret-stats-key' }
-});
-
-// POST
-const res = await fetch('/api/posts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Api-Key': 'your-key' },
-    body: JSON.stringify({ title: 'Hello world' })
-});</code></pre>
-        <h3>Pre-built endpoints</h3>
-        <table>
-          <thead>
-            <tr><th>Route</th><th>Auth</th><th>Methods</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>/api/example-public</code></td><td>No</td><td><code>GET</code></td><td>Smoke test for public routing</td></tr>
-            <tr><td><code>/api/subfolder/example-protected</code></td><td>Yes</td><td><code>GET</code></td><td>Smoke test for protected routing</td></tr>
-            <tr><td><code>/api/auth/register</code></td><td>No</td><td><code>POST</code></td><td>Register a new user</td></tr>
-            <tr><td><code>/api/auth/login</code></td><td>No</td><td><code>POST</code></td><td>Login and retrieve user data</td></tr>
-            <tr><td><code>/api/auth-system</code></td><td>Yes</td><td><code>GET POST PUT PATCH DELETE</code></td><td>Full CRUD on users</td></tr>
-          </tbody>
-        </table>
+          <h3>Pre-built endpoints</h3>
+          <table>
+              <thead>
+                  <tr>
+                      <th>Route</th>
+                      <th>Method</th>
+                      <th>Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><code>/api/example-public</code></td>
+                      <td><code>GET</code></td>
+                      <td>Example endpoint that doesn't require any key</td>
+                  </tr>
+                  <tr>
+                      <td><code>/api/example-protected</code></td>
+                      <td><code>GET</code></td>
+                      <td>Example endpoint that requires X-API-KEY</td>
+                  </tr>
+              </tbody>
+          </table>
       </div>
     </div>
   </div>

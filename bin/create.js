@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 
 const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 const templateDir = path.join(__dirname, '..');
@@ -15,7 +16,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '2.0.5',
+    version: '2.0.6',
     private: true,
     scripts: {
         "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
@@ -54,10 +55,61 @@ out/
 src/backend/config.php
 `;
 
+// Framework configurations
+const FRAMEWORKS = {
+    bootstrap: {
+        label: 'Bootstrap',
+        scss: 'bootstrap',
+        njk: [
+            '<script src="/js/bootstrap.bundle.min.js" defer></script>',
+        ],
+        eleventy: [
+            '"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",',
+            '"node_modules/bootstrap-icons/font/fonts": "css/fonts",',
+        ],
+    },
+    bulma: {
+        label: 'Bulma',
+        scss: 'bulma',
+        njk: [],
+        eleventy: [],
+    },
+    foundation: {
+        label: 'Foundation',
+        scss: 'foundation',
+        njk: ['<script src="/js/foundation.min.js" defer></script>'],
+        eleventy: ['"node_modules/foundation-sites/dist/js/foundation.min.js": "js/foundation.min.js",'],
+    },
+    uikit: {
+        label: 'UIkit',
+        scss: 'uikit',
+        njk: [
+            '<script src="/js/uikit.min.js" defer></script>',
+            '<script src="/js/uikit-icons.min.js" defer></script>',
+        ],
+        eleventy: [
+            '"node_modules/uikit/dist/js/uikit.min.js": "js/uikit.min.js",',
+            '"node_modules/uikit/dist/js/uikit-icons.min.js": "js/uikit-icons.min.js",',
+        ],
+    },
+    none: {
+        label: 'None',
+        scss: null,
+        njk: [],
+        eleventy: [],
+    },
+};
+
+const ALL_FRAMEWORKS = ['bootstrap', 'bulma', 'foundation', 'uikit'];
+
 const { writeSync } = require('fs');
 
 function log(msg) {
     writeSync(1, msg + '\n');
+}
+
+function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function copyRecursive(src, dest) {
@@ -85,45 +137,171 @@ function deleteFileRecursive(dir, filename) {
     }
 }
 
-if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
+function slashComment(content, line) {
+    content = content.replace(new RegExp(`^([ \\t]*)// (${escapeRegex(line)})$`, 'gm'), '$1$2');
+    return content.replace(new RegExp(`^([ \\t]*)(${escapeRegex(line)})$`, 'gm'), '$1// $2');
 }
 
-log(`\n>> Creating berna-stencil project in ${targetDir}\n`);
+function slashUncomment(content, line) {
+    return content.replace(new RegExp(`^([ \\t]*)// (${escapeRegex(line)})$`, 'gm'), '$1$2');
+}
 
-for (const target of COPY_TARGETS) {
-    const src = path.join(templateDir, target);
-    const dest = path.join(targetDir, target);
-    if (fs.existsSync(src)) {
-        copyRecursive(src, dest);
-        log(`+ ${target}`);
+function njkComment(content, line) {
+    content = content.split(`{# ${line} #}`).join(line);
+    return content.split(line).join(`{# ${line} #}`);
+}
+
+function njkUncomment(content, line) {
+    return content.split(`{# ${line} #}`).join(line);
+}
+
+function applyFramework(framework) {
+    const config = FRAMEWORKS[framework];
+
+    const globalScssPath = path.join(targetDir, 'src/frontend/scss/modules/_global.scss');
+    if (fs.existsSync(globalScssPath)) {
+        let content = fs.readFileSync(globalScssPath, 'utf8');
+        ALL_FRAMEWORKS.forEach(fw => {
+            content = slashComment(content, `@import "../modules/frameworks/${fw}";`);
+        });
+        if (config.scss) {
+            content = slashUncomment(content, `@import "../modules/frameworks/${config.scss}";`);
+        }
+        fs.writeFileSync(globalScssPath, content);
+    }
+
+    const baseNjkPath = path.join(targetDir, 'src/frontend/components/layouts/base.njk');
+    if (fs.existsSync(baseNjkPath)) {
+        let content = fs.readFileSync(baseNjkPath, 'utf8');
+        ALL_FRAMEWORKS.forEach(fw => {
+            FRAMEWORKS[fw].njk.forEach(line => {
+                content = njkComment(content, line);
+            });
+        });
+        config.njk.forEach(line => {
+            content = njkUncomment(content, line);
+        });
+        fs.writeFileSync(baseNjkPath, content);
+    }
+
+    const eleventyPath = path.join(targetDir, '.eleventy.js');
+    if (fs.existsSync(eleventyPath)) {
+        let content = fs.readFileSync(eleventyPath, 'utf8');
+        ALL_FRAMEWORKS.forEach(fw => {
+            FRAMEWORKS[fw].eleventy.forEach(line => {
+                content = slashComment(content, line);
+            });
+        });
+        config.eleventy.forEach(line => {
+            content = slashUncomment(content, line);
+        });
+        fs.writeFileSync(eleventyPath, content);
     }
 }
 
-// config.php
-const configDest = path.join(targetDir, 'src/backend/config.php');
-const configExample = path.join(targetDir, 'src/backend/config.example.php');
-if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
-    fs.copyFileSync(configExample, configDest);
-    log('+ src/backend/config.php');
+function askFramework() {
+    return new Promise((resolve) => {
+        const choices = [
+            { label: 'Bootstrap', value: 'bootstrap' },
+            { label: 'Bulma', value: 'bulma' },
+            { label: 'Foundation', value: 'foundation' },
+            { label: 'UIkit', value: 'uikit' },
+            { label: 'None', value: 'none' }
+        ];
+        let selectedIndex = 0;
+
+        log('\n>> Select a CSS framework (Use arrow keys and press Enter):\n');
+
+        const render = (firstTime = false) => {
+            if (!firstTime) {
+                process.stdout.write(`\x1B[${choices.length}A`);
+            }
+            let output = '';
+            choices.forEach((choice, index) => {
+                if (index === selectedIndex) {
+                    output += `  \x1b[36m◉ ${choice.label}\x1b[0m\x1B[K\n`;
+                } else {
+                    output += `  * ${choice.label}\x1B[K\n`;
+                }
+            });
+            process.stdout.write(output);
+        };
+
+        readline.emitKeypressEvents(process.stdin);
+        if (process.stdin.isTTY) {
+            process.stdin.setRawMode(true);
+        }
+        process.stdin.resume();
+
+        const onKeyPress = (str, key) => {
+            if (key.ctrl && key.name === 'c') {
+                process.exit();
+            } else if (key.name === 'up') {
+                selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : choices.length - 1;
+                render();
+            } else if (key.name === 'down') {
+                selectedIndex = selectedIndex < choices.length - 1 ? selectedIndex + 1 : 0;
+                render();
+            } else if (key.name === 'return' || key.name === 'enter') {
+                process.stdin.removeListener('keypress', onKeyPress);
+                if (process.stdin.isTTY) {
+                    process.stdin.setRawMode(false);
+                }
+                process.stdin.pause();
+                resolve(choices[selectedIndex].value);
+            }
+        };
+
+        process.stdin.on('keypress', onKeyPress);
+        render(true);
+    });
 }
-deleteFileRecursive(targetDir, 'config.example.php');
 
-fs.writeFileSync(
-    path.join(targetDir, 'package.json'),
-    JSON.stringify(PROJECT_PACKAGE, null, 2)
-);
-log('+ package.json');
+async function init() {
+    if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+    }
 
-fs.writeFileSync(
-    path.join(targetDir, '.gitignore'),
-    GITIGNORE_CONTENT
-);
-log('+ .gitignore');
+    log(`\n>> Creating berna-stencil project in ${targetDir}\n`);
 
-log(`\n>> Done! Now run:\n`);
-if (process.argv[2]) {
-    log(`cd ${process.argv[2]}`);
+    for (const target of COPY_TARGETS) {
+        const src = path.join(templateDir, target);
+        const dest = path.join(targetDir, target);
+        if (fs.existsSync(src)) {
+            copyRecursive(src, dest);
+            log(`+ ${target}`);
+        }
+    }
+
+    const configDest = path.join(targetDir, 'src/backend/config.php');
+    const configExample = path.join(targetDir, 'src/backend/config.example.php');
+    if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
+        fs.copyFileSync(configExample, configDest);
+        log('+ src/backend/config.php');
+    }
+    deleteFileRecursive(targetDir, 'config.example.php');
+
+    fs.writeFileSync(
+        path.join(targetDir, 'package.json'),
+        JSON.stringify(PROJECT_PACKAGE, null, 2)
+    );
+    log('+ package.json');
+
+    fs.writeFileSync(
+        path.join(targetDir, '.gitignore'),
+        GITIGNORE_CONTENT
+    );
+    log('+ .gitignore');
+
+    const framework = await askFramework();
+    applyFramework(framework);
+
+    log(`\n>> Done! Now run:\n`);
+    if (process.argv[2]) {
+        log(`cd ${process.argv[2]}`);
+    }
+    log('npm install');
+    log('npm run serve\n');
 }
-log('npm install');
-log('npm run serve\n');
+
+init();
