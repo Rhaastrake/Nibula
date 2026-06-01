@@ -1,9 +1,9 @@
 # Creating Pages
 
-The recommended way is via the [Assistant CLI](assistant-cli.md).
+The recommended way is via the **Assistant CLI**
 
 ## What gets created
-
++
 For a page named `my-page`:
 
 | File | Purpose |
@@ -41,4 +41,4 @@ The CLI creates a stub entry in `src/data/site.json`. Fill it in:
 }
 ```
 
-See [head-and-seo.md](head-and-seo.md) for all available options.
+See **Head & SEO** for all available options.

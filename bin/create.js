@@ -16,7 +16,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '2.0.7',
+    version: '2.0.8',
     private: true,
     scripts: {
         "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
@@ -202,7 +202,7 @@ function applyFramework(framework) {
 function askFramework() {
     return new Promise((resolve) => {
         const choices = [
-            { label: 'Bootstrap', value: 'bootstrap' },
+            { label: 'Bootstrap (default)', value: 'bootstrap' },
             { label: 'Bulma', value: 'bulma' },
             { label: 'Foundation', value: 'foundation' },
             { label: 'UIkit', value: 'uikit' },

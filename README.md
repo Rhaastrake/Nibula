@@ -12,13 +12,14 @@ Building a website from scratch involves a lot of moving parts: templating engin
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.0.7-blue)
+![Version](https://img.shields.io/badge/version-2.0.8-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
 ## Prerequisites
 * **Node.js**: v18.0.0 or higher
 * **Composer**: latest stable version
+* #### Optional: Better Nunjucks VS Code extension by Ed Heltzel
 
 ## Installation
 * Open your IDE (e.g. Visual Studio Code), open the folder that contains your websites and open a new terminal

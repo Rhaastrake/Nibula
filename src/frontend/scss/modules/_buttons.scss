@@ -10,8 +10,14 @@
   border-radius: 12px;
   padding: 8px 20px;
   transition: background 0.2s, color 0.2s;
-}
-.btn:hover {
-  background: #42b883;
-  color: #353535;
+
+  &:hover {
+    background: #42b883;
+    color: #353535;
+  }
+
+  &:active {
+    background: #42b883 !important;
+    color: #353535 !important;
+  }
 }

@@ -59,21 +59,21 @@ To customize them, edit `src/llms.njk` or `src/robots.njk` directly.
 
 `src/llms.njk` ships with a base template — **replace the placeholders with your own content**:
 
-```markdown
-# Site name
+```
+# {{ site.site_name }}
 
-> Site description
+> {{ site.description }}
 
-Built by Name and surname — https://yoursite.com
+Built by {{ site.author }} — {{ site.url }}
 
 ## Pages
 
-- https://yoursite.com: Homepage
+- {{ site.url }}: Homepage
 
 ## Notes
 
-- Language: en
-- All content may be used for AI indexing unless otherwise stated
+- Language: {{ site.lang }}
+- All content may be used for AI inde   xing unless otherwise stated
 ```
 
 > The more accurate and detailed your `llms.txt`, the better AI models will understand and reference your site.

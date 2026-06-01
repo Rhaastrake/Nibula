@@ -1,5 +1,4 @@
 <footer>
-  <div class="footer-top">
     <div>
       <h6>{{ site.title }}</h6>
       <p>{{ site.description }}</p>
@@ -11,16 +10,18 @@
         <li><a href="/">Homepage</a></li>
       </ul>
     </div>
-  </div>
-
-  <hr />
-
-  <div class="footer-bottom">
-    <p>&copy; {{ site.copyright.year }} {{ site.name }} {{ site.copyright.text }}.</p>
-    <small>
-      <a href="{{ site.legal.privacy }}">Privacy Policy</a>
-      <a href="{{ site.legal.cookie }}">Cookie Policy</a>
-      <a href="{{ site.legal.terms }}">Terms and conditions</a>
-    </small>
+    <div>
+      &copy; {{ site.copyright.year }} {{ site.name }} {{ site.copyright.text }}
+    </div>
+    <div>
+      <h6>Legal</h6>
+      <small>
+        <ul>
+          <li><a href="{{ site.legal.privacy }}">Privacy Policy</a></li>
+          <li><a href="{{ site.legal.cookie }}">Cookie Policy</a></li>
+          <li><a href="{{ site.legal.terms }}">Terms and conditions</a></li>
+        </ul>
+      </small>
+    </div>
   </div>
 </footer>
