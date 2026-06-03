@@ -1,6 +1,7 @@
 const esbuild = require("esbuild");
 const glob = require("glob");
 const Image = require("@11ty/eleventy-img");
+const markdownIt = require('markdown-it');
 const fs = require("fs");
 const path = require("path");
 
@@ -9,32 +10,50 @@ const OUTPUT_DIR = "out";
 module.exports = function (eleventyConfig) {
 
   function copyRecursiveSync(src, dest) {
-  if (!fs.existsSync(src)) return;
-  if (src.includes('.git')) return;
-  const stat = fs.statSync(src);
-  if (stat.isDirectory()) {
-    fs.mkdirSync(dest, { recursive: true });
-    for (const child of fs.readdirSync(src)) {
-      copyRecursiveSync(path.join(src, child), path.join(dest, child));
+    if (!fs.existsSync(src)) return;
+    if (src.includes('.git')) return;
+    const stat = fs.statSync(src);
+    if (stat.isDirectory()) {
+      fs.mkdirSync(dest, { recursive: true });
+      for (const child of fs.readdirSync(src)) {
+        copyRecursiveSync(path.join(src, child), path.join(dest, child));
+      }
+    } else {
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.copyFileSync(src, dest);
     }
-  } else {
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.copyFileSync(src, dest);
   }
-}
+
+  // =====================================================
+  // SHORTCODE — Markdown file renderer
+  // =====================================================
+  const md = markdownIt({ html: true });
+
+  eleventyConfig.addShortcode('mdFile', function(filePath) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return md.render(content);
+  });
+
+  // =====================================================
+  // SHORTCODE — Markdown css
+  // =====================================================
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/github-markdown-css/github-markdown-dark.css": "css/github-markdown-dark.css",
+    "node_modules/github-markdown-css/github-markdown-light.css": "css/github-markdown-light.css",
+  });
 
   // =====================================================
   // ESBUILD — Bundles and minifies JS files before build
   // =====================================================
   eleventyConfig.on("eleventy.before", async () => {
-      const entryPoints = glob.sync("src/frontend/js/pages/*.js");
-      await esbuild.build({
-        entryPoints,
-        bundle: true,
-        outdir: `${OUTPUT_DIR}/js/pages`,
-        minify: true,
-      });
-      copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
+    const entryPoints = glob.sync("src/frontend/js/pages/*.js");
+    await esbuild.build({
+      entryPoints,
+      bundle: true,
+      outdir: `${OUTPUT_DIR}/js/pages`,
+      minify: true,
+    });
+    copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
 
   // =====================================================

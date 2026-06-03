@@ -1,4 +1,4 @@
-<!-- This is the base of everypage that you will create -->
+<!-- This is the base of every page that you will create -->
 
 <!DOCTYPE html>
 <html lang="{{ site.lang or 'en' }}" data-bs-theme="{{ site.data_bs_theme or 'light' }}">
@@ -7,19 +7,28 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Page Data based on Page Title -->
+        {# Preconnect hints — establish early connections to external origins #}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+      {#╔══════════════════╗
+        ║    PAGE DATA     ║
+        ╚══════════════════╝#}
+
         {% set pageKey = title %}
         {% set pageData = site.pages[pageKey] %}
 
-        <!-- SEO Meta Tags -->
+      {#╔══════════════════╗
+        ║       SEO        ║
+        ╚══════════════════╝#}
+
         <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
         <title>{{ pageData.seo.title or title or site.title }}</title>
         <meta name="description" content="{{ pageData.seo.description or site.description }}">
         <meta name="keywords" content="{{ site.keywords }}">
         <meta name="author" content="{{ site.author }}">
-        <meta name="theme-color" content="" >
+        <meta name="theme-color" content="">
 
-        <!-- Open Graph -->
+        {# Open Graph #}
         <meta property="og:title" content="{{ pageData.seo.title }}">
         <meta property="og:description" content="{{ pageData.seo.description }}">
         <meta property="og:type" content="website">
@@ -27,15 +36,16 @@
         <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
         <meta property="og:site-name" content="{{ site.site-name }}">
 
-        <!-- Twitter Card -->
+        {# Twitter Card #}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="{{ pageData.seo.title }}">
         <meta name="twitter:description" content="{{ pageData.seo.description }}">
         <meta name="twitter:image" content="{{ site.url }}{{ site.logo }}">
 
-        <!-- ========================================== -->
-        <!-- JSON-LD / Structured data for SEO and AI   -->
-        <!-- ========================================== -->
+      {#╔══════════════════════════════════════════╗
+        ║   JSON-LD — Structured data for SEO/AI  ║
+        ╚══════════════════════════════════════════╝#}
+
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -58,67 +68,70 @@
         }
         </script>
 
-        <!-- Favicon -->
+      {#╔══════════════════╗
+        ║     FAVICON      ║
+        ╚══════════════════╝#}
+
         <link rel="icon" type="image/svg+xml" href="{{ site.favicon }}">
-        <!-- (If you want to use a PNG favicon) -->
         {#
         <link rel="icon" type="image/png" href="/assets/favicon.png">
         <link rel="apple-touch-icon" href="/assets/favicon.png">
         #}
 
-        <!-- CSS -->
-        {# preconnect to jsdelivr — only needed if loading scripts from CDN #}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin data-iub-purposes="1" data-cmp-ab="1">
-        <link rel="stylesheet" href="/css/pages/{{ title }}.css" />
-        
+      {#╔══════════════════╗
+        ║       CSS        ║
+        ╚══════════════════╝#}
+
+        {# Markdown — theme-aware #}
+        {% if site.data_bs_theme == "dark" %}
+        <link rel="stylesheet" href="/css/github-markdown-dark.css">
+        {% else %}
+        <link rel="stylesheet" href="/css/github-markdown-light.css">
+        {% endif %}
+
+        {# Page CSS #}
+        <link rel="stylesheet" href="/css/pages/{{ title }}.css"/>
+
+        {# Per-page CDN CSS #}
         {% if pageData and pageData.cdn and pageData.cdn.css %}
             {% for link in pageData.cdn.css %}
                 <link rel="stylesheet" href="{{ link }}">
             {% endfor %}
         {% endif %}
+
     </head>
 
     <body>
-        <!-- Header -->
+
         {% include "global/header.njk" %}
 
-        <!-- Main -->
         <main>
             {{ content | safe }}
         </main>
 
-        <!-- Footer -->
         {% include "global/footer.njk" %}
 
-        <!-- SCRIPTS -->
+      {#╔══════════════════╗
+        ║     SCRIPTS      ║
+        ╚══════════════════╝#}
 
-        {#
-        ╔═══════════════════════════════════════════╗
-        ║              FRAMEWORK SCRIPTS            ║
-        ║  Uncomment the framework JS you are using ║
-        ║  Bulma requires no JS — CSS only          ║
-        ╚═══════════════════════════════════════════╝
-        #}
-
-        {# Bootstrap JS — comment out if using Bulma or Foundation #}
+        {# Framework — uncomment the one you are using #}
         <script src="/js/bootstrap.bundle.min.js" defer></script>
-
-        {# Foundation JS — uncomment if using Foundation #}
         {# <script src="/js/foundation.min.js" defer></script> #}
-
-        {# UIkit JS — uncomment if using UIkit #}
         {# <script src="/js/uikit.min.js" defer></script> #}
         {# <script src="/js/uikit-icons.min.js" defer></script> #}
-
         {# Bulma — no JS needed #}
 
+        {# Per-page CDN JS #}
         {% if pageData and pageData.cdn and pageData.cdn.js %}
             {% for script in pageData.cdn.js %}
                 <script src="{{ script }}" defer></script>
             {% endfor %}
         {% endif %}
 
+        {# Page JS #}
         <script src="/js/pages/{{ title }}.js"></script>
+
     </body>
 
 </html>

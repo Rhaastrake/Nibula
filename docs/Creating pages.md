@@ -3,7 +3,6 @@
 The recommended way is via the **Assistant CLI**
 
 ## What gets created
-+
 For a page named `my-page`:
 
 | File | Purpose |
@@ -22,7 +21,7 @@ For a page named `my-page`:
   {% include "_myPage.njk" %}
 ```
 
-See [components.md](components.md) for details.
+See **Components** DOC file for more info
 
 ## URL and title
 
