@@ -1,6 +1,6 @@
 {
   "name": "create-berna-stencil",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
   "keywords": [],
   "author": "Michele Garofalo",
