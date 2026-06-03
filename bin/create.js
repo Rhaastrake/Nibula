@@ -17,7 +17,7 @@ const COPY_TARGETS = [
 
 const PROJECT_PACKAGE = {
     name: path.basename(targetDir),
-    version: '2.0.11',
+    version: '2.0.12',
     private: true,
     scripts: {
         "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
@@ -39,6 +39,7 @@ const PROJECT_PACKAGE = {
         'bootstrap-icons': '^1.13.1',
         'bulma': '^1.0.4',
         'foundation-sites': '^6.9.0',
+        'github-markdown-css': '^5.9.0',
         'glob': '^13.0.6',
         'uikit': '^3.25.13',
     },
