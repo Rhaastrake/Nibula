@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { writeSync } = require('fs');
 
 const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 const templateDir = path.join(__dirname, '..');
@@ -15,41 +16,6 @@ const COPY_TARGETS = [
     '.eleventyignore',
 ];
 
-const PROJECT_PACKAGE = {
-    name: path.basename(targetDir),
-    version: '2.0.13',
-    private: true,
-    scripts: {
-        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
-        "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
-        "build:11ty": "eleventy",
-        "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
-        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
-        "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
-        "serve:11ty": "eleventy --serve --quiet",
-        "clean": "node _tools/cleanOutput.js",
-        "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-        "assistant": "node _tools/assistant.js",
-        "postinstall": "cd src/backend/_core && composer install --quiet"
-    },
-    dependencies: {
-        '@11ty/eleventy': '^3.1.2',
-        '@11ty/eleventy-img': '^6.0.4',
-        'bootstrap': '^5.3.8',
-        'bootstrap-icons': '^1.13.1',
-        'bulma': '^1.0.4',
-        'foundation-sites': '^6.9.0',
-        'github-markdown-css': '^5.9.0',
-        'glob': '^13.0.6',
-        'uikit': '^3.25.13',
-    },
-    devDependencies: {
-        'concurrently': '^9.2.1',
-        'esbuild': '^0.27.3',
-        'sass': '^1.77.0',
-    },
-};
-
 const GITIGNORE_CONTENT = `
 node_modules/
 src/backend/_core/vendor/
@@ -57,7 +23,12 @@ out/
 src/backend/config.php
 `;
 
-// Framework configurations
+const CREATE_DIRS = [
+    'src/frontend/_routes',
+];
+
+const ALL_FRAMEWORKS = ['bootstrap', 'bulma', 'foundation', 'uikit'];
+
 const FRAMEWORKS = {
     bootstrap: {
         label: 'Bootstrap',
@@ -102,9 +73,40 @@ const FRAMEWORKS = {
     },
 };
 
-const ALL_FRAMEWORKS = ['bootstrap', 'bulma', 'foundation', 'uikit'];
-
-const { writeSync } = require('fs');
+const PROJECT_PACKAGE = {
+    name: path.basename(targetDir),
+    version: '2.0.14',
+    private: true,
+    scripts: {
+        "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
+        "build:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --minify",
+        "build:11ty": "eleventy",
+        "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
+        "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
+        "serve:js": "esbuild \"src/frontend/js/pages/*.js\" --bundle --outdir=out/js/pages --watch",
+        "serve:11ty": "eleventy --serve --quiet",
+        "clean": "node _tools/cleanOutput.js",
+        "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
+        "assistant": "node _tools/assistant.js",
+        "postinstall": "cd src/backend/_core && composer install --quiet"
+    },
+    dependencies: {
+        '@11ty/eleventy': '^3.1.2',
+        '@11ty/eleventy-img': '^6.0.4',
+        'bootstrap': '^5.3.8',
+        'bootstrap-icons': '^1.13.1',
+        'bulma': '^1.0.4',
+        'foundation-sites': '^6.9.0',
+        'github-markdown-css': '^5.9.0',
+        'glob': '^13.0.6',
+        'uikit': '^3.25.13',
+    },
+    devDependencies: {
+        'concurrently': '^9.2.1',
+        'esbuild': '^0.27.3',
+        'sass': '^1.77.0',
+    },
+};
 
 function log(msg) {
     writeSync(1, msg + '\n');
@@ -294,6 +296,11 @@ async function init() {
         GITIGNORE_CONTENT
     );
     log('+ .gitignore');
+
+    for (const dir of CREATE_DIRS) {
+    const dest = path.join(targetDir, dir);
+    fs.mkdirSync(dest, { recursive: true });
+    }
 
     const framework = await askFramework();
     applyFramework(framework);
