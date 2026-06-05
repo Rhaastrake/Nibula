@@ -6,11 +6,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/modules/Response.php';
 
 // --- GESTORE GLOBALE ERRORI E ECCEZIONI ---
-set_exception_handler(function ($exception) {
+set_exception_handler(function ($exception) use (&$config) {
+    $isDebug = ($config['APP_ENV'] ?? 'production') !== 'production';
     Response::error(
-        $exception->getMessage(),
+        $isDebug ? $exception->getMessage() : 'Internal server error',
         500,
-        ['file' => $exception->getFile(), 'line' => $exception->getLine()]
+        $isDebug ? ['file' => $exception->getFile(), 'line' => $exception->getLine()] : null
     );
 });
 

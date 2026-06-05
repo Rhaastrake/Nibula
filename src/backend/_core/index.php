@@ -21,6 +21,12 @@ $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri    = rtrim(preg_replace('#^/api#', '', $uri), '/') ?: '/';
 $parts  = array_values(array_filter(explode('/', $uri)));
 
+foreach ($parts as $part) {
+    if ($part === '..' || $part === '.') {
+        Response::error('Bad Request', 400);
+    }
+}
+
 // =====================================================
 // 2. ENDPOINT RESOLUTION (ROUTING WITH SUBDIRECTORIES)
 // =====================================================
@@ -95,6 +101,9 @@ if ($method === 'OPTIONS') {
     exit;
 }
 
+require_once __DIR__ . '/modules/RateLimiter.php';
+RateLimiter::check($_SERVER['REMOTE_ADDR'] ?? '', 60, 60);
+
 // =====================================================
 // 4. AUTHENTICATION GUARD
 // =====================================================
@@ -106,7 +115,7 @@ if ($isProtected) {
     $validKey  = $config['ENDPOINT_KEYS'][$relPath] ?? $config['API_KEY'] ?? '';
     $apiKey    = $_SERVER['HTTP_X_API_KEY'] ?? '';
 
-    if ($validKey === '' || $apiKey !== $validKey) {
+    if ($validKey === '' || !hash_equals($validKey, $apiKey)) {
         Response::error('Unauthorized. X_API_KEY is incorrect or missing', 401);
     }
 }

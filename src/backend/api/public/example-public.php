@@ -8,7 +8,7 @@ if ($method !== 'GET') {
 }
 
 //
-// Your protected endpoint logic here. You can access route parameters in $requestParams array
+// Your endpoint logic here. You can access route parameters in $requestParams array
 //
 
 Response::success([

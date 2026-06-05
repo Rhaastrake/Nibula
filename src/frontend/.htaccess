@@ -1,13 +1,16 @@
+Options -Indexes
 ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
+
+    RewriteRule ^(web\.config|llms\.txt|robots\.txt|sitemap\.xml|\..*)$ /404.html [L,NC]
 
     RewriteRule ^api/(.*)$ backend/_core/index.php [QSA,L]
 
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
-
 </IfModule>
