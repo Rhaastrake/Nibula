@@ -24,9 +24,6 @@ module.exports = function (eleventyConfig) {
     }
   }
 
-  // =====================================================
-  // SHORTCODE — Markdown file renderer
-  // =====================================================
   const md = markdownIt({ html: true });
 
   eleventyConfig.addShortcode('mdFile', function(filePath) {
@@ -34,38 +31,21 @@ module.exports = function (eleventyConfig) {
     return md.render(content);
   });
 
-  // =====================================================
-  // SHORTCODE — Markdown css
-  // =====================================================
   eleventyConfig.addPassthroughCopy({
     "node_modules/github-markdown-css/github-markdown-dark.css": "css/github-markdown-dark.css",
     "node_modules/github-markdown-css/github-markdown-light.css": "css/github-markdown-light.css",
   });
 
-  // =====================================================
-  // ESBUILD — Bundles and minifies JS files before build
-  // =====================================================
-  eleventyConfig.on("eleventy.before", async () => {
-    const entryPoints = glob.sync("src/frontend/js/pages/*.js");
-    await esbuild.build({
-      entryPoints,
-      bundle: true,
-      outdir: `${OUTPUT_DIR}/js/pages`,
-      minify: true,
-    });
+  eleventyConfig.on("eleventy.before", () => {
     copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
 
-  // =====================================================
-  // PASSTHROUGH — Static files
-  // =====================================================
   eleventyConfig.addPassthroughCopy("src/frontend/.htaccess");
   eleventyConfig.addPassthroughCopy("src/frontend/web.config");
   eleventyConfig.addPassthroughCopy("src/frontend/assets");
   eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 
   eleventyConfig.addPassthroughCopy({
-    // Bootstrap
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
     "node_modules/bootstrap-icons/font/fonts": "css/fonts",
 
@@ -79,9 +59,6 @@ module.exports = function (eleventyConfig) {
     // Bulma — CSS only, no JS passthrough needed
   });
 
-  // =====================================================
-  // ELEVENTY IMAGE — Responsive images
-  // =====================================================
   eleventyConfig.addShortcode("image", async function (src, alt) {
     let metadata = await Image(src, {
       widths: [320, 480, 720, 1280, 1920, 2048, 2560, 3840, 4096, 7680],
@@ -98,10 +75,11 @@ module.exports = function (eleventyConfig) {
     });
   });
 
-  // =====================================================
-  // WATCH & DIRECTORY CONFIG
-  // =====================================================
   eleventyConfig.addWatchTarget("./src/frontend/scss");
+
+  eleventyConfig.setServerOptions({
+  watch: [`${OUTPUT_DIR}/js/**/*.js`]
+  });
 
   return {
     dir: {

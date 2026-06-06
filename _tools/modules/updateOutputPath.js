@@ -2,18 +2,20 @@ const fs = require('fs');
 const path = require('path');
 
 const ELEVENTY_CONFIG = path.resolve(__dirname, '../../.eleventy.js');
-const PACKAGE_JSON = path.resolve(__dirname, '../../package.json');
+const PACKAGE_JSON    = path.resolve(__dirname, '../../package.json');
+const TSCONFIG        = path.resolve(__dirname, '../../tsconfig.json');
 
-// Regex to locate the OUTPUT_DIR declaration in .eleventy.js.
-// Extracted as a constant to avoid writing it by hand in multiple places.
 const OUTPUT_DIR_REGEX = /const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/;
 
 // --- Helpers ---
 
-// Reads OUTPUT_DIR value from a given file content string, or returns null
 function parseOutputDir(content) {
     const match = content.match(OUTPUT_DIR_REGEX);
     return match ? match[1] : null;
+}
+
+function isTypeScriptProject() {
+    return fs.existsSync(TSCONFIG);
 }
 
 // --- Updaters ---
@@ -39,16 +41,41 @@ function updateEleventyConfig(newPath) {
 function updatePackageJson(newPath) {
     const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
 
-    // Reconstruct all output-dependent scripts from scratch to avoid
-    // partial string replacement bugs on the outdir flag
+    pkg.outputDir = newPath;
+
+    const usesTs = isTypeScriptProject();
+
     pkg.scripts['build:css'] = `sass src/frontend/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
-    pkg.scripts['build:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
     pkg.scripts['serve:css'] = `sass --watch src/frontend/scss:${newPath}/css --no-source-map --quiet`;
-    pkg.scripts['serve:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
+
+    if (usesTs) {
+        pkg.scripts['build:js']  = `esbuild "src/frontend/ts/pages/*.ts" --bundle --outdir=${newPath}/js/pages --minify`;
+        pkg.scripts['serve:js']  = `esbuild "src/frontend/ts/pages/*.ts" --bundle --outdir=${newPath}/js/pages --watch`;
+    } else {
+        pkg.scripts['build:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
+        pkg.scripts['serve:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
+    }
 
     fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
     console.log(`(✓) package.json updated → ${newPath}`);
     return true;
+}
+
+const TSCONFIG_OUTDIR_REGEX = /"outDir"\s*:\s*"[^"]*"/;
+
+function updateTsConfig(newPath) {
+    if (!isTypeScriptProject()) return;
+
+    const content = fs.readFileSync(TSCONFIG, 'utf-8');
+    const updated = content.replace(TSCONFIG_OUTDIR_REGEX, `"outDir": "./${newPath}/ts"`);
+
+    if (content === updated) {
+        console.log('(!) outDir not found in tsconfig.json');
+        return;
+    }
+
+    fs.writeFileSync(TSCONFIG, updated, 'utf-8');
+    console.log(`(✓) tsconfig.json updated → ${newPath}/ts`);
 }
 
 // --- Public API ---
@@ -56,18 +83,13 @@ function updatePackageJson(newPath) {
 function updateOutputPath(newPath) {
     const trimmed = newPath.trim().replace(/\\/g, '/');
 
-    // Normalize the path: bare "." becomes "out", everything else gets a
-    // project-scoped suffix to avoid collisions
     const normalizedPath = trimmed === '.'
         ? 'out'
         : `${trimmed.replace(/\/$/, '')}/${path.basename(process.cwd())}-out`;
 
-    // Read the config once and reuse it to get the old path —
-    // avoids a second disk read inside updateEleventyConfig
     const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
     const oldPath = parseOutputDir(eleventyContent);
 
-    // Delete the old output folder if it exists
     if (oldPath) {
         const oldAbsPath = path.resolve(__dirname, '../../', oldPath);
         if (fs.existsSync(oldAbsPath)) {
@@ -82,9 +104,9 @@ function updateOutputPath(newPath) {
 
     updatePackageJson(normalizedPath);
     updateEleventyConfig(normalizedPath);
+    updateTsConfig(normalizedPath);
 }
 
-// Returns the current OUTPUT_DIR value from .eleventy.js, or null on failure
 function getCurrentOutputPath() {
     try {
         const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');

@@ -1,5 +1,7 @@
 # Assistant CLI
 
+> Examples use JavaScript, but everything applies equally to TypeScript. The only difference is the file extension (`.ts` instead of `.js`), that imports do **not** include the extension, and that paths use `src/frontend/ts/` instead of `src/frontend/js/`.
+
 An interactive CLI to manage pages without touching files manually.
 
 ```

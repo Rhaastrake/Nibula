@@ -1,5 +1,7 @@
 # Creating Pages
 
+> Examples use JavaScript, but everything applies equally to TypeScript. The only difference is the file extension (`.ts` instead of `.js`), that imports do **not** include the extension, and that paths use `src/frontend/ts/` instead of `src/frontend/js/`.
+
 The recommended way is via the **Assistant CLI**
 
 ## What gets created

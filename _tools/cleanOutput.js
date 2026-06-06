@@ -1,24 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
-const ELEVENTY_CONFIG = path.resolve(__dirname, '../.eleventy.js');
+const PACKAGE_JSON = path.resolve(__dirname, '../package.json');
 
-const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-const match = content.match(/const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/);
+const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
 
-if (!match) {
-    console.log('(!) OUTPUT_DIR not found in .eleventy.js');
+if (!pkg.outputDir) {
+    console.log('(!) outputDir not found in package.json');
     process.exit(1);
 }
 
-const outputDir = match[1];
-const absPath = path.isAbsolute(outputDir)
-    ? outputDir
-    : path.resolve(__dirname, '..', outputDir);
+const outputDir = path.resolve(__dirname, '..', pkg.outputDir);
 
-if (fs.existsSync(absPath)) {
-    fs.rmSync(absPath, { recursive: true, force: true });
-    console.log(`(✓) cleaned → ${absPath}`);
+if (fs.existsSync(outputDir)) {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+    console.log(`(✓) cleaned → ${outputDir}`);
 } else {
-    console.log(`(i) nothing to clean → ${absPath}`);
+    console.log(`(i) nothing to clean → ${outputDir}`);
 }

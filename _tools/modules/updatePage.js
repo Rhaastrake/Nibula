@@ -7,16 +7,35 @@ const { getCurrentOutputPath } = require('./updateOutputPath');
 const { toCamelCase } = require('./utils');
 
 const TEMPLATES_DIR = path.join(__dirname, '..', 'res', 'templates');
+const TSCONFIG      = path.resolve(__dirname, '../../tsconfig.json');
 
 // --- Helpers ---
 
-// Returns the three file targets (scss, js, njk) for a given page name
+function isTypeScriptProject() {
+    return fileSystem.existsSync(TSCONFIG);
+}
+
+// Returns the three file targets (scss, js/ts, njk) for a given page name
 function getPageTargets(pageName) {
     const camelName = toCamelCase(pageName);
+    const usesTs    = isTypeScriptProject();
+
     return [
-        { folder: 'src/frontend/scss/pages', templateFile: 'template.scss', fileName: `${camelName}.scss` },
-        { folder: 'src/frontend/js/pages',   templateFile: 'template.js',   fileName: `${camelName}.js`   },
-        { folder: 'src/frontend/_routes',    templateFile: 'template.njk',  fileName: `${pageName}.njk`   },
+        {
+            folder:       'src/frontend/scss/pages',
+            templateFile: 'template.scss',
+            fileName:     `${camelName}.scss`,
+        },
+        {
+            folder:       usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages',
+            templateFile: usesTs ? 'template.ts'           : 'template.js',
+            fileName:     usesTs ? `${camelName}.ts`       : `${camelName}.js`,
+        },
+        {
+            folder:       'src/frontend/_routes',
+            templateFile: 'template.njk',
+            fileName:     `${pageName}.njk`,
+        },
     ];
 }
 
@@ -34,7 +53,6 @@ function addPage(pageName) {
         const srcPath = path.join(TEMPLATES_DIR, templateFile);
 
         if (templateFile === 'template.njk') {
-            // Patch the frontmatter placeholders with the actual page values
             const content = fileSystem.readFileSync(srcPath, 'utf8')
                 .replace(/^title:.*$/m,     `title: "${camelName}"`)
                 .replace(/^permalink:.*$/m, `permalink: "/${pageName}/"`);
@@ -53,11 +71,13 @@ function addPage(pageName) {
 function renamePage(oldName, newName) {
     const oldCamel = toCamelCase(oldName);
     const newCamel = toCamelCase(newName);
+    const usesTs   = isTypeScriptProject();
+    const ext      = usesTs ? 'ts' : 'js';
+    const jsFolder = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
 
-    // Use consistent src/frontend/ paths (matching addPage)
     const filesToRename = [
         { src: `src/frontend/scss/pages/${oldCamel}.scss`, dest: `src/frontend/scss/pages/${newCamel}.scss` },
-        { src: `src/frontend/js/pages/${oldCamel}.js`,     dest: `src/frontend/js/pages/${newCamel}.js`     },
+        { src: `${jsFolder}/${oldCamel}.${ext}`,           dest: `${jsFolder}/${newCamel}.${ext}`           },
         { src: `src/frontend/_routes/${oldName}.njk`,      dest: `src/frontend/_routes/${newName}.njk`      },
     ];
 
@@ -70,20 +90,20 @@ function renamePage(oldName, newName) {
         console.log(`[renamed] ${src} → ${dest}`);
     });
 
-    // Use atomic rename helpers instead of remove + add separately
     renameLayout(oldName, newName);
     renameSiteData(oldName, newName);
 }
 
 function removePage(pageName) {
     const camelName = toCamelCase(pageName);
-
-    // Read the actual current output dir instead of hardcoding "out"
+    const usesTs    = isTypeScriptProject();
+    const ext       = usesTs ? 'ts' : 'js';
+    const jsFolder  = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
     const OUTPUT_DIR = getCurrentOutputPath() || 'out';
 
     const filesToDelete = [
         `src/frontend/scss/pages/${camelName}.scss`,
-        `src/frontend/js/pages/${camelName}.js`,
+        `${jsFolder}/${camelName}.${ext}`,
         `src/frontend/_routes/${pageName}.njk`,
         path.join(OUTPUT_DIR, 'js/pages',  `${camelName}.js`),
         path.join(OUTPUT_DIR, 'css/pages', `${camelName}.css`),
