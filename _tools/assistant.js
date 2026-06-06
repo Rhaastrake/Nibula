@@ -2,7 +2,16 @@ const readline = require('readline');
 const { addPage, removePage, renamePage } = require('./modules/updatePage');
 const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
 
-// --- Setup ---
+const c = {
+    reset: "\x1b[0m",
+    bold: "\x1b[1m",
+    dim: "\x1b[2m",
+    red: "\x1b[31m",
+    green: "\x1b[32m",
+    yellow: "\x1b[33m",
+    magenta: "\x1b[35m",
+    cyan: "\x1b[36m"
+};
 
 const readerInterface = readline.createInterface({
     input: process.stdin,
@@ -10,67 +19,73 @@ const readerInterface = readline.createInterface({
     terminal: true
 });
 
-const PROTECTED_PAGES = ['homepage', '404'];
+const PROTECTED_PAGES  = ['homepage', '404'];
+const MAX_NAME_LENGTH  = 50;
 
-// --- Utility ---
-
-// Converts any string to kebab-case
 function toKebabCase(str) {
     return str.trim().toLowerCase()
+        .replace(/[^a-z0-9\s_-]/g, '')
         .replace(/[\s_]+/g, '-')
-        .replace(/-+/g, '-');
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
 }
 
-// Returns an error message if the name is invalid, null otherwise
 function validatePageName(name) {
-    if (!name)                      return 'Invalid name.';
-    if (/^\d/.test(name))           return 'Page name cannot start with a number.';
-    if (PROTECTED_PAGES.includes(name)) return `"${name}" is a protected page name.`;
+    if (!name)                                 return 'Invalid name.';
+    if (name.length > MAX_NAME_LENGTH)         return `Name must be ${MAX_NAME_LENGTH} characters or fewer.`;
+    if (!/^[a-z0-9-]+$/.test(name))            return 'Page name can only contain lowercase letters, numbers, and hyphens.';
+    if (/^\d/.test(name))                      return 'Page name cannot start with a number.';
+    if (PROTECTED_PAGES.includes(name))        return `"${name}" is a protected page name.`;
     return null;
 }
 
-// Wraps readerInterface.question in a Promise for use with async/await
+function validateOutputPath(input) {
+    if (!input.trim())           return 'Invalid path.';
+    if (input.includes('..'))    return 'Path cannot contain "..".';
+    if (/[<>|?*"']/.test(input)) return 'Path contains invalid characters.';
+    return null;
+}
+
+function sanitizeInput(str) {
+    return str.replace(/[\x00-\x1F\x7F]/g, '').trim();
+}
+
 function ask(prompt) {
     return new Promise(resolve =>
-        readerInterface.question(prompt, answer => resolve(answer))
+        readerInterface.question(prompt, answer => resolve(sanitizeInput(answer)))
     );
 }
 
-// Asks for a page name, converts it to kebab-case, validates it,
-// logs the error and returns null if invalid
 async function askPageName(prompt) {
     const raw = await ask(prompt);
     const name = toKebabCase(raw);
     const error = validatePageName(name);
     if (error) {
-        console.log(`(!) ${error}`);
+        console.log(`\n${c.red}✖ ${error}${c.reset}`);
         return null;
     }
     return name;
 }
 
-// --- Handlers ---
-
 async function handleCreateRequest() {
-    const name = await askPageName('\n> Enter the name of the new page: ');
+    const name = await askPageName(`\n${c.green}❯${c.reset} Enter the name of the new page: `);
     if (name) addPage(name, null);
 }
 
 async function handleRemoveRequest() {
-    const name = await askPageName('\n> Enter the name of the page to remove: ');
+    const name = await askPageName(`\n${c.red}❯${c.reset} Enter the name of the page to remove: `);
     if (name) removePage(name);
 }
 
 async function handleRenameRequest() {
-    const oldName = await askPageName('\n> Enter the name of the page to rename: ');
+    const oldName = await askPageName(`\n${c.yellow}❯${c.reset} Enter the name of the page to rename: `);
     if (!oldName) return;
 
-    const newName = await askPageName('> Enter the new name: ');
+    const newName = await askPageName(`${c.yellow}❯${c.reset} Enter the new name: `);
     if (!newName) return;
 
-    // Extra check: old and new name must differ
     if (oldName === newName) {
-        console.log('(!) Old and new name are the same.');
+        console.log(`\n${c.yellow}⚠ Old and new name are the same.${c.reset}`);
         return;
     }
 
@@ -79,19 +94,17 @@ async function handleRenameRequest() {
 
 async function handleOutputPathRequest() {
     const current = getCurrentOutputPath();
-    const label = current ? ` Current path: "${current}"\n` : '';
-    const input = await ask(`${label} Enter the new output path: `);
+    const label   = current ? `\n${c.dim}Current path: "${current}"${c.reset}\n` : '\n';
+    const input   = await ask(`${label}${c.magenta}❯${c.reset} Enter the new output path: `);
 
-    if (!input.trim()) {
-        console.log('(!) Invalid path.');
+    const error = validateOutputPath(input);
+    if (error) {
+        console.log(`\n${c.red}✖ ${error}${c.reset}`);
     } else {
         updateOutputPath(input);
     }
 }
 
-// --- Menu ---
-
-// Maps each menu choice to its handler function
 const MENU_ACTIONS = {
     '1': handleCreateRequest,
     '2': handleRemoveRequest,
@@ -99,19 +112,17 @@ const MENU_ACTIONS = {
     '4': handleOutputPathRequest,
 };
 
-// Displays the menu, waits for input, executes the chosen action,
-// then calls itself again to keep the CLI alive (async recursion, no stack buildup)
 async function displayMainMenu() {
-    console.log('\n========================');
-    console.log('  Berna-Stencil CLI      ');
-    console.log('========================\n');
-    console.log('1. Create page');
-    console.log('2. Remove page');
-    console.log('3. Rename page');
-    console.log('4. Configure output path');
-    console.log('\nCTRL/CMD + C to exit');
+    console.log(`\n${c.cyan}${c.bold}╭────────────────────────╮`);
+    console.log(`│    Berna-Stencil CLI   │`);
+    console.log(`╰────────────────────────╯${c.reset}\n`);
+    console.log(`  ${c.green}1.${c.reset} Create page`);
+    console.log(`  ${c.red}2.${c.reset} Remove page`);
+    console.log(`  ${c.yellow}3.${c.reset} Rename page`);
+    console.log(`  ${c.magenta}4.${c.reset} Configure output path`);
+    console.log(`\n  ${c.dim}CTRL/CMD + C to exit${c.reset}\n`);
 
-    const choice = (await ask('\nChoose an option: ')).trim();
+    const choice = (await ask(`${c.cyan}❯${c.reset} Choose an option: `)).trim();
 
     if (choice === '0') {
         readerInterface.close();
@@ -120,13 +131,15 @@ async function displayMainMenu() {
 
     const action = MENU_ACTIONS[choice];
     if (action) {
-        await action();
+        try {
+            await action();
+        } catch (err) {
+            console.log(`\n${c.red}✖ Unexpected error: ${err.message}${c.reset}`);
+        }
     } else {
-        console.log('(!) Invalid option.');
+        console.log(`\n${c.red}✖ Invalid option.${c.reset}`);
     }
 
-    // Recurse to redisplay the menu after each action.
-    // Safe because each iteration fully resolves before the next one starts.
     displayMainMenu();
 }
 

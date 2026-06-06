@@ -4,18 +4,10 @@ const path = require('path');
 const { addSiteData, removeSiteData, renameSiteData } = require('./updateData');
 const { addLayout, removeLayout, renameLayout } = require('./updateIncludes');
 const { getCurrentOutputPath } = require('./updateOutputPath');
-const { toCamelCase } = require('./utils');
+const { toCamelCase, isTypeScriptProject } = require('./utils');
 
 const TEMPLATES_DIR = path.join(__dirname, '..', 'res', 'templates');
-const TSCONFIG      = path.resolve(__dirname, '../../tsconfig.json');
 
-// --- Helpers ---
-
-function isTypeScriptProject() {
-    return fileSystem.existsSync(TSCONFIG);
-}
-
-// Returns the three file targets (scss, js/ts, njk) for a given page name
 function getPageTargets(pageName) {
     const camelName = toCamelCase(pageName);
     const usesTs    = isTypeScriptProject();
@@ -38,8 +30,6 @@ function getPageTargets(pageName) {
         },
     ];
 }
-
-// --- Public API ---
 
 function addPage(pageName) {
     const camelName = toCamelCase(pageName);
@@ -86,8 +76,16 @@ function renamePage(oldName, newName) {
             console.log(`[skip] not found: ${src}`);
             return;
         }
+        
         fileSystem.renameSync(src, dest);
         console.log(`[renamed] ${src} → ${dest}`);
+
+        if (dest.endsWith('.njk')) {
+            const content = fileSystem.readFileSync(dest, 'utf8')
+                .replace(/^title:.*$/m,     `title: "${newCamel}"`)
+                .replace(/^permalink:.*$/m, `permalink: "/${newName}/"`);
+            fileSystem.writeFileSync(dest, content);
+        }
     });
 
     renameLayout(oldName, newName);
@@ -95,10 +93,10 @@ function renamePage(oldName, newName) {
 }
 
 function removePage(pageName) {
-    const camelName = toCamelCase(pageName);
-    const usesTs    = isTypeScriptProject();
-    const ext       = usesTs ? 'ts' : 'js';
-    const jsFolder  = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
+    const camelName  = toCamelCase(pageName);
+    const usesTs     = isTypeScriptProject();
+    const ext        = usesTs ? 'ts' : 'js';
+    const jsFolder   = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
     const OUTPUT_DIR = getCurrentOutputPath() || 'out';
 
     const filesToDelete = [

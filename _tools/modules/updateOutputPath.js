@@ -1,5 +1,6 @@
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
+const { isTypeScriptProject } = require('./utils');
 
 const ELEVENTY_CONFIG = path.resolve(__dirname, '../../.eleventy.js');
 const PACKAGE_JSON    = path.resolve(__dirname, '../../package.json');
@@ -12,10 +13,6 @@ const OUTPUT_DIR_REGEX = /const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/;
 function parseOutputDir(content) {
     const match = content.match(OUTPUT_DIR_REGEX);
     return match ? match[1] : null;
-}
-
-function isTypeScriptProject() {
-    return fs.existsSync(TSCONFIG);
 }
 
 // --- Updaters ---

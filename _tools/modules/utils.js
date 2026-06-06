@@ -1,3 +1,8 @@
+const fs   = require('fs');
+const path = require('path');
+
+const TSCONFIG = path.resolve(__dirname, '../../tsconfig.json');
+
 // Shared utility functions used across modules
 
 // Converts a kebab-case or snake_case string to camelCase.
@@ -9,4 +14,17 @@ function toCamelCase(str) {
     );
 }
 
-module.exports = { toCamelCase };
+// Converts a kebab-case page name to a human-readable title
+// e.g. "about-us" → "About Us"
+function toNiceTitle(pageName) {
+    return pageName
+        .split('-')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+}
+
+function isTypeScriptProject() {
+    return fs.existsSync(TSCONFIG);
+}
+
+module.exports = { toCamelCase, toNiceTitle, isTypeScriptProject };

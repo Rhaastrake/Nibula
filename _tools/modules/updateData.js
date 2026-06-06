@@ -1,26 +1,7 @@
 const fileSystem = require('fs');
+const { toCamelCase, toNiceTitle } = require('./utils');
 
 const SITE_DATA_PATH = 'src/frontend/data/site.json';
-
-// --- Utility ---
-
-// Converts a kebab-case string to camelCase
-// slice(1) removes the delimiter character reliably, avoiding the regex flag bug
-// of a double replace('-', '') without the /g flag
-function toCamelCase(str) {
-    return str.toLowerCase().replace(/[-_][a-z0-9]/g, (group) =>
-        group.slice(1).toUpperCase()
-    );
-}
-
-// Converts a kebab-case page name to a human-readable title
-// e.g. "about-us" → "About Us"
-function toNiceTitle(pageName) {
-    return pageName
-        .split('-')
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ');
-}
 
 // Returns the parsed site.json content, or null if the file doesn't exist
 function readSiteData() {
