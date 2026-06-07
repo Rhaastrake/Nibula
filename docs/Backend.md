@@ -1,5 +1,11 @@
 # Backend
 
+> **PHP requirement** — the backend runs only on servers with PHP support:
+> - **Apache** (shared hosting, VPS) ✅
+> - **Nginx** + PHP-FPM (VPS) ✅
+> - **IIS** + FastCGI (Windows Server) ✅
+> - **Static hosting** (Netlify, Vercel, GitHub Pages, Cloudflare Pages) ❌
+
 The backend is a PHP REST API located in `src/backend/`, copied to the output directory automatically at build time.
 
 ## Structure
@@ -30,9 +36,9 @@ return [
     'API_KEY' => 'default-key',
 
     // If you want restrict access to protected endpoints to specific clients, you can define custom keys for each endpoint
-    // For subfolder endpoints, use the relative path ('subfolder/endpoint')
     'ENDPOINT_KEYS' => [
-        'example-protected' => 'custom-key',
+    // For subfolder endpoints, use the relative path ('subfolder/endpoint')
+    // 'subfolder/endpoint'    => 'example-key',
     ],
 
     'DB_HOST' => '127.0.0.1',

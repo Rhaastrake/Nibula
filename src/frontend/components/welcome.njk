@@ -35,6 +35,10 @@
       <input type="radio" name="guide-filter" value="backend" />
       <span class="filter-pill">Backend</span>
     </label>
+    <label>
+      <input type="radio" name="guide-filter" value="deploy" />
+      <span class="filter-pill">Deploy</span>
+    </label>
   </div>
 
   <div class="tabs-container">
@@ -89,6 +93,9 @@
     </div>
     <div id="content-backend" class="tab-content markdown-body">
       {% mdFile "docs/backend.md" %}
+    </div>
+    <div id="content-deploy" class="tab-content markdown-body">
+      {% mdFile "docs/deploy.md" %}
     </div>
 
   </div>
