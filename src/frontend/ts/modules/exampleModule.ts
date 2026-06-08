@@ -1,3 +1,3 @@
 export function initExampleModule(): void {
-    // Example module logic
+    // Module logic here
 }

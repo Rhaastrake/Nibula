@@ -11,19 +11,13 @@ Import only what the page needs.
 ### examplePage.js <small>(`src/frontend/js/pages/`)</small>
 
 ```js
-//===========================
-// JAVASCRIPT MODULES IMPORTS
-//===========================
-
 // import { initExampleModule } from '../modules/exampleModule.js';
-
-//==========================
-// PAGE CUSTOM JAVASCRIPT
-//==========================
 
 document.addEventListener("DOMContentLoaded", () => {
     // initExampleModule();
 });
+
+// Page logic here
 ```
 
 ## Modules
@@ -39,12 +33,8 @@ Use ESM syntax — esbuild handles the bundling:
 ### exampleModule.js <small>(`src/frontend/js/modules/`)</small>
 
 ```js
-//==========================
-// EXAMPLE MODULE
-//==========================
-
 export function exampleModule() {
-    // Example module logic
+    // Module logic here
 }
 ```
 
