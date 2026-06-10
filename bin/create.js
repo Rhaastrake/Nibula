@@ -47,6 +47,7 @@ const MANDATORY_COPY = [
     '_tools',
     '.eleventy.js',
     '.eleventyignore',
+    'nginx.conf',
     'src/backend',
     'src/frontend',
 ];
@@ -120,7 +121,7 @@ src/backend/config.php
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '2.4.2',
+    version:   '2.4.3',
     private:   true,
     outputDir: 'out',
     "scripts": {
