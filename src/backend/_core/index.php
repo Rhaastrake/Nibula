@@ -87,14 +87,34 @@ if (!$endpointFile) {
     exit;
 }
 
+$base         = $isProtected ? $baseProtected : $basePublic;
+$base         = str_replace('\\', '/', $base);
+$endpointPath = str_replace('\\', '/', $endpointFile);
+$endpointPath = preg_replace('#\.php$#', '', str_replace($base, '', $endpointPath));
+
 // =====================================================
 // 3. HEADERS AND CORS (Only if the endpoint exists)
 // =====================================================
 
 header('Content-Type: application/json; charset=UTF-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Api-Key');
-header('Access-Control-Allow-Origin: *');
+
+$originsForEndpoint = $config['CUSTOM_ENDPOINT_ORIGINS'][$endpointPath]
+    ?? $config['GENERAL_ALLOWED_ORIGINS']
+    ?? [];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+if ($origin !== '' && in_array($origin, $originsForEndpoint, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+} elseif (in_array('*', $originsForEndpoint, true)) {
+    header('Access-Control-Allow-Origin: *');
+}
 
 if ($method === 'OPTIONS') {
     http_response_code(204);
@@ -109,11 +129,8 @@ RateLimiter::check($_SERVER['REMOTE_ADDR'] ?? '', 60, 60);
 // =====================================================
 
 if ($isProtected) {
-    $relPath   = str_replace($baseProtected, '', $endpointFile);
-    $relPath   = str_replace('.php', '', str_replace('\\', '/', $relPath));
-
-    $validKey  = $config['ENDPOINT_KEYS'][$relPath] ?? $config['API_KEY'] ?? '';
-    $apiKey    = $_SERVER['HTTP_X_API_KEY'] ?? '';
+    $validKey = $config['CUSTOM_ENDPOINT_KEYS'][$endpointPath] ?? $config['GENERAL_API_KEY'] ?? '';
+    $apiKey   = $_SERVER['HTTP_X_API_KEY'] ?? '';
 
     if ($validKey === '' || !hash_equals($validKey, $apiKey)) {
         Response::error('Unauthorized. X_API_KEY is incorrect or missing', 401);

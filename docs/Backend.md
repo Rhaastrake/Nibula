@@ -32,13 +32,23 @@ Copy `config.example.php` to `config.php` and fill in your values:
 ### config.php <small>(`src/backend/`)</small>
 ```php
 return [
-    // Default key for protected endpoints that don't have a specific key in ENDPOINT_KEYS
-    'API_KEY' => 'default-key',
+    // Default key for protected endpoints that don't have a specific key in CUSTOM_ENDPOINT_KEYS
+    'GENERAL_API_KEY' => 'default-key',
 
-    // If you want restrict access to protected endpoints to specific clients, you can define custom keys for each endpoint
-    'ENDPOINT_KEYS' => [
-    // For subfolder endpoints, use the relative path ('subfolder/endpoint')
-    // 'subfolder/endpoint'    => 'example-key',
+    // Per-endpoint keys. For subfolder endpoints, use the relative path ('subfolder/endpoint')
+    'CUSTOM_ENDPOINT_KEYS' => [
+        // 'subfolder/endpoint' => 'example-key',
+    ],
+
+    // Default CORS origins applied to every endpoint
+    'GENERAL_ALLOWED_ORIGINS' => [
+        'https://example.com',
+    ],
+
+    // Per-endpoint CORS origins. Same path format as CUSTOM_ENDPOINT_KEYS.
+    // When an endpoint is listed here, these origins replace GENERAL_ALLOWED_ORIGINS for it.
+    'CUSTOM_ENDPOINT_ORIGINS' => [
+        // 'subfolder/endpoint' => ['https://app.example.com'],
     ],
 
     'DB_HOST' => '127.0.0.1',
@@ -48,7 +58,22 @@ return [
 ];
 ```
 
-`API_KEY` is the fallback key for all protected endpoints. Use `ENDPOINT_KEYS` to assign a different key to a specific endpoint — for subfolder endpoints, use the relative path as the key.
+### API keys
+
+`GENERAL_API_KEY` is the fallback key for all protected endpoints. Use `CUSTOM_ENDPOINT_KEYS` to assign a different key to a specific endpoint — for subfolder endpoints, use the relative path as the key.
+
+> ⚠️ The API key travels in the `X-Api-Key` header on every request. Use it only for server-to-server calls over HTTPS. Never embed it in frontend code, where it would be publicly visible.
+
+### CORS (allowed origins)
+
+Cross-origin access mirrors the API-key model:
+
+- `GENERAL_ALLOWED_ORIGINS` — the default list of origins allowed to call any endpoint from a browser.
+- `CUSTOM_ENDPOINT_ORIGINS` — overrides the default for a specific endpoint, keyed by the same relative path used in `CUSTOM_ENDPOINT_KEYS`.
+
+Origins must be exact (scheme + host, no trailing slash), e.g. `https://example.com`. When a request's `Origin` is in the resolved list, it is reflected back in `Access-Control-Allow-Origin` (with `Vary: Origin`). An empty list sends no CORS header — the most restrictive setting; same-origin requests still work. Use `'*'` as the only element to allow any origin (not recommended for protected endpoints).
+
+Resolution order for a given endpoint: `CUSTOM_ENDPOINT_ORIGINS[path]` if present, otherwise `GENERAL_ALLOWED_ORIGINS`.
 
 ## How routing works
 
@@ -102,7 +127,7 @@ Response::success(['visits' => 1024]);
 To assign a dedicated key, add it to `config.php`:
 
 ```php
-'ENDPOINT_KEYS' => [
+'CUSTOM_ENDPOINT_KEYS' => [
     'endpoint' => 'custom-key',
 ],
 ```

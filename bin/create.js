@@ -121,7 +121,7 @@ src/backend/config.php
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '2.4.3',
+    version:   '2.5.0',
     private:   true,
     outputDir: 'out',
     "scripts": {
