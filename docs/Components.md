@@ -19,9 +19,9 @@ src/frontend/components/
 
 ## Include a component
 
-To render a component inside a page, navigate to `src/frontend/components/layouts/` and edit `includes.njk`
+To render a component inside a page, navigate to `src/frontend/layouts/` and edit `pageComponents.njk`
 
-### includes.njk <small>(`src/frontend/components/layouts/`)</small>
+### pageComponents.njk <small>(`src/frontend/layouts/`)</small>
 
 ```js
 {% if title == "homepage" %}
@@ -41,7 +41,7 @@ Add a new `{% elif %}` block for each page, listing its components in order. If 
 
 > ⚠️ A new `elif` block is automatically added when you create a page via the Assistant CLI
 
-> ⚠️ If you move or delete a component, always update `includes.njk` or the site will break
+> ⚠️ If you move or delete a component, always update `pageComponents.njk` or the site will break
 
 ### Using Markdown files in components
 
@@ -75,7 +75,7 @@ Header and footer live in `src/frontend/components/global/` and are automaticall
 
 ## Site data in components
 
-All values defined in `src/data/site.json` are globally available in every component via `{{ site.* }}`
+All values defined in `src/frontend/data/site.json` are globally available in every component via `{{ site.* }}`
 
 ### site.json <small>(`src/data/`)</small>
 ```json

@@ -31,7 +31,7 @@ For a page named `my-page`, the following files are created:
 | `src/frontend/js/pages/myPage.js` | JS entry point |
 | `src/frontend/_routes/my-page.njk` | Nunjucks template |
 
-It also adds an `elif` block in `includes.njk` and a stub entry in `site.json`:
+It also adds an `elif` block in `pageComponents.njk` and a stub entry in `site.json`:
 
 ```json
 "myPage": {
@@ -48,11 +48,11 @@ It also adds an `elif` block in `includes.njk` and a stub entry in `site.json`:
 
 ## Remove page
 
-Deletes all source files for the page and cleans up the output directory, `includes.njk`, and `site.json`.
+Deletes all source files for the page and cleans up the output directory, `pageComponents.njk`, and `site.json`.
 
 ## Rename page
 
-Renames all three source files, updates the `elif` block in `includes.njk`, and renames the record in `site.json` while preserving all existing fields.
+Renames all three source files, updates the `elif` block in `pageComponents.njk`, and renames the record in `site.json` while preserving all existing fields.
 
 ## Configure output path
 

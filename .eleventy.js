@@ -87,7 +87,7 @@ module.exports = function (eleventyConfig) {
       input: "src/frontend",
       output: OUTPUT_DIR,
       includes: "components",
-      layouts: "components/layouts",
+      layouts: "layouts",
       data: "data",
     },
   };

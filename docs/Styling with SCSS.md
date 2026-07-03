@@ -97,7 +97,7 @@ To enable/disable them you have to modify 3 files around the project by just com
 // @import "../modules/frameworks/uikit";
 ```
 
-### 2. base.njk <small>(`src/frontend/components/layouts/`)</small>
+### 2. base.njk <small>(`src/frontend/layouts/`)</small>
 
 ```html
 {# Bootstrap JS #}

@@ -1,18 +1,22 @@
 # ✏️ Berna-Stencil
 **Berna-Stencil** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), designed with one clear mission: make web development simple, approachable, and enjoyable — for everyone.
 
+Berna-Stencil stays deliberately close to plain, vanilla web development — you work with real HTML, CSS, and JavaScript, not a heavy abstraction layer to learn first. That means a gentle, fast learning curve: the skills you build here are the same ones you'd use anywhere on the web.
+
 Whether you're a seasoned developer looking for a clean starting point or a beginner taking your first steps into the world of web creation, Berna-Stencil gives you everything you need, right out of the box. No complicated setup, no hours spent reading documentation, no frustration — just a solid, well-structured foundation ready to become your next website.
 
 ### ✨ Why Berna-Stencil?
 
 Building a website from scratch involves a lot of moving parts: templating engines, build pipelines, asset management, backend logic, project structure. Berna-Stencil takes care of all of that for you, so you can focus on what actually matters — **your content and your ideas**.
 
+Because it keeps you close to the fundamentals instead of hiding them, you spend your time actually learning the web — not memorizing a framework's conventions that stop being useful the moment you switch tool.
+
 - 🔧 **Zero-config ready** — clone, install, and you're live in minutes
 - 🔗 **Integrated backend** — essential server-side functionality included, no extra setup required
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.5.0-blue)
+![Version](https://img.shields.io/badge/version-2.6.0-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 

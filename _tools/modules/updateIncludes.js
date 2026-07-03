@@ -1,17 +1,17 @@
 const fileSystem = require('fs');
 const { toCamelCase } = require('./utils');
 
-const INCLUDES_PATH = 'src/frontend/components/layouts/includes.njk';
+const PAGE_COMPONENTS_PATH = 'src/frontend/layouts/pageComponents.njk';
 
 // --- Helpers ---
 
 function readIncludes() {
-    if (!fileSystem.existsSync(INCLUDES_PATH)) return null;
-    return fileSystem.readFileSync(INCLUDES_PATH, 'utf8');
+    if (!fileSystem.existsSync(PAGE_COMPONENTS_PATH)) return null;
+    return fileSystem.readFileSync(PAGE_COMPONENTS_PATH, 'utf8');
 }
 
 function writeIncludes(content) {
-    fileSystem.writeFileSync(INCLUDES_PATH, content);
+    fileSystem.writeFileSync(PAGE_COMPONENTS_PATH, content);
 }
 
 function buildElifRegex(camelName) {
@@ -32,7 +32,7 @@ function addLayout(pageName) {
 
     const newElif =
         `{% elif title == "${camelName}" %}\n` +
-        `  {# Insert your includes under this page #}\n` +
+        `  {# Insert your components under this page #}\n` +
         `  {#{% include "component.njk" %}#}\n\n`;
 
     writeIncludes(content.replace('{% else %}', `${newElif}{% else %}`));

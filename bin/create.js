@@ -121,7 +121,7 @@ src/backend/config.php
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '2.5.0',
+    version:   '2.6.0',
     private:   true,
     outputDir: 'out',
     "scripts": {
@@ -226,7 +226,7 @@ function applyFramework(framework) {
         fs.writeFileSync(globalScssPath, content);
     }
 
-    const baseNjkPath = path.join(targetDir, 'src/frontend/components/layouts/base.njk');
+    const baseNjkPath = path.join(targetDir, 'src/frontend/layouts/base.njk');
     if (fs.existsSync(baseNjkPath)) {
         let content = fs.readFileSync(baseNjkPath, 'utf8');
         ALL_FRAMEWORKS.forEach(fw => {
