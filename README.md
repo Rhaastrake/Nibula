@@ -16,7 +16,7 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.6.11-blue)
+![Version](https://img.shields.io/badge/version-2.6.12-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -26,7 +26,7 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 * #### Optional: Better Nunjucks VS Code extension by Ed Heltzel
 
 ## Installation
-Install Berna-Stencil once, globally:
+Install the Berna-Stencil CLI once, globally:
 
 ```bash
 npm install -g berna-stencil
@@ -59,7 +59,11 @@ Run these from anywhere inside a project (except `bs new`, which you run whereve
 | `bs run` | Start the dev server |
 | `bs build` | Build the site |
 | `bs cli` | Open the page-management assistant |
+| `bs update` | Update the CLI to the latest version |
+| `bs ver` | Show the installed and latest version |
 | `bs help` | Show the available commands |
+
+Before scaffolding, `bs new` checks the npm registry for a newer version and offers to update first (via `bs update`). If the registry is unreachable, the check is skipped and creation proceeds normally.
 
 > `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna run`, `berna cli`).
 

@@ -6,7 +6,6 @@ const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
 
 const PROJECT_MARKER = '.eleventy.js';
 
-const MAX_PAGE_NAME_LENGTH = 50;
 const PROTECTED_PAGES = Object.freeze(['homepage', '404']);
 
 function findProjectRoot(start) {
@@ -50,4 +49,4 @@ const PATHS = Object.freeze({
     templates:           TEMPLATES_DIR,
 });
 
-module.exports = { PATHS, MAX_PAGE_NAME_LENGTH, PROTECTED_PAGES, findProjectRoot };
+module.exports = { PATHS, PROTECTED_PAGES, findProjectRoot };

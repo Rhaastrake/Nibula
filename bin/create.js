@@ -62,7 +62,7 @@ const MANDATORY_COPY = [
     'nginx.conf',
     'src/backend',
     'src/frontend',
-    'src/backend/config.example.php',
+    'src/backend/example.config.php',
 ];
 
 const TOOLS_FILES = [
@@ -402,12 +402,11 @@ async function init() {
     }
 
     const configDest    = path.join(targetDir, 'src/backend/config.php');
-    const configExample = path.join(targetDir, 'src/backend/config.example.php');
+    const configExample = path.join(targetDir, 'src/backend/example.config.php');
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
         fs.copyFileSync(configExample, configDest);
         logAdd('src/backend/config.php');
     }
-    deleteFileRecursive(targetDir, 'config.example.php');
 
     const pkg = { ...PROJECT_PACKAGE };
 
