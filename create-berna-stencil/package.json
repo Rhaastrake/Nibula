@@ -1,6 +1,6 @@
 {
   "name": "create-berna-stencil",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "bin": {
     "create-berna-stencil": "index.js"
   },
