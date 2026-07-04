@@ -5,18 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { writeSync } = require('fs');
 const { spawnSync } = require('child_process');
-
-const color = {
-    reset:   '\x1b[0m',
-    bold:    '\x1b[1m',
-    dim:     '\x1b[2m',
-    red:     '\x1b[31m',
-    green:   '\x1b[32m',
-    yellow:  '\x1b[33m',
-    blue:    '\x1b[34m',
-    magenta: '\x1b[35m',
-    cyan:    '\x1b[36m',
-};
+const { color } = require('../_tools/modules/constants');
 
 // ── PATHS ────────────────────────────────────────────────────────────────────
 
@@ -62,7 +51,6 @@ const MANDATORY_COPY = [
     'nginx.conf',
     'src/backend',
     'src/frontend',
-    'src/backend/example.config.php',
 ];
 
 const TOOLS_FILES = [
@@ -199,17 +187,6 @@ function copyRecursive(src, dest, exclude = []) {
     } else {
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.copyFileSync(src, dest);
-    }
-}
-
-function deleteFileRecursive(dir, filename) {
-    for (const child of fs.readdirSync(dir)) {
-        const fullPath = path.join(dir, child);
-        if (fs.statSync(fullPath).isDirectory()) {
-            deleteFileRecursive(fullPath, filename);
-        } else if (child === filename) {
-            fs.unlinkSync(fullPath);
-        }
     }
 }
 
@@ -402,7 +379,7 @@ async function init() {
     }
 
     const configDest    = path.join(targetDir, 'src/backend/config.php');
-    const configExample = path.join(targetDir, 'src/backend/example.config.php');
+    const configExample = path.join(targetDir, 'src/backend/config.example.php');
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
         fs.copyFileSync(configExample, configDest);
         logAdd('src/backend/config.php');
@@ -436,7 +413,7 @@ async function init() {
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);
     if (process.argv[2]) log(`  ${color.yellow}cd ${process.argv[2]}${color.reset}`);
-    log(`  ${color.yellow}bs run${color.reset}\n`);
+    log(`  ${color.yellow}npm run serve${color.reset}\n`);
 }
 
 init();

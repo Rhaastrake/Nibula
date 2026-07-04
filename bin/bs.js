@@ -5,6 +5,7 @@ const https = require('https');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
 const { findProjectRoot } = require('../_tools/modules/constants');
+const { color } = require('../_tools/modules/constants');
 
 const pkg = require('../package.json');
 
@@ -106,16 +107,16 @@ function updateGlobal() {
 
 function usage() {
     console.log(`
-berna-stencil (bs)
+${color.bold}${color.cyan}Berna-Stencil${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
 Usage:
-  bs new <project-name>   Scaffold a new project
-  bs cli                  Open the page-management assistant
-  bs run                  Start the dev server (npm run serve)
-  bs build                Build the site (npm run build)
-  bs update               Update the CLI to the latest version
-  bs ver                  Show the installed and latest version
-  bs help                 Show this message
+  ${color.yellow}bs new <project-name>${color.reset}   Scaffold a new project
+  ${color.yellow}bs cli${color.reset}                  Open the page-management assistant
+  ${color.yellow}bs run${color.reset}                  Start the dev server (npm run serve)
+  ${color.yellow}bs build${color.reset}                Build the site (npm run build)
+  ${color.yellow}bs update${color.reset}               Update the CLI to the latest version
+  ${color.yellow}bs ver${color.reset}                  Show the installed and latest version
+  ${color.yellow}bs help${color.reset}                 Show this message
 `);
 }
 
@@ -184,7 +185,7 @@ async function main() {
             break;
         }
         default:
-            console.error(`Unknown command: ${cmd}`);
+            console.error(`${color.red}Unknown command:${color.reset} ${cmd}`);
             usage();
             process.exit(1);
     }
