@@ -138,7 +138,7 @@ src/backend/config.php
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '2.6.4',
+    version:   '2.6.0',
     private:   true,
     outputDir: 'out',
     "scripts": {
@@ -165,7 +165,7 @@ const PROJECT_PACKAGE = {
         'uikit':              '^3.25.13',
     },
     devDependencies: {
-        'berna-stencil': '^2.6.4',
+        'berna-stencil': '^2.6.3',
         'concurrently':  '^9.2.1',
         'esbuild':       '^0.27.3',
         'sass':          '^1.77.0',
@@ -263,9 +263,9 @@ function installDependencies() {
     }
 
     log(`\n${color.blue}>> Installing Composer modules...${color.reset}\n`);
-    spawnSync('composer', ['install'], {
+    spawnSync('composer', ['install', '--quiet', '--no-interaction'], {
         cwd: backendCore,
-        stdio: 'inherit',
+        stdio: 'ignore',
         shell: process.platform === 'win32',
     });
 

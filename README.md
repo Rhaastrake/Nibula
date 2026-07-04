@@ -11,12 +11,12 @@ Building a website from scratch involves a lot of moving parts: templating engin
 
 Because it keeps you close to the fundamentals instead of hiding them, you spend your time actually learning the web — not memorizing a framework's conventions that stop being useful the moment you switch tool.
 
-- 🔧 **Zero-config ready** — clone, install, and you're live in minutes
+- 🔧 **Zero-config ready** — install, create, and you're live in minutes
 - 🔗 **Integrated backend** — essential server-side functionality included, no extra setup required
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.6.4-blue)
+![Version](https://img.shields.io/badge/version-2.6.5-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -26,45 +26,51 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 * #### Optional: Better Nunjucks VS Code extension by Ed Heltzel
 
 ## Installation
-Open your IDE (e.g. Visual Studio Code), open the folder that contains your websites and open a new terminal.
+Install the Berna-Stencil CLI once, globally:
 
-You can create a new project in two ways.
-
-### Option A — one-off scaffolder
-Run the command to download the project and install everything:
-```bash
-npm create berna-stencil@latest your-project
-```
-
-### Option B — installed CLI
-Install the CLI once, then use it to create as many projects as you like:
 ```bash
 npm install -g berna-stencil
+```
+
+This gives you the `bs` command (and its identical alias `berna`).
+
+## Create a project
+From the folder that contains your websites, run:
+
+```bash
 bs new your-project
 ```
 
-Both options are interactive: you choose the language (JavaScript/TypeScript) and the CSS framework, and dependencies are installed automatically.
+The scaffolder is interactive: you choose the language (JavaScript/TypeScript) and the CSS framework, and all dependencies are installed automatically.
 
-Then, whichever option you used:
+Then start the dev server and visit `localhost:8080`:
 
-* Navigate into the project folder
-   ```bash
-   cd your-project
-   ```
+```bash
+cd your-project
+bs run
+```
 
-* Run the command to launch the live server and build the site, then visit localhost:8080:
-   ```bash
-   npm run serve
-   ```
+## Commands
+Run these from anywhere inside a project (except `bs new`, which you run wherever you want to create the project):
+
+| Command | Description |
+|---|---|
+| `bs new <name>` | Scaffold a new project |
+| `bs run` | Start the dev server |
+| `bs build` | Build the site |
+| `bs cli` | Open the page-management assistant |
+| `bs help` | Show the available commands |
+
+> `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna run`, `berna cli`).
 
 ## Managing pages
-Once inside a project, open the interactive assistant to create, remove or rename pages and configure the output path:
+To create, remove or rename pages and configure the output path, open the interactive assistant:
+
 ```bash
 bs cli
 ```
-`npm run assistant` does the same thing. See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
 
-> `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna cli`).
+See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
 
 ## Roadmap
 * [ ] Add support for multiple themes

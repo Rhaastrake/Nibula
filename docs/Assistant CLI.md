@@ -4,15 +4,13 @@
 
 An interactive CLI to manage pages without touching files manually.
 
-Requires the `berna-stencil` CLI (installed globally, or as the project's dev dependency). Run it from anywhere inside a project:
+Run it from anywhere inside a project:
 
 ```
 bs cli
 ```
 
-`npm run assistant` is equivalent. `berna` is an identical alias for `bs`.
-
-> To scaffold a **new** project instead, use `bs new <project-name>` (see the main README).
+> `berna` is an identical alias for `bs`. To scaffold a **new** project instead, use `bs new <project-name>` (see the main README).
 
 ## Menu
 
