@@ -57,12 +57,16 @@ const FRAMEWORK_CHOICES = [
 
 const MANDATORY_COPY = [
     'docs',
-    '_tools',
     '.eleventy.js',
     '.eleventyignore',
     'nginx.conf',
     'src/backend',
     'src/frontend',
+];
+
+const TOOLS_FILES = [
+    '_tools/buildJs.js',
+    '_tools/cleanOutput.js',
 ];
 
 const FRONTEND_EXCLUDE = {
@@ -134,7 +138,7 @@ src/backend/config.php
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '2.6.0',
+    version:   '2.6.4',
     private:   true,
     outputDir: 'out',
     "scripts": {
@@ -147,7 +151,7 @@ const PROJECT_PACKAGE = {
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-        "assistant": "node _tools/assistant.js"
+        "assistant": "bs cli"
     },
     dependencies: {
         '@11ty/eleventy':     '^3.1.2',
@@ -161,9 +165,10 @@ const PROJECT_PACKAGE = {
         'uikit':              '^3.25.13',
     },
     devDependencies: {
-        'concurrently': '^9.2.1',
-        'esbuild':      '^0.27.3',
-        'sass':         '^1.77.0',
+        'berna-stencil': '^2.6.4',
+        'concurrently':  '^9.2.1',
+        'esbuild':       '^0.27.3',
+        'sass':          '^1.77.0',
     },
 };
 
@@ -385,6 +390,14 @@ async function init() {
         const exclude = target === 'src/frontend' ? FRONTEND_EXCLUDE[language] : [];
         copyRecursive(src, dest, exclude);
         logAdd(target);
+    }
+
+    for (const file of TOOLS_FILES) {
+        const src  = path.join(templateDir, file);
+        const dest = path.join(targetDir, file);
+        if (!fs.existsSync(src)) continue;
+        copyRecursive(src, dest);
+        logAdd(file);
     }
 
     const configDest    = path.join(targetDir, 'src/backend/config.php');

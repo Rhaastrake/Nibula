@@ -1,0 +1,10 @@
+{
+  "name": "create-berna-stencil",
+  "version": "2.6.4",
+  "bin": {
+    "create-berna-stencil": "index.js"
+  },
+  "dependencies": {
+    "berna-stencil": "^2.6.4"
+  }
+}

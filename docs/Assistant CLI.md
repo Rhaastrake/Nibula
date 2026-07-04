@@ -4,9 +4,15 @@
 
 An interactive CLI to manage pages without touching files manually.
 
+Requires the `berna-stencil` CLI (installed globally, or as the project's dev dependency). Run it from anywhere inside a project:
+
 ```
-npm run assistant
+bs cli
 ```
+
+`npm run assistant` is equivalent. `berna` is an identical alias for `bs`.
+
+> To scaffold a **new** project instead, use `bs new <project-name>` (see the main README).
 
 ## Menu
 
@@ -17,7 +23,7 @@ npm run assistant
 4. Configure output path
 ```
 
-Use `CTRL/CMD + C` to exit.
+Use `CTRL/CMD + C` (or `CTRL + D`) to exit.
 
 ## Create page
 

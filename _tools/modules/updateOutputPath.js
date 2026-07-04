@@ -79,7 +79,7 @@ function updateOutputPath(rawPath) {
 
     const normalizedPath = trimmed === '.'
         ? 'out'
-        : `${trimmed.replace(/\/$/, '')}/${path.basename(process.cwd())}-out`;
+        : `${trimmed.replace(/\/$/, '')}/${path.basename(PATHS.root)}-out`;
 
     let oldPath = null;
     try {

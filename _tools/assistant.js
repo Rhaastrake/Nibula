@@ -129,6 +129,7 @@ async function main() {
         renderMenu();
 
         const choice = await ask(`${color.cyan}❯${color.reset} Choose an option: `);
+        if (choice === null) break;
 
         const action = MENU_ACTIONS[choice];
         if (!action) {

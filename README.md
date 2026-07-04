@@ -16,7 +16,7 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.6.3-blue)
+![Version](https://img.shields.io/badge/version-2.6.4-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -26,26 +26,45 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 * #### Optional: Better Nunjucks VS Code extension by Ed Heltzel
 
 ## Installation
-* Open your IDE (e.g. Visual Studio Code), open the folder that contains your websites and open a new terminal
-* Run the command for your system to download the project and install everything:
-   ```bash
-   npm create berna-stencil@latest your-project
-   ```
+Open your IDE (e.g. Visual Studio Code), open the folder that contains your websites and open a new terminal.
+
+You can create a new project in two ways.
+
+### Option A — one-off scaffolder
+Run the command to download the project and install everything:
+```bash
+npm create berna-stencil@latest your-project
+```
+
+### Option B — installed CLI
+Install the CLI once, then use it to create as many projects as you like:
+```bash
+npm install -g berna-stencil
+bs new your-project
+```
+
+Both options are interactive: you choose the language (JavaScript/TypeScript) and the CSS framework, and dependencies are installed automatically.
+
+Then, whichever option you used:
 
 * Navigate into the project folder
    ```bash
    cd your-project
    ```
 
-* Install all the node_modules
-   ```bash
-   npm install
-   ```
-
 * Run the command to launch the live server and build the site, then visit localhost:8080:
    ```bash
    npm run serve
    ```
+
+## Managing pages
+Once inside a project, open the interactive assistant to create, remove or rename pages and configure the output path:
+```bash
+bs cli
+```
+`npm run assistant` does the same thing. See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
+
+> `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna cli`).
 
 ## Roadmap
 * [ ] Add support for multiple themes
