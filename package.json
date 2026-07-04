@@ -1,6 +1,6 @@
 {
   "name": "create-berna-stencil",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "outputDir": "out",
   "scripts": {
     "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
