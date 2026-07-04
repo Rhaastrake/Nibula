@@ -32,8 +32,7 @@ function runNpm(scriptName) {
 }
 
 function usage() {
-    console.log(`
-\x1b[35m Berna-Stencil (bs) by Michele Garofalo
+    console.log(`\x1b[1;36mBerna-Stencil\x1b[0m \x1b[1mby Michele Garofalo\x1b[0m
 
 Usage:
   bs new <project-name>   Scaffold a new project
