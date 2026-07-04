@@ -62,6 +62,7 @@ const MANDATORY_COPY = [
     'nginx.conf',
     'src/backend',
     'src/frontend',
+    'src/backend/config.example.php',
 ];
 
 const TOOLS_FILES = [
