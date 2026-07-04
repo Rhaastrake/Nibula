@@ -436,7 +436,7 @@ async function init() {
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);
     if (process.argv[2]) log(`  ${color.yellow}cd ${process.argv[2]}${color.reset}`);
-    log(`  ${color.yellow}bs serve${color.reset}\n`);
+    log(`  ${color.yellow}bs run${color.reset}\n`);
 }
 
 init();
