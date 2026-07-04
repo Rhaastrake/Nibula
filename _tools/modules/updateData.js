@@ -1,72 +1,60 @@
-const fileSystem = require('fs');
+const fs = require('fs');
+const { PATHS } = require('./constants');
 const { toCamelCase, toNiceTitle } = require('./utils');
 
-const SITE_DATA_PATH = 'src/frontend/data/site.json';
-
-// Returns the parsed site.json content, or null if the file doesn't exist
 function readSiteData() {
-    if (!fileSystem.existsSync(SITE_DATA_PATH)) return null;
-    return JSON.parse(fileSystem.readFileSync(SITE_DATA_PATH, 'utf8'));
+    if (!fs.existsSync(PATHS.siteData)) {
+        console.log(`[skip] not found: ${PATHS.siteData}`);
+        return null;
+    }
+    try {
+        const data = JSON.parse(fs.readFileSync(PATHS.siteData, 'utf8'));
+        if (!data.pages || typeof data.pages !== 'object') data.pages = {};
+        return data;
+    } catch (err) {
+        console.log(`[error] cannot parse site.json: ${err.message}`);
+        return null;
+    }
 }
 
-// Serializes and writes the data object back to site.json
 function writeSiteData(data) {
-    fileSystem.writeFileSync(SITE_DATA_PATH, JSON.stringify(data, null, 2));
+    fs.writeFileSync(PATHS.siteData, `${JSON.stringify(data, null, 2)}\n`);
 }
 
-// --- Public API ---
-
-// Adds a new page record to site.json
-// Skips silently if the file doesn't exist or the record is already present
 function addSiteData(pageName) {
     const data = readSiteData();
     if (!data) return;
 
     const camelName = toCamelCase(pageName);
-
     if (data.pages[camelName]) {
-        console.log(`[SKIP] Record "${camelName}" already exists.`);
+        console.log(`[skip] record "${camelName}" already exists`);
         return;
     }
 
-    // Build the default page record with SEO metadata and empty CDN arrays
     data.pages[camelName] = {
-        seo: {
-            title: toNiceTitle(pageName),
-            description: 'description',
-        },
-        cdn: {
-            css: [],
-            js: []
-        }
+        seo: { title: toNiceTitle(pageName), description: 'description' },
+        cdn: { css: [], js: [] },
     };
 
     writeSiteData(data);
-    console.log(`[UPDATED] Record "${camelName}" added.`);
+    console.log(`[updated] record "${camelName}" added`);
 }
 
-// Removes a page record from site.json
-// Skips silently if the file doesn't exist or the record is not found
 function removeSiteData(pageName) {
     const data = readSiteData();
     if (!data) return;
 
     const camelName = toCamelCase(pageName);
-
     if (!data.pages[camelName]) {
-        console.log(`[SKIP] Record "${camelName}" not found.`);
+        console.log(`[skip] record "${camelName}" not found`);
         return;
     }
 
     delete data.pages[camelName];
-
     writeSiteData(data);
-    console.log(`[CLEANED] Record "${camelName}" removed.`);
+    console.log(`[cleaned] record "${camelName}" removed`);
 }
 
-// Renames a page record in site.json
-// Preserves all existing fields (cdn, etc.) and only updates the SEO title
-// Skips if the source record doesn't exist or the target name is already taken
 function renameSiteData(oldName, newName) {
     const data = readSiteData();
     if (!data) return;
@@ -75,29 +63,22 @@ function renameSiteData(oldName, newName) {
     const newCamel = toCamelCase(newName);
 
     if (!data.pages[oldCamel]) {
-        console.log(`[SKIP] Record "${oldCamel}" not found.`);
+        console.log(`[skip] record "${oldCamel}" not found`);
         return;
     }
-
     if (data.pages[newCamel]) {
-        console.log(`[SKIP] Record "${newCamel}" already exists.`);
+        console.log(`[skip] record "${newCamel}" already exists`);
         return;
     }
 
-    // Spread the existing record to preserve cdn and any future fields,
-    // then override only the seo.title with the new page name
     data.pages[newCamel] = {
         ...data.pages[oldCamel],
-        seo: {
-            ...data.pages[oldCamel].seo,
-            title: toNiceTitle(newName),
-        }
+        seo: { ...data.pages[oldCamel].seo, title: toNiceTitle(newName) },
     };
-
     delete data.pages[oldCamel];
 
     writeSiteData(data);
-    console.log(`[UPDATED] Record "${oldCamel}" renamed to "${newCamel}".`);
+    console.log(`[updated] record "${oldCamel}" renamed to "${newCamel}"`);
 }
 
 module.exports = { addSiteData, removeSiteData, renameSiteData };

@@ -1,113 +1,109 @@
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
+const { PATHS } = require('./constants');
 const { isTypeScriptProject } = require('./utils');
 
-const ELEVENTY_CONFIG = path.resolve(__dirname, '../../.eleventy.js');
-const PACKAGE_JSON    = path.resolve(__dirname, '../../package.json');
-const TSCONFIG        = path.resolve(__dirname, '../../tsconfig.json');
-
 const OUTPUT_DIR_REGEX = /const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/;
-
-// --- Helpers ---
+const TSCONFIG_OUTDIR_REGEX = /"outDir"\s*:\s*"[^"]*"/;
 
 function parseOutputDir(content) {
     const match = content.match(OUTPUT_DIR_REGEX);
     return match ? match[1] : null;
 }
 
-// --- Updaters ---
-
 function updateEleventyConfig(newPath) {
-    const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-
-    const updated = content.replace(
-        OUTPUT_DIR_REGEX,
-        `const OUTPUT_DIR = "${newPath}"`
-    );
+    const content = fs.readFileSync(PATHS.eleventyConfig, 'utf8');
+    const updated = content.replace(OUTPUT_DIR_REGEX, `const OUTPUT_DIR = "${newPath}"`);
 
     if (content === updated) {
-        console.log('(!) OUTPUT_DIR not found in .eleventy.js');
-        return false;
+        console.log('[skip] OUTPUT_DIR not found in .eleventy.js');
+        return;
     }
-
-    fs.writeFileSync(ELEVENTY_CONFIG, updated, 'utf-8');
-    console.log(`(✓) .eleventy.js updated → ${newPath}`);
-    return true;
+    fs.writeFileSync(PATHS.eleventyConfig, updated);
+    console.log(`[updated] .eleventy.js → ${newPath}`);
 }
 
 function updatePackageJson(newPath) {
-    const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
+    const pkg = JSON.parse(fs.readFileSync(PATHS.packageJson, 'utf8'));
+    const scriptGlob = isTypeScriptProject()
+        ? 'src/frontend/ts/pages/*.ts'
+        : 'src/frontend/js/pages/*.js';
 
     pkg.outputDir = newPath;
-
-    const usesTs = isTypeScriptProject();
-
+    pkg.scripts = pkg.scripts || {};
     pkg.scripts['build:css'] = `sass src/frontend/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
     pkg.scripts['serve:css'] = `sass --watch src/frontend/scss:${newPath}/css --no-source-map --quiet`;
+    pkg.scripts['build:js']  = `esbuild "${scriptGlob}" --bundle --outdir=${newPath}/js/pages --minify`;
+    pkg.scripts['serve:js']  = `esbuild "${scriptGlob}" --bundle --outdir=${newPath}/js/pages --watch`;
 
-    if (usesTs) {
-        pkg.scripts['build:js']  = `esbuild "src/frontend/ts/pages/*.ts" --bundle --outdir=${newPath}/js/pages --minify`;
-        pkg.scripts['serve:js']  = `esbuild "src/frontend/ts/pages/*.ts" --bundle --outdir=${newPath}/js/pages --watch`;
-    } else {
-        pkg.scripts['build:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --minify`;
-        pkg.scripts['serve:js']  = `esbuild "src/frontend/js/pages/*.js" --bundle --outdir=${newPath}/js/pages --watch`;
-    }
-
-    fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2), 'utf-8');
-    console.log(`(✓) package.json updated → ${newPath}`);
-    return true;
+    fs.writeFileSync(PATHS.packageJson, `${JSON.stringify(pkg, null, 2)}\n`);
+    console.log(`[updated] package.json → ${newPath}`);
 }
-
-const TSCONFIG_OUTDIR_REGEX = /"outDir"\s*:\s*"[^"]*"/;
 
 function updateTsConfig(newPath) {
     if (!isTypeScriptProject()) return;
 
-    const content = fs.readFileSync(TSCONFIG, 'utf-8');
+    const content = fs.readFileSync(PATHS.tsconfig, 'utf8');
     const updated = content.replace(TSCONFIG_OUTDIR_REGEX, `"outDir": "./${newPath}/ts"`);
 
     if (content === updated) {
-        console.log('(!) outDir not found in tsconfig.json');
+        console.log('[skip] outDir not found in tsconfig.json');
         return;
     }
-
-    fs.writeFileSync(TSCONFIG, updated, 'utf-8');
-    console.log(`(✓) tsconfig.json updated → ${newPath}/ts`);
+    fs.writeFileSync(PATHS.tsconfig, updated);
+    console.log(`[updated] tsconfig.json → ${newPath}/ts`);
 }
 
-// --- Public API ---
+function deleteOldOutput(oldPath) {
+    if (!oldPath) return;
 
-function updateOutputPath(newPath) {
-    const trimmed = newPath.trim().replace(/\\/g, '/');
+    const oldAbsPath = path.resolve(PATHS.root, oldPath);
+    const insideProject = oldAbsPath.startsWith(PATHS.root + path.sep);
+
+    if (!insideProject || oldAbsPath === PATHS.root) {
+        console.log(`[skip] refusing to delete "${oldAbsPath}" (outside project)`);
+        return;
+    }
+    if (fs.existsSync(oldAbsPath)) {
+        fs.rmSync(oldAbsPath, { recursive: true, force: true });
+        console.log(`[deleted] ${oldAbsPath}`);
+    }
+}
+
+function updateOutputPath(rawPath) {
+    const trimmed = (rawPath ?? '').trim().replace(/\\/g, '/');
+    if (!trimmed) {
+        console.log('[skip] empty output path');
+        return;
+    }
 
     const normalizedPath = trimmed === '.'
         ? 'out'
         : `${trimmed.replace(/\/$/, '')}/${path.basename(process.cwd())}-out`;
 
-    const eleventyContent = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-    const oldPath = parseOutputDir(eleventyContent);
-
-    if (oldPath) {
-        const oldAbsPath = path.resolve(__dirname, '../../', oldPath);
-        if (fs.existsSync(oldAbsPath)) {
-            fs.rmSync(oldAbsPath, { recursive: true, force: true });
-            console.log(`(✓) folder deleted → ${oldAbsPath}`);
-        } else {
-            console.log(`(i) folder not found, nothing to delete → ${oldAbsPath}`);
-        }
+    let oldPath = null;
+    try {
+        oldPath = parseOutputDir(fs.readFileSync(PATHS.eleventyConfig, 'utf8'));
+    } catch (err) {
+        console.log(`[error] cannot read .eleventy.js: ${err.message}`);
+        return;
     }
 
-    console.log(`\nupdating output path → "${normalizedPath}"...`);
+    deleteOldOutput(oldPath);
 
-    updatePackageJson(normalizedPath);
-    updateEleventyConfig(normalizedPath);
-    updateTsConfig(normalizedPath);
+    console.log(`\nupdating output path → "${normalizedPath}"`);
+    try {
+        updatePackageJson(normalizedPath);
+        updateEleventyConfig(normalizedPath);
+        updateTsConfig(normalizedPath);
+    } catch (err) {
+        console.log(`[error] could not update output path: ${err.message}`);
+    }
 }
 
 function getCurrentOutputPath() {
     try {
-        const content = fs.readFileSync(ELEVENTY_CONFIG, 'utf-8');
-        return parseOutputDir(content);
+        return parseOutputDir(fs.readFileSync(PATHS.eleventyConfig, 'utf8'));
     } catch {
         return null;
     }

@@ -1,146 +1,150 @@
 const readline = require('readline');
-const { addPage, removePage, renamePage } = require('./modules/updatePage');
-const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
 
-const c = {
-    reset: "\x1b[0m",
-    bold: "\x1b[1m",
-    dim: "\x1b[2m",
-    red: "\x1b[31m",
-    green: "\x1b[32m",
-    yellow: "\x1b[33m",
-    magenta: "\x1b[35m",
-    cyan: "\x1b[36m"
+const { addPage, removePage, renamePage, pageExists } = require('./modules/updatePage');
+const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
+const { validatePageName, validateOutputPath } = require('./modules/validation');
+const { toKebabCase } = require('./modules/utils');
+
+const color = {
+    reset:   '\x1b[0m',
+    bold:    '\x1b[1m',
+    dim:     '\x1b[2m',
+    red:     '\x1b[31m',
+    green:   '\x1b[32m',
+    yellow:  '\x1b[33m',
+    magenta: '\x1b[35m',
+    cyan:    '\x1b[36m',
 };
 
-const readerInterface = readline.createInterface({
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    terminal: true
+    terminal: true,
 });
 
-const PROTECTED_PAGES  = ['homepage', '404'];
-const MAX_NAME_LENGTH  = 50;
-
-function toKebabCase(str) {
-    return str.trim().toLowerCase()
-        .replace(/[^a-z0-9\s_-]/g, '')
-        .replace(/[\s_]+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
-function validatePageName(name) {
-    if (!name)                                 return 'Invalid name.';
-    if (name.length > MAX_NAME_LENGTH)         return `Name must be ${MAX_NAME_LENGTH} characters or fewer.`;
-    if (!/^[a-z0-9-]+$/.test(name))            return 'Page name can only contain lowercase letters, numbers, and hyphens.';
-    if (/^\d/.test(name))                      return 'Page name cannot start with a number.';
-    if (PROTECTED_PAGES.includes(name))        return `"${name}" is a protected page name.`;
-    return null;
-}
-
-function validateOutputPath(input) {
-    if (!input.trim())           return 'Invalid path.';
-    if (input.includes('..'))    return 'Path cannot contain "..".';
-    if (/[<>|?*"']/.test(input)) return 'Path contains invalid characters.';
-    return null;
-}
-
-function sanitizeInput(str) {
-    return str.replace(/[\x00-\x1F\x7F]/g, '').trim();
+function sanitizeInput(value) {
+    return (value ?? '').replace(/[\x00-\x1F\x7F]/g, '').trim();
 }
 
 function ask(prompt) {
-    return new Promise(resolve =>
-        readerInterface.question(prompt, answer => resolve(sanitizeInput(answer)))
-    );
+    return new Promise((resolve) => {
+        const onClose = () => resolve(null);
+        rl.once('close', onClose);
+        rl.question(prompt, (answer) => {
+            rl.off('close', onClose);
+            resolve(sanitizeInput(answer));
+        });
+    });
+}
+
+async function confirm(prompt) {
+    const answer = await ask(`${prompt} ${color.dim}[y/N]${color.reset} `);
+    return /^y(es)?$/i.test((answer ?? '').trim());
 }
 
 async function askPageName(prompt) {
     const raw = await ask(prompt);
+    if (raw === null) return null;
+
     const name = toKebabCase(raw);
     const error = validatePageName(name);
     if (error) {
-        console.log(`\n${c.red}✖ ${error}${c.reset}`);
+        console.log(`\n${color.red}✖ ${error}${color.reset}`);
         return null;
     }
     return name;
 }
 
-async function handleCreateRequest() {
-    const name = await askPageName(`\n${c.green}❯${c.reset} Enter the name of the new page: `);
-    if (name) addPage(name, null);
+async function handleCreate() {
+    const name = await askPageName(`\n${color.green}❯${color.reset} Name of the new page: `);
+    if (name) addPage(name);
 }
 
-async function handleRemoveRequest() {
-    const name = await askPageName(`\n${c.red}❯${c.reset} Enter the name of the page to remove: `);
-    if (name) removePage(name);
-}
+async function handleRemove() {
+    const name = await askPageName(`\n${color.red}❯${color.reset} Name of the page to remove: `);
+    if (!name) return;
 
-async function handleRenameRequest() {
-    const oldName = await askPageName(`\n${c.yellow}❯${c.reset} Enter the name of the page to rename: `);
-    if (!oldName) return;
-
-    const newName = await askPageName(`${c.yellow}❯${c.reset} Enter the new name: `);
-    if (!newName) return;
-
-    if (oldName === newName) {
-        console.log(`\n${c.yellow}⚠ Old and new name are the same.${c.reset}`);
+    if (!pageExists(name)) {
+        console.log(`\n${color.yellow}⚠ Page "${name}" does not exist.${color.reset}`);
         return;
     }
 
+    const confirmed = await confirm(`This permanently deletes all files for "${name}".`);
+    if (!confirmed) {
+        console.log(`\n${color.dim}Cancelled.${color.reset}`);
+        return;
+    }
+    removePage(name);
+}
+
+async function handleRename() {
+    const oldName = await askPageName(`\n${color.yellow}❯${color.reset} Page to rename: `);
+    if (!oldName) return;
+
+    const newName = await askPageName(`${color.yellow}❯${color.reset} New name: `);
+    if (!newName) return;
+
+    if (oldName === newName) {
+        console.log(`\n${color.yellow}⚠ Old and new name are the same.${color.reset}`);
+        return;
+    }
     renamePage(oldName, newName);
 }
 
-async function handleOutputPathRequest() {
+async function handleOutputPath() {
     const current = getCurrentOutputPath();
-    const label   = current ? `\n${c.dim}Current path: "${current}"${c.reset}\n` : '\n';
-    const input   = await ask(`${label}${c.magenta}❯${c.reset} Enter the new output path: `);
+    const label = current ? `\n${color.dim}Current path: "${current}"${color.reset}\n` : '\n';
+
+    const input = await ask(`${label}${color.magenta}❯${color.reset} New output path: `);
+    if (input === null) return;
 
     const error = validateOutputPath(input);
     if (error) {
-        console.log(`\n${c.red}✖ ${error}${c.reset}`);
-    } else {
-        updateOutputPath(input);
+        console.log(`\n${color.red}✖ ${error}${color.reset}`);
+        return;
     }
+    updateOutputPath(input);
 }
 
 const MENU_ACTIONS = {
-    '1': handleCreateRequest,
-    '2': handleRemoveRequest,
-    '3': handleRenameRequest,
-    '4': handleOutputPathRequest,
+    '1': handleCreate,
+    '2': handleRemove,
+    '3': handleRename,
+    '4': handleOutputPath,
 };
 
-async function displayMainMenu() {
-    console.log(`\n${c.cyan}${c.bold}╭────────────────────────╮`);
+function renderMenu() {
+    console.log(`\n${color.cyan}${color.bold}╭────────────────────────╮`);
     console.log(`│    Berna-Stencil CLI   │`);
-    console.log(`╰────────────────────────╯${c.reset}\n`);
-    console.log(`  ${c.green}1.${c.reset} Create page`);
-    console.log(`  ${c.red}2.${c.reset} Remove page`);
-    console.log(`  ${c.yellow}3.${c.reset} Rename page`);
-    console.log(`  ${c.magenta}4.${c.reset} Configure output path`);
-    console.log(`\n  ${c.dim}CTRL/CMD + C to exit${c.reset}\n`);
+    console.log(`╰────────────────────────╯${color.reset}\n`);
+    console.log(`  ${color.green}1.${color.reset} Create page`);
+    console.log(`  ${color.red}2.${color.reset} Remove page`);
+    console.log(`  ${color.yellow}3.${color.reset} Rename page`);
+    console.log(`  ${color.magenta}4.${color.reset} Configure output path`);
+    console.log(`  ${color.dim}CTRL + C to exit\n`);
+}
 
-    const choice = (await ask(`${c.cyan}❯${c.reset} Choose an option: `)).trim();
+async function main() {
+    while (true) {
+        renderMenu();
 
-    if (choice === '0') {
-        readerInterface.close();
-        process.exit(0);
-    }
+        const choice = await ask(`${color.cyan}❯${color.reset} Choose an option: `);
 
-    const action = MENU_ACTIONS[choice];
-    if (action) {
+        const action = MENU_ACTIONS[choice];
+        if (!action) {
+            console.log(`\n${color.red}✖ Invalid option.${color.reset}`);
+            continue;
+        }
+
         try {
             await action();
         } catch (err) {
-            console.log(`\n${c.red}✖ Unexpected error: ${err.message}${c.reset}`);
+            console.log(`\n${color.red}✖ Unexpected error: ${err.message}${color.reset}`);
         }
-    } else {
-        console.log(`\n${c.red}✖ Invalid option.${c.reset}`);
     }
 
-    displayMainMenu();
+    rl.close();
+    process.exit(0);
 }
 
-displayMainMenu();
+main();

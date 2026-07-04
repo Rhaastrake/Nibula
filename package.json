@@ -1,36 +1,19 @@
 {
-  "name": "create-berna-stencil",
-  "version": "2.6.0",
-  "description": "Eleventy boilerplate with per-page SCSS/JS pipeline, esbuild bundling, multi-framework CSS support and a built-in page management CLI",
-  "keywords": [],
-  "author": "Michele Garofalo",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rhaastrake/berna-stencil"
-  },
-  "homepage": "https://github.com/rhaastrake/berna-stencil#readme",
-  "bugs": {
-    "url": "https://github.com/rhaastrake/berna-stencil/issues"
-  },
-  "bin": {
-    "create-berna-stencil": "bin/create.js"
-  },
-  "files": [
-    "bin/",
-    "docs/",
-    "src/",
-    "_tools/",
-    ".eleventy.js",
-    ".eleventyignore",
-    "nginx.conf",
-    ".gitignore",
-    "tsconfig.json",
-    "LICENSE",
-    "NOTICE"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
+  "name": "Berna-Stencil",
+  "version": "2.6.1",
+  "private": true,
+  "outputDir": "out",
+  "scripts": {
+    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
+    "build:js": "node _tools/buildJs.js",
+    "build:11ty": "eleventy",
+    "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
+    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
+    "serve:js": "node _tools/buildJs.js --watch",
+    "serve:11ty": "eleventy --serve --quiet",
+    "clean": "node _tools/cleanOutput.js",
+    "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
+    "assistant": "node _tools/assistant.js"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
@@ -41,26 +24,11 @@
     "foundation-sites": "^6.9.0",
     "github-markdown-css": "^5.9.0",
     "glob": "^13.0.6",
-    "markdown-it": "^14.2.0",
     "uikit": "^3.25.13"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "esbuild": "^0.27.3",
     "sass": "^1.77.0"
-  },
-  "scripts": {
-    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
-    "build:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --minify",
-    "build:11ty": "eleventy",
-    "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
-    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
-    "serve:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --watch",
-    "serve:11ty": "eleventy --serve --quiet",
-    "clean": "node _tools/cleanOutput.js",
-    "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-    "assistant": "node _tools/assistant.js",
-    "postinstall": "cd src/backend/_core && composer install --quiet"
-  },
-  "outputDir": "out"
+  }
 }

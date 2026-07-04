@@ -4,6 +4,19 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const { writeSync } = require('fs');
+const { spawnSync } = require('child_process');
+
+const color = {
+    reset:   '\x1b[0m',
+    bold:    '\x1b[1m',
+    dim:     '\x1b[2m',
+    red:     '\x1b[31m',
+    green:   '\x1b[32m',
+    yellow:  '\x1b[33m',
+    blue:    '\x1b[34m',
+    magenta: '\x1b[35m',
+    cyan:    '\x1b[36m',
+};
 
 // ── PATHS ────────────────────────────────────────────────────────────────────
 
@@ -134,8 +147,7 @@ const PROJECT_PACKAGE = {
         "serve:11ty": "eleventy --serve --quiet",
         "clean": "node _tools/cleanOutput.js",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-        "assistant": "node _tools/assistant.js",
-        "postinstall": "cd src/backend/_core && composer install --quiet"
+        "assistant": "node _tools/assistant.js"
     },
     dependencies: {
         '@11ty/eleventy':     '^3.1.2',
@@ -159,6 +171,10 @@ const PROJECT_PACKAGE = {
 
 function log(msg) {
     writeSync(1, msg + '\n');
+}
+
+function logAdd(name) {
+    log(`${color.green}+${color.reset} ${name}`);
 }
 
 function escapeRegex(str) {
@@ -207,6 +223,48 @@ function njkComment(content, line) {
 
 function njkUncomment(content, line) {
     return content.split(`{# ${line} #}`).join(line);
+}
+
+function installDependencies() {
+    const backendCore = path.join(targetDir, 'src', 'backend', '_core');
+
+    log(`${color.blue}\n>> Installing Node modules...${color.reset}`);
+    const npm = spawnSync('npm', ['install'], {
+        cwd: targetDir,
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+    });
+
+    if (npm.status !== 0) {
+        log('\n(!) npm install failed. Finish manually:');
+        if (process.argv[2]) log(`      cd ${process.argv[2]}`);
+        log('      npm install\n');
+        return false;
+    }
+
+    if (!fs.existsSync(path.join(backendCore, 'composer.json'))) {
+        return true;
+    }
+
+    const probe = spawnSync('composer', ['--version'], {
+        stdio: 'ignore',
+        shell: process.platform === 'win32',
+    });
+
+    if (probe.status !== 0) {
+        log('\n(!) Composer not found — skipping backend dependencies.');
+        log('    Install Composer, then run: cd src/backend/_core && composer install\n');
+        return true;
+    }
+
+    log(`\n${color.blue}>> Installing Composer modules...${color.reset}\n`);
+    spawnSync('composer', ['install'], {
+        cwd: backendCore,
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+    });
+
+    return true;
 }
 
 // ── APPLY ─────────────────────────────────────────────────────────────────────
@@ -313,10 +371,12 @@ function askChoice(question, choices) {
 async function init() {
     if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
 
-    log(`\n>> Creating berna-stencil project in ${targetDir}\n`);
+    log(`\n>> ${color.magenta}Creating berna-stencil project in ${targetDir}\n${color.reset}`);
 
     const language  = await askChoice('Select a language',      LANGUAGE_CHOICES);
     const framework = await askChoice('Select a CSS framework', FRAMEWORK_CHOICES);
+
+    log('');
 
     for (const target of MANDATORY_COPY) {
         const src  = path.join(templateDir, target);
@@ -324,14 +384,14 @@ async function init() {
         if (!fs.existsSync(src)) continue;
         const exclude = target === 'src/frontend' ? FRONTEND_EXCLUDE[language] : [];
         copyRecursive(src, dest, exclude);
-        log(`+ ${target}`);
+        logAdd(target);
     }
 
     const configDest    = path.join(targetDir, 'src/backend/config.php');
     const configExample = path.join(targetDir, 'src/backend/config.example.php');
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
         fs.copyFileSync(configExample, configDest);
-        log('+ src/backend/config.php');
+        logAdd('src/backend/config.php');
     }
     deleteFileRecursive(targetDir, 'config.example.php');
 
@@ -341,15 +401,15 @@ async function init() {
         const tsSrc  = path.join(templateDir, 'tsconfig.json');
         const tsDest = path.join(targetDir, 'tsconfig.json');
         fs.copyFileSync(tsSrc, tsDest);
-        log('+ tsconfig.json');
+        logAdd('tsconfig.json');
         pkg.devDependencies = { ...pkg.devDependencies, typescript: 'latest' };
     }
 
     fs.writeFileSync(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));
-    log('+ package.json');
+    logAdd('package.json');
 
     fs.writeFileSync(path.join(targetDir, '.gitignore'), GITIGNORE_CONTENT);
-    log('+ .gitignore');
+    logAdd('.gitignore');
 
     for (const dir of CREATE_DIRS) {
         fs.mkdirSync(path.join(targetDir, dir), { recursive: true });
@@ -358,10 +418,12 @@ async function init() {
     applyFramework(framework);
     applyLanguage(language);
 
-    log(`\n>> Done! Now run:\n`);
-    if (process.argv[2]) log(`cd ${process.argv[2]}`);
-    log('npm install');
-    log('npm run serve\n');
+    installDependencies();
+
+    log(`\n${color.green}>> Done!${color.reset}`);
+    log(`${color.yellow}\nNow run:\n${color.reset}`);
+    if (process.argv[2]) log(`  ${color.yellow}cd ${process.argv[2]}${color.reset}`);
+    log(`  ${color.yellow}npm run serve${color.reset}\n`);
 }
 
 init();

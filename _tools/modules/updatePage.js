@@ -1,135 +1,162 @@
-const fileSystem = require('fs');
+const fs = require('fs');
 const path = require('path');
 
-const { addSiteData, removeSiteData, renameSiteData } = require('./updateData');
-const { addLayout, removeLayout, renameLayout } = require('./updateIncludes');
-const { getCurrentOutputPath } = require('./updateOutputPath');
+const { PATHS } = require('./constants');
 const { toCamelCase, isTypeScriptProject } = require('./utils');
+const { addSiteData, removeSiteData, renameSiteData } = require('./updateData');
+const { addPageBlock, removePageBlock, renamePageBlock } = require('./pageComponents');
+const { getCurrentOutputPath } = require('./updateOutputPath');
 
-const TEMPLATES_DIR = path.join(__dirname, '..', 'res', 'templates');
+function getPageArtifacts(pageName) {
+    const camelName  = toCamelCase(pageName);
+    const usesTs     = isTypeScriptProject();
+    const scriptDir  = usesTs ? PATHS.tsPages : PATHS.jsPages;
+    const scriptExt  = usesTs ? 'ts' : 'js';
+    const outputRoot = path.join(PATHS.root, getCurrentOutputPath() || 'out');
 
-function getPageTargets(pageName) {
-    const camelName = toCamelCase(pageName);
-    const usesTs    = isTypeScriptProject();
+    return {
+        camelName,
+        source: {
+            scss:   path.join(PATHS.scssPages, `${camelName}.scss`),
+            script: path.join(scriptDir, `${camelName}.${scriptExt}`),
+            route:  path.join(PATHS.routes, `${pageName}.njk`),
+        },
+        output: {
+            files: [
+                path.join(outputRoot, 'js', 'pages',  `${camelName}.js`),
+                path.join(outputRoot, 'css', 'pages', `${camelName}.css`),
+                path.join(outputRoot, `${pageName}.html`),
+                path.join(outputRoot, 'pages', `${pageName}.html`),
+            ],
+            folders: [
+                path.join(outputRoot, pageName),
+                path.join(outputRoot, 'pages', pageName),
+            ],
+        },
+    };
+}
 
-    return [
-        {
-            folder:       'src/frontend/scss/pages',
-            templateFile: 'template.scss',
-            fileName:     `${camelName}.scss`,
-        },
-        {
-            folder:       usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages',
-            templateFile: usesTs ? 'template.ts'           : 'template.js',
-            fileName:     usesTs ? `${camelName}.ts`       : `${camelName}.js`,
-        },
-        {
-            folder:       'src/frontend/_routes',
-            templateFile: 'template.njk',
-            fileName:     `${pageName}.njk`,
-        },
-    ];
+function pageExists(pageName) {
+    return fs.existsSync(path.join(PATHS.routes, `${pageName}.njk`));
+}
+
+function applyRouteFrontMatter(filePath, camelName, pageName) {
+    const content = fs.readFileSync(filePath, 'utf8')
+        .replace(/^title:.*$/m,     `title: "${camelName}"`)
+        .replace(/^permalink:.*$/m, `permalink: "/${pageName}/"`);
+    fs.writeFileSync(filePath, content);
 }
 
 function addPage(pageName) {
-    const camelName = toCamelCase(pageName);
+    if (pageExists(pageName)) {
+        console.log(`[skip] page "${pageName}" already exists`);
+        return;
+    }
 
-    getPageTargets(pageName).forEach(({ folder, templateFile, fileName }) => {
-        const destPath = path.join(folder, fileName);
-        fileSystem.mkdirSync(folder, { recursive: true });
+    const { camelName, source } = getPageArtifacts(pageName);
+    const usesTs = isTypeScriptProject();
 
-        if (fileSystem.existsSync(destPath)) return;
+    const creations = [
+        { dest: source.scss,   template: 'template.scss',                       isRoute: false },
+        { dest: source.script, template: usesTs ? 'template.ts' : 'template.js', isRoute: false },
+        { dest: source.route,  template: 'template.njk',                        isRoute: true  },
+    ];
 
-        const srcPath = path.join(TEMPLATES_DIR, templateFile);
+    try {
+        creations.forEach(({ dest, template, isRoute }) => {
+            const templatePath = path.join(PATHS.templates, template);
+            if (!fs.existsSync(templatePath)) {
+                console.log(`[skip] template not found: ${templatePath}`);
+                return;
+            }
 
-        if (templateFile === 'template.njk') {
-            const content = fileSystem.readFileSync(srcPath, 'utf8')
-                .replace(/^title:.*$/m,     `title: "${camelName}"`)
-                .replace(/^permalink:.*$/m, `permalink: "/${pageName}/"`);
-            fileSystem.writeFileSync(destPath, content);
-        } else {
-            fileSystem.copyFileSync(srcPath, destPath);
-        }
+            fs.mkdirSync(path.dirname(dest), { recursive: true });
+            fs.copyFileSync(templatePath, dest);
+            if (isRoute) applyRouteFrontMatter(dest, camelName, pageName);
 
-        console.log(`[created file] ${destPath}`);
-    });
+            console.log(`[created] ${dest}`);
+        });
+    } catch (err) {
+        console.log(`[error] could not create page files: ${err.message}`);
+        return;
+    }
 
-    addLayout(pageName);
+    addPageBlock(pageName);
     addSiteData(pageName);
 }
 
 function renamePage(oldName, newName) {
-    const oldCamel = toCamelCase(oldName);
-    const newCamel = toCamelCase(newName);
-    const usesTs   = isTypeScriptProject();
-    const ext      = usesTs ? 'ts' : 'js';
-    const jsFolder = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
+    if (!pageExists(oldName)) {
+        console.log(`[skip] page "${oldName}" does not exist`);
+        return;
+    }
+    if (pageExists(newName)) {
+        console.log(`[skip] target page "${newName}" already exists`);
+        return;
+    }
 
-    const filesToRename = [
-        { src: `src/frontend/scss/pages/${oldCamel}.scss`, dest: `src/frontend/scss/pages/${newCamel}.scss` },
-        { src: `${jsFolder}/${oldCamel}.${ext}`,           dest: `${jsFolder}/${newCamel}.${ext}`           },
-        { src: `src/frontend/_routes/${oldName}.njk`,      dest: `src/frontend/_routes/${newName}.njk`      },
+    const oldArtifacts = getPageArtifacts(oldName);
+    const newArtifacts = getPageArtifacts(newName);
+
+    const moves = [
+        { src: oldArtifacts.source.scss,   dest: newArtifacts.source.scss   },
+        { src: oldArtifacts.source.script, dest: newArtifacts.source.script },
+        { src: oldArtifacts.source.route,  dest: newArtifacts.source.route  },
     ];
 
-    filesToRename.forEach(({ src, dest }) => {
-        if (!fileSystem.existsSync(src)) {
-            console.log(`[skip] not found: ${src}`);
-            return;
-        }
-        
-        fileSystem.renameSync(src, dest);
-        console.log(`[renamed] ${src} → ${dest}`);
+    try {
+        moves.forEach(({ src, dest }) => {
+            if (!fs.existsSync(src)) {
+                console.log(`[skip] not found: ${src}`);
+                return;
+            }
+            fs.mkdirSync(path.dirname(dest), { recursive: true });
+            fs.renameSync(src, dest);
+            console.log(`[renamed] ${src} → ${dest}`);
 
-        if (dest.endsWith('.njk')) {
-            const content = fileSystem.readFileSync(dest, 'utf8')
-                .replace(/^title:.*$/m,     `title: "${newCamel}"`)
-                .replace(/^permalink:.*$/m, `permalink: "/${newName}/"`);
-            fileSystem.writeFileSync(dest, content);
-        }
-    });
+            if (dest.endsWith('.njk')) applyRouteFrontMatter(dest, newArtifacts.camelName, newName);
+        });
+    } catch (err) {
+        console.log(`[error] could not rename page files: ${err.message}`);
+        return;
+    }
 
-    renameLayout(oldName, newName);
+    renamePageBlock(oldName, newName);
     renameSiteData(oldName, newName);
 }
 
 function removePage(pageName) {
-    const camelName  = toCamelCase(pageName);
-    const usesTs     = isTypeScriptProject();
-    const ext        = usesTs ? 'ts' : 'js';
-    const jsFolder   = usesTs ? 'src/frontend/ts/pages' : 'src/frontend/js/pages';
-    const OUTPUT_DIR = getCurrentOutputPath() || 'out';
+    if (!pageExists(pageName)) {
+        console.log(`[skip] page "${pageName}" does not exist`);
+    }
 
-    const filesToDelete = [
-        `src/frontend/scss/pages/${camelName}.scss`,
-        `${jsFolder}/${camelName}.${ext}`,
-        `src/frontend/_routes/${pageName}.njk`,
-        path.join(OUTPUT_DIR, 'js/pages',  `${camelName}.js`),
-        path.join(OUTPUT_DIR, 'css/pages', `${camelName}.css`),
-        path.join(OUTPUT_DIR, `${pageName}.html`),
-        path.join(OUTPUT_DIR, 'pages', `${pageName}.html`),
-    ];
+    const { source, output } = getPageArtifacts(pageName);
+    const filesToDelete = [source.scss, source.script, source.route, ...output.files];
 
-    const foldersToDelete = [
-        path.join(OUTPUT_DIR, pageName),
-        path.join(OUTPUT_DIR, 'pages', pageName),
-    ];
-
-    filesToDelete.forEach(f => {
-        if (fileSystem.existsSync(f)) {
-            fileSystem.unlinkSync(f);
-            console.log(`[deleted file] ${f}`);
+    filesToDelete.forEach((file) => {
+        try {
+            if (fs.existsSync(file)) {
+                fs.unlinkSync(file);
+                console.log(`[deleted] ${file}`);
+            }
+        } catch (err) {
+            console.log(`[error] ${file}: ${err.message}`);
         }
     });
 
-    foldersToDelete.forEach(folder => {
-        if (fileSystem.existsSync(folder)) {
-            fileSystem.rmSync(folder, { recursive: true, force: true });
-            console.log(`[deleted folder] ${folder}`);
+    output.folders.forEach((folder) => {
+        try {
+            if (fs.existsSync(folder)) {
+                fs.rmSync(folder, { recursive: true, force: true });
+                console.log(`[deleted] ${folder}`);
+            }
+        } catch (err) {
+            console.log(`[error] ${folder}: ${err.message}`);
         }
     });
 
-    removeLayout(pageName);
+    removePageBlock(pageName);
     removeSiteData(pageName);
 }
 
-module.exports = { addPage, removePage, renamePage };
+module.exports = { addPage, removePage, renamePage, pageExists };
