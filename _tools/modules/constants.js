@@ -6,6 +6,8 @@ const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
 
 const PROJECT_MARKER = '.eleventy.js';
 
+const NOT_INSIDE_PROJECT_MESSAGE = `${color.red}Not inside a Berna-Stencil project.`;
+
 const PROTECTED_PAGES = Object.freeze(['homepage', '404']);
 
 const color = Object.freeze({
@@ -36,7 +38,7 @@ function projectRoot() {
     if (cachedRoot) return cachedRoot;
     const root = findProjectRoot();
     if (!root) {
-        console.error(`Not inside a Berna-Stencil project`);
+        console.error(NOT_INSIDE_PROJECT_MESSAGE);
         process.exit(1);
     }
     cachedRoot = root;
