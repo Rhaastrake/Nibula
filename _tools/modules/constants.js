@@ -1,14 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { color } = require('./modules/constants');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..', '..');
 const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
 
 const PROJECT_MARKER = '.eleventy.js';
 
-const NOT_INSIDE_PROJECT_MESSAGE = `${color.red}Not inside a Berna-Stencil project.`;
-
+const MAX_PAGE_NAME_LENGTH = 50;
 const PROTECTED_PAGES = Object.freeze(['homepage', '404']);
 
 const color = Object.freeze({
@@ -22,6 +20,8 @@ const color = Object.freeze({
     magenta: '\x1b[35m',
     cyan:    '\x1b[36m',
 });
+
+const NOT_INSIDE_PROJECT_MESSAGE = `${color.red}Not inside a Berna-Stencil project.${color.reset}`;
 
 function findProjectRoot(start) {
     let dir = path.resolve(start ?? process.cwd());
@@ -64,4 +64,4 @@ const PATHS = Object.freeze({
     templates:           TEMPLATES_DIR,
 });
 
-module.exports = { PATHS, NOT_INSIDE_PROJECT_MESSAGE, PROJECT_MARKER, PROTECTED_PAGES, color, findProjectRoot };
+module.exports = { PATHS, PROJECT_MARKER, MAX_PAGE_NAME_LENGTH, PROTECTED_PAGES, color, NOT_INSIDE_PROJECT_MESSAGE, findProjectRoot };

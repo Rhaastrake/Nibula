@@ -4,8 +4,7 @@ const path = require('path');
 const https = require('https');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
-const { findProjectRoot, color } = require('../_tools/modules/constants');
-const { NOT_INSIDE_PROJECT_MESSAGE } = require('./modules/constants');
+const { findProjectRoot, color, NOT_INSIDE_PROJECT_MESSAGE } = require('../_tools/modules/constants');
 
 const pkg = require('../package.json');
 
