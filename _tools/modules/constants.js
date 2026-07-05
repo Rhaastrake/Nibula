@@ -56,7 +56,7 @@ const PATHS = Object.freeze({
     get jsPages()        { return path.join(frontendDir(), 'js', 'pages'); },
     get tsPages()        { return path.join(frontendDir(), 'ts', 'pages'); },
     get siteData()       { return path.join(frontendDir(), 'data', 'site.json'); },
-    get pageComponents() { return path.join(frontendDir(), 'layouts', 'pageComponents.njk'); },
+    get pageComponents() { return path.join(frontendDir(), 'layouts', 'page-components.njk'); },
     get eleventyConfig() { return path.join(projectRoot(), '.eleventy.js'); },
     get packageJson()    { return path.join(projectRoot(), 'package.json'); },
     get tsconfig()       { return path.join(projectRoot(), 'tsconfig.json'); },

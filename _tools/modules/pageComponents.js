@@ -28,7 +28,7 @@ function addPageBlock(pageName) {
     if (content.includes(`{% elif title == "${camelName}" %}`)) return;
 
     if (!content.includes('{% else %}')) {
-        console.log('[skip] no {% else %} anchor in pageComponents.njk');
+        console.log('[skip] no {% else %} anchor in page-components.njk');
         return;
     }
 

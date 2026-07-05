@@ -19,9 +19,9 @@ src/frontend/components/
 
 ## Include a component
 
-To render a component inside a page, navigate to `src/frontend/layouts/` and edit `pageComponents.njk`
+To render a component inside a page, navigate to `src/frontend/layouts/` and edit `page-components.njk`
 
-### pageComponents.njk <small>(`src/frontend/layouts/`)</small>
+### page-components.njk <small>(`src/frontend/layouts/`)</small>
 
 ```js
 {% if title == "homepage" %}
@@ -41,7 +41,7 @@ Add a new `{% elif %}` block for each page, listing its components in order. If 
 
 > ⚠️ A new `elif` block is automatically added when you create a page via the Assistant CLI
 
-> ⚠️ If you move or delete a component, always update `pageComponents.njk` or the site will break
+> ⚠️ If you move or delete a component, always update `page-components.njk` or the site will break
 
 ### Using Markdown files in components
 

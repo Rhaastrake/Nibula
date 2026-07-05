@@ -16,7 +16,7 @@ Because it keeps you close to the fundamentals instead of hiding them, you spend
 - 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.6.24-blue)
+![Version](https://img.shields.io/badge/version-2.6.25-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -78,5 +78,5 @@ See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
 
 ## Roadmap
 * [ ] Add support for multiple themes
-* [ ] Extend documentation with advanced usage examples
-* [ ] Assistant CLI improvement for safer inputs
+* [ ] Backend integration choice and switch between php, python or node
+* [ ] 

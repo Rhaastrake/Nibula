@@ -16,7 +16,7 @@ For a page named `my-page`:
 ## Adding content
 
 1. Create a component in `src/frontend/components/` (e.g. `_myPage.njk`)
-2. Include it in `src/frontend/layouts/pageComponents.njk` inside the generated `elif` block:
+2. Include it in `src/frontend/layouts/page-components.njk` inside the generated `elif` block:
 
 ```njk
 {% elif title == "myPage" %}
@@ -37,7 +37,7 @@ To create a URL like `domain.it/about/team`, edit the `permalink` in `src/fronte
 ---
 title: "team"
 permalink: "about/team/"
-layout: pageComponents.njk
+layout: page-components.njk
 ---
 ```
 
