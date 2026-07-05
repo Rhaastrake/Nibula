@@ -36,7 +36,7 @@ function projectRoot() {
     if (cachedRoot) return cachedRoot;
     const root = findProjectRoot();
     if (!root) {
-        console.error(`Not inside a Berna-Stencil project (no ${PROJECT_MARKER} found up from ${process.cwd()}).`);
+        console.error(`Not inside a Berna-Stencil project`);
         process.exit(1);
     }
     cachedRoot = root;
@@ -61,4 +61,4 @@ const PATHS = Object.freeze({
     templates:           TEMPLATES_DIR,
 });
 
-module.exports = { PATHS, PROTECTED_PAGES, color, findProjectRoot };
+module.exports = { PATHS, PROJECT_MARKER, PROTECTED_PAGES, color, findProjectRoot };

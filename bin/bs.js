@@ -28,7 +28,7 @@ function run(script, args) {
 function runNpm(scriptName) {
     const root = findProjectRoot(process.cwd());
     if (!root) {
-        console.error('Not inside a Berna-Stencil project (no .eleventy.js found).');
+        console.error('Not inside a Berna-Stencil project');
         process.exit(1);
     }
     const res = spawnSync('npm', ['run', scriptName], {
@@ -147,6 +147,7 @@ async function main() {
             break;
         }
         case 'cli':
+            requireProjectRoot();
             run(ASSISTANT, []);
             break;
         case 'run':
@@ -185,10 +186,10 @@ async function main() {
             break;
         }
         default:
-            console.error(`${color.red}Unknown command:${color.reset} ${cmd}`);
+            console.error(`Unknown command: ${cmd}`);
             usage();
             process.exit(1);
     }
 }
-
+ 
 main();
