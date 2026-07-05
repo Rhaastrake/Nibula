@@ -6,7 +6,6 @@ const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
 
 const PROJECT_MARKER = '.eleventy.js';
 
-const MAX_PAGE_NAME_LENGTH = 50;
 const PROTECTED_PAGES = Object.freeze(['homepage', '404']);
 
 const color = Object.freeze({
@@ -64,4 +63,4 @@ const PATHS = Object.freeze({
     templates:           TEMPLATES_DIR,
 });
 
-module.exports = { PATHS, PROJECT_MARKER, MAX_PAGE_NAME_LENGTH, PROTECTED_PAGES, color, NOT_INSIDE_PROJECT_MESSAGE, findProjectRoot };
+module.exports = { PATHS, PROJECT_MARKER, PROTECTED_PAGES, color, NOT_INSIDE_PROJECT_MESSAGE, findProjectRoot };
