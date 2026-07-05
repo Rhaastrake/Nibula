@@ -101,8 +101,9 @@ function ask(question) {
     });
 }
 
-function updateGlobal() {
-    const res = spawnSync('npm', ['install', '-g', 'berna-stencil@latest'], {
+function updateGlobal(version) {
+    const target = version ? `berna-stencil@${version}` : 'berna-stencil@latest';
+    const res = spawnSync('npm', ['install', '-g', target, '--prefer-online'], {
         stdio: 'inherit',
         shell: process.platform === 'win32',
     });
@@ -137,7 +138,7 @@ async function main() {
                 if (process.stdin.isTTY) {
                     const answer = await ask('Update before creating the project? [Y/n] ');
                     if (answer === '' || answer === 'y' || answer === 'yes') {
-                        const code = updateGlobal();
+                        const code = updateGlobal(info.latest);
                         if (code === 0) {
                             console.log(`\nUpdated. Re-run "bs new ${rest[0]}" to scaffold with the latest version.`);
                         }
@@ -160,9 +161,14 @@ async function main() {
         case 'build':
             runNpm('build');
             break;
-        case 'update':
-            process.exit(updateGlobal());
-            break;
+        case 'update': {
+            const info = await checkVersion();
+            if (info.latest !== null && !info.behind) {
+                console.log(`Already on the latest version (${info.current}).`);
+                process.exit(0);
+            }
+            process.exit(updateGlobal(info.latest));
+        }
         case 'ver':
         case 'version':
         case '--version':

@@ -1,6 +1,6 @@
 {
   "name": "berna-stencil",
-  "version": "2.6.16",
+  "version": "2.6.17",
   "outputDir": "out",
   "bin": {
     "bs": "bin/bs.js",
