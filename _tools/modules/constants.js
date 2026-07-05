@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { color } = require('./modules/constants');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..', '..');
 const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
