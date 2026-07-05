@@ -64,4 +64,4 @@ const PATHS = Object.freeze({
     templates:           TEMPLATES_DIR,
 });
 
-module.exports = { PATHS, PROJECT_MARKER, PROTECTED_PAGES, color, findProjectRoot };
+module.exports = { PATHS, NOT_INSIDE_PROJECT_MESSAGE, PROJECT_MARKER, PROTECTED_PAGES, color, findProjectRoot };
