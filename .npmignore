@@ -1,4 +1,3 @@
-create-berna-stencil/
 src/backend/_core/vendor/
 src/backend/config.php
 out/
