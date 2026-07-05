@@ -4,8 +4,7 @@ const path = require('path');
 const https = require('https');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
-const { findProjectRoot } = require('../_tools/modules/constants');
-const { color } = require('../_tools/modules/constants');
+const { findProjectRoot, color } = require('../_tools/modules/constants');
 
 const pkg = require('../package.json');
 
@@ -25,12 +24,17 @@ function run(script, args) {
     process.exit(res.status ?? 0);
 }
 
-function runNpm(scriptName) {
+function requireProjectRoot() {
     const root = findProjectRoot(process.cwd());
     if (!root) {
-        console.error('Not inside a Berna-Stencil project');
+        console.error('Not inside a Berna-Stencil project (no .eleventy.js found).');
         process.exit(1);
     }
+    return root;
+}
+
+function runNpm(scriptName) {
+    const root = requireProjectRoot();
     const res = spawnSync('npm', ['run', scriptName], {
         stdio: 'inherit',
         cwd: root,
@@ -191,5 +195,5 @@ async function main() {
             process.exit(1);
     }
 }
- 
+
 main();
