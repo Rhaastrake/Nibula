@@ -1,4 +1,5 @@
-const { PROTECTED_PAGES } = require('./constants');
+const fs = require('fs');
+const { PATHS, PROTECTED_PAGES } = require('./constants');
 
 function validatePageName(name) {
     if (!name)                              return 'Invalid name.';
@@ -16,4 +17,15 @@ function validateOutputPath(input) {
     return null;
 }
 
-module.exports = { validatePageName, validateOutputPath };
+function checkRequiredFiles() {
+    const required = [
+        { label: '.eleventy.js',                 path: PATHS.eleventyConfig },
+        { label: 'package.json',                 path: PATHS.packageJson    },
+        { label: 'src/frontend/data/site.json',  path: PATHS.siteData       },
+        { label: 'src/frontend/layouts/page-components.njk', path: PATHS.pageComponents },
+        { label: 'CLI page templates',           path: PATHS.templates      },
+    ];
+    return required.filter((item) => !fs.existsSync(item.path));
+}
+
+module.exports = { validatePageName, validateOutputPath, checkRequiredFiles };

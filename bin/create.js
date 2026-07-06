@@ -11,6 +11,7 @@ const { color } = require('../_tools/modules/constants');
 
 const targetDir  = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 const templateDir = path.join(__dirname, '..');
+const SELF_VERSION = require('../package.json').version;
 
 // ── ENUMS ────────────────────────────────────────────────────────────────────
 
@@ -51,11 +52,6 @@ const MANDATORY_COPY = [
     'nginx.conf',
     'src/backend',
     'src/frontend',
-];
-
-const TOOLS_FILES = [
-    '_tools/buildJs.js',
-    '_tools/cleanOutput.js',
 ];
 
 const FRONTEND_EXCLUDE = {
@@ -132,13 +128,13 @@ const PROJECT_PACKAGE = {
     outputDir: 'out',
     "scripts": {
         "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
-        "build:js": "node _tools/buildJs.js",
+        "build:js": "bs build-js",
         "build:11ty": "eleventy",
         "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
         "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
-        "serve:js": "node _tools/buildJs.js --watch",
+        "serve:js": "bs build-js --watch",
         "serve:11ty": "eleventy --serve --quiet",
-        "clean": "node _tools/cleanOutput.js",
+        "clean": "bs clean",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
         "assistant": "bs cli"
     },
@@ -154,7 +150,7 @@ const PROJECT_PACKAGE = {
         'uikit':              '^3.25.13',
     },
     devDependencies: {
-        'berna-stencil': '^2.6.3',
+        'berna-stencil': `^${SELF_VERSION}`,
         'concurrently':  '^9.2.1',
         'esbuild':       '^0.27.3',
         'sass':          '^1.77.0',
@@ -370,16 +366,8 @@ async function init() {
         logAdd(target);
     }
 
-    for (const file of TOOLS_FILES) {
-        const src  = path.join(templateDir, file);
-        const dest = path.join(targetDir, file);
-        if (!fs.existsSync(src)) continue;
-        copyRecursive(src, dest);
-        logAdd(file);
-    }
-
     const configDest    = path.join(targetDir, 'src/backend/config.php');
-    const configExample = path.join(targetDir, 'src/backend/config.example.php');
+    const configExample = path.join(targetDir, 'src/backend/example.config.php');
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
         fs.copyFileSync(configExample, configDest);
         logAdd('src/backend/config.php');
@@ -413,7 +401,8 @@ async function init() {
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);
     if (process.argv[2]) log(`  ${color.yellow}cd ${process.argv[2]}${color.reset}`);
-    log(`  ${color.yellow}npm run serve${color.reset}\n`);
+    log(`  ${color.yellow}npm run serve${color.reset}`);
+    log('');
 }
 
 init();

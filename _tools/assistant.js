@@ -2,7 +2,7 @@ const readline = require('readline');
 
 const { addPage, removePage, renamePage, pageExists } = require('./modules/updatePage');
 const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
-const { validatePageName, validateOutputPath } = require('./modules/validation');
+const { validatePageName, validateOutputPath, checkRequiredFiles } = require('./modules/validation');
 const { toKebabCase } = require('./modules/utils');
 const { color } = require('./modules/constants');
 
@@ -115,6 +115,17 @@ function renderMenu() {
 }
 
 async function main() {
+    const missing = checkRequiredFiles();
+    if (missing.length > 0) {
+        console.log(`\n${color.red}✖ This project is missing required files:${color.reset}`);
+        for (const item of missing) {
+            console.log(`  ${color.red}-${color.reset} ${item.label}`);
+        }
+        console.log(`\n${color.dim}The project may be incomplete or created with a different Berna-Stencil version.${color.reset}`);
+        rl.close();
+        process.exit(1);
+    }
+
     while (true) {
         renderMenu();
 

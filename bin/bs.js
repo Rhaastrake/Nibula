@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const readline = require('readline');
@@ -12,6 +13,8 @@ const [, , cmd, ...rest] = process.argv;
 
 const CREATE = path.join(__dirname, 'create.js');
 const ASSISTANT = path.join(__dirname, '..', '_tools', 'assistant.js');
+const BUILDJS   = path.join(__dirname, '..', '_tools', 'buildJs.js');
+const CLEAN     = path.join(__dirname, '..', '_tools', 'cleanOutput.js');
 
 const REGISTRY = 'https://registry.npmjs.org/berna-stencil/latest';
 const CHECK_TIMEOUT = 2500;
@@ -33,8 +36,24 @@ function requireProjectRoot() {
     return root;
 }
 
-function runNpm(scriptName) {
+function maybeDelegateToLocal(root) {
+    const local = path.join(root, 'node_modules', 'berna-stencil', 'bin', 'bs.js');
+    if (fs.existsSync(local) && path.resolve(local) !== path.resolve(__filename)) {
+        const res = spawnSync('node', [local, ...process.argv.slice(2)], {
+            stdio: 'inherit',
+            cwd: process.cwd(),
+        });
+        process.exit(res.status ?? 0);
+    }
+}
+
+function enterProject() {
     const root = requireProjectRoot();
+    maybeDelegateToLocal(root);
+    return root;
+}
+
+function runNpm(root, scriptName) {
     const res = spawnSync('npm', ['run', scriptName], {
         stdio: 'inherit',
         cwd: root,
@@ -119,6 +138,7 @@ Usage:
   ${color.yellow}bs cli${color.reset}                  Open the page-management assistant
   ${color.yellow}bs run${color.reset}                  Start the dev server (npm run serve)
   ${color.yellow}bs build${color.reset}                Build the site (npm run build)
+  ${color.yellow}bs clean${color.reset}                Remove the output directory
   ${color.yellow}bs update${color.reset}               Update the CLI to the latest version
   ${color.yellow}bs ver${color.reset}                  Show the installed and latest version
   ${color.yellow}bs help${color.reset}                 Show this message
@@ -151,16 +171,31 @@ async function main() {
             run(CREATE, [rest[0]]);
             break;
         }
-        case 'cli':
-            requireProjectRoot();
+        case 'cli': {
+            enterProject();
             run(ASSISTANT, []);
             break;
-        case 'run':
-            runNpm('serve');
+        }
+        case 'run': {
+            const root = enterProject();
+            runNpm(root, 'serve');
             break;
-        case 'build':
-            runNpm('build');
+        }
+        case 'build': {
+            const root = enterProject();
+            runNpm(root, 'build');
             break;
+        }
+        case 'build-js': {
+            enterProject();
+            run(BUILDJS, rest);
+            break;
+        }
+        case 'clean': {
+            enterProject();
+            run(CLEAN, []);
+            break;
+        }
         case 'update': {
             const info = await checkVersion();
             if (info.latest !== null && !info.behind) {
