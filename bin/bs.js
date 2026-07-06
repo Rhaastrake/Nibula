@@ -143,10 +143,10 @@ function usage(currentVersion) {
     console.log(`
 ${color.bold}${color.cyan}Berna-Stencil (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
-${color.yellow}bs new <project-name>${color.reset}   Scaffold a new project
+${color.yellow}bs new <project-name>${color.reset}   Create your new project
 ${color.yellow}bs cli${color.reset}                  Open the page-management assistant
-${color.yellow}bs run${color.reset}                  Start the dev server (npm run serve)
-${color.yellow}bs build${color.reset}                Build the site (npm run build)
+${color.yellow}bs run${color.reset}                  Start the dev server and builds out folder runtime
+${color.yellow}bs build${color.reset}                Build the site out folder to publish
 ${color.yellow}bs clean${color.reset}                Remove the output directory
 ${color.yellow}bs update${color.reset}               Update the CLI to the latest version
 `);
@@ -212,7 +212,9 @@ async function main() {
         }
         case undefined:
         case 'help':
+        case '-help':
         case '--help':
+        case 'h':
         case '-h': {
             usage(info.current);
             if (info.behind) {
@@ -221,7 +223,7 @@ async function main() {
             break;
         }
         default:
-            console.error(`Unknown command: ${cmd}`);
+            console.error(`${color.red}\nUnknown command:${color.reset} ${cmd}`);
             usage(info.current);
             process.exit(1);
     }
