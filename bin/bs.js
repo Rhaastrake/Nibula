@@ -148,7 +148,7 @@ ${color.yellow}bs cli${color.reset}                  Open the page-management as
 ${color.yellow}bs run${color.reset}                  Start the dev server and builds out folder runtime
 ${color.yellow}bs build${color.reset}                Build the site out folder to publish
 ${color.yellow}bs clean${color.reset}                Remove the output directory
-${color.yellow}bs update${color.reset}               Update the CLI to the latest version
+${color.yellow}bs update${color.reset}               Update to the latest version
 `);
 }
 
