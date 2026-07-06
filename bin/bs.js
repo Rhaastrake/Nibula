@@ -130,30 +130,27 @@ function updateGlobal(version) {
     return res.status ?? 0;
 }
 
-function usage() {
+function usage(currentVersion) {
     console.log(`
-${color.bold}${color.cyan}Berna-Stencil${color.reset} ${color.bold}by Michele Garofalo${color.reset}
+${color.bold}${color.cyan}Berna-Stencil (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
-Usage:
-  ${color.yellow}bs new <project-name>${color.reset}   Scaffold a new project
-  ${color.yellow}bs cli${color.reset}                  Open the page-management assistant
-  ${color.yellow}bs run${color.reset}                  Start the dev server (npm run serve)
-  ${color.yellow}bs build${color.reset}                Build the site (npm run build)
-  ${color.yellow}bs clean${color.reset}                Remove the output directory
-  ${color.yellow}bs update${color.reset}               Update the CLI to the latest version
-  ${color.yellow}bs ver${color.reset}                  Show the installed and latest version
-  ${color.yellow}bs help${color.reset}                 Show this message
+${color.yellow}bs new <project-name>${color.reset}   Scaffold a new project
+${color.yellow}bs cli${color.reset}                  Open the page-management assistant
+${color.yellow}bs run${color.reset}                  Start the dev server (npm run serve)
+${color.yellow}bs build${color.reset}                Build the site (npm run build)
+${color.yellow}bs clean${color.reset}                Remove the output directory
+${color.yellow}bs update${color.reset}               Update the CLI to the latest version
 `);
 }
 
 async function main() {
+    const info = await checkVersion();
     switch (cmd) {
         case 'new': {
             if (!rest[0]) {
                 console.error('Missing project name. Usage: bs new <project-name>');
                 process.exit(1);
             }
-            const info = await checkVersion();
             if (info.behind) {
                 console.log(`\nA newer version of berna-stencil is available: ${info.current} → ${info.latest}`);
                 if (process.stdin.isTTY) {
@@ -198,34 +195,17 @@ async function main() {
             break;
         }
         case 'update': {
-            const info = await checkVersion();
             if (info.latest !== null && !info.behind) {
                 console.log(`Already on the latest version (${info.current}).`);
                 process.exit(0);
             }
             process.exit(updateGlobal(info.latest));
         }
-        case 'ver':
-        case 'version':
-        case '--version':
-        case '-v': {
-            const info = await checkVersion();
-            console.log(`berna-stencil ${info.current} (installed)`);
-            if (info.latest === null) {
-                console.log('Could not reach the npm registry to check for updates.');
-            } else if (info.behind) {
-                console.log(`Latest: ${info.latest} — run "bs update" to update.`);
-            } else {
-                console.log('You are on the latest version.');
-            }
-            break;
-        }
         case undefined:
         case 'help':
         case '--help':
         case '-h': {
-            usage();
-            const info = await checkVersion();
+            usage(info.current);
             if (info.behind) {
                 console.log(`A newer version is available: ${info.current} → ${info.latest}. Run "bs update".`);
             }
@@ -233,7 +213,7 @@ async function main() {
         }
         default:
             console.error(`Unknown command: ${cmd}`);
-            usage();
+            usage(info.current);
             process.exit(1);
     }
 }
