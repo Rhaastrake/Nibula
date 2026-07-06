@@ -38,8 +38,17 @@ function requireProjectRoot() {
 
 function maybeDelegateToLocal(root) {
     const local = path.join(root, 'node_modules', 'berna-stencil', 'bin', 'bs.js');
-    if (fs.existsSync(local) && path.resolve(local) !== path.resolve(__filename)) {
-        const res = spawnSync('node', [local, ...process.argv.slice(2)], {
+    if (!fs.existsSync(local)) return;
+
+    // Compare REAL paths so symlinks (e.g. from `npm link`) resolve to the same
+    // physical file; otherwise the guard would loop forever under npm link.
+    let localReal;
+    let selfReal;
+    try { localReal = fs.realpathSync(local); } catch { return; }
+    try { selfReal = fs.realpathSync(__filename); } catch { selfReal = __filename; }
+
+    if (localReal !== selfReal) {
+        const res = spawnSync('node', [localReal, ...process.argv.slice(2)], {
             stdio: 'inherit',
             cwd: process.cwd(),
         });
