@@ -54,11 +54,12 @@ function enterProject() {
 }
 
 function runNpm(root, scriptName) {
-    const res = spawnSync('npm', ['run', scriptName], {
-        stdio: 'inherit',
-        cwd: root,
-        shell: process.platform === 'win32',
-    });
+    const isWin = process.platform === 'win32';
+    const res = spawnSync(
+        isWin ? 'npm.cmd' : 'npm',
+        ['run', scriptName],
+        { stdio: 'inherit', cwd: root }
+    );
     process.exit(res.status ?? 0);
 }
 
