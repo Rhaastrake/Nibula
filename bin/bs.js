@@ -139,6 +139,29 @@ function updateGlobal(version) {
     return res.status ?? 0;
 }
 
+function findExistingProject(baseDir, projectName) {
+    let entries;
+    try {
+        entries = fs.readdirSync(baseDir, { withFileTypes: true });
+    } catch {
+        return null;
+    }
+    for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
+        const pkgPath = path.join(baseDir, entry.name, 'package.json');
+        if (!fs.existsSync(pkgPath)) continue;
+        try {
+            const data = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+            if (data && data.name === projectName) {
+                return path.join(baseDir, entry.name);
+            }
+        } catch {
+            // package.json non valido → ignoro
+        }
+    }
+    return null;
+}
+
 function usage(currentVersion) {
     console.log(`
 ${color.bold}${color.cyan}Berna-Stencil (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
@@ -175,6 +198,32 @@ async function main() {
                     console.log('Run "bs update" to update.\n');
                 }
             }
+
+            // Controllo progetto già esistente con lo stesso "name" nel package.json
+            const existing = findExistingProject(process.cwd(), rest[0]);
+            if (existing) {
+                console.log(`\n${color.yellow}A project named "${rest[0]}" already exists:${color.reset} ${existing}`);
+                let overwrite = false;
+                if (process.stdin.isTTY) {
+                    const answer = await ask('Do you want to overwrite it? [y/N] ');
+                    overwrite = (answer === 'y' || answer === 'yes');
+                } else {
+                    console.log('Run in a TTY to confirm overwrite.');
+                }
+                if (!overwrite) {
+                    console.log('Stopped creating the new project');
+                    process.exit(0);
+                }
+                // Sovrascrittura: cancello completamente la cartella preesistente
+                try {
+                    fs.rmSync(existing, { recursive: true, force: true });
+                    console.log(`${color.green}Removed existing project.${color.reset}`);
+                } catch (err) {
+                    console.error(`${color.red}Failed to remove existing project:${color.reset} ${err.message}`);
+                    process.exit(1);
+                }
+            }
+
             run(CREATE, [rest[0]]);
             break;
         }
