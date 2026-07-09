@@ -12,7 +12,6 @@ function validatePageName(name) {
 function validateOutputPath(input) {
     const value = (input ?? '').trim();
     if (!value)                    return 'Invalid path.';
-    if (value.includes('..'))      return 'Path cannot contain "..".';
     if (/[<>|?*"']/.test(value))   return 'Path contains invalid characters.';
     return null;
 }
