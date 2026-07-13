@@ -32,7 +32,13 @@ function addSiteData(pageName) {
     }
 
     data.pages[camelName] = {
-        seo: { title: toNiceTitle(pageName), description: 'description' },
+        seo: {
+            title: toNiceTitle(pageName),
+            description: 'description',
+            keywords: '',
+            noindex: false,
+            canonical: '',
+        },
         cdn: { css: [], js: [] },
     };
 

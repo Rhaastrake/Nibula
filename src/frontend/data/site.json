@@ -8,37 +8,41 @@
   "lang": "en",
   "author": "Name and surname",
   "data_bs_theme": "dark",
+  "theme_color": {
+    "light": "#ffffff",
+    "dark": "#0d1117"
+  },
   "favicon": "/assets/brand/favicon.svg",
   "logo": "/assets/brand/logo.svg",
-  "copyright": {
-    "year": "2026",
-    "text": "Copyright text"
-  },
   "legal": {
     "privacy": "",
     "cookie": "",
     "cookieControls": "",
-    "terms": ""
+    "terms": "",
+    "copyright": {
+      "year": "2026",
+      "text": "Copyright text"
+    }
   },
   "pages": {
     "404": {
       "seo": {
-        "title": "404 - Not found"
+        "title": "404 - Not found",
+        "keywords": "",
+        "noindex": true,
+        "canonical": ""
       },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
+      "cdn": { "css": [], "js": [] }
     },
     "homepage": {
       "seo": {
         "title": "Homepage",
-        "description": "Description"
+        "description": "Description",
+        "keywords": "",
+        "noindex": false,
+        "canonical": ""
       },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
+      "cdn": { "css": [], "js": [] }
     }
   }
 }

@@ -1,18 +1,18 @@
 {
   "name": "berna-stencil",
-  "version": "2.7.8",
+  "version": "2.8.0",
   "outputDir": "out",
   "bin": {
     "bs": "bin/bs.js",
     "berna": "bin/bs.js"
   },
   "scripts": {
-    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
-    "build:js": "node _tools/buildJs.js",
+    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
+    "build:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --minify",
     "build:11ty": "eleventy",
     "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
-    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
-    "serve:js": "node _tools/buildJs.js --watch",
+    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
+    "serve:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --watch",
     "serve:11ty": "eleventy --serve --quiet",
     "clean": "node _tools/cleanOutput.js",
     "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",

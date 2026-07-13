@@ -6,7 +6,7 @@ ErrorDocument 403 /404.html
     RewriteEngine On
     RewriteBase /
 
-    RewriteRule ^(web\.config|llms\.txt|robots\.txt|sitemap\.xml|\..*)$ /404.html [L,NC]
+    RewriteRule ^(web\.config|\..*)$ /404.html [L,NC]
 
     RewriteRule ^api/(.*)$ backend/_core/index.php [QSA,L]
 

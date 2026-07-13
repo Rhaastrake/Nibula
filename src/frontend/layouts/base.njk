@@ -21,12 +21,17 @@
         ║       SEO        ║
         ╚══════════════════╝#}
 
-        <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
+        <link rel="canonical" href="{{ pageData.seo.canonical or (site.url + page.url) }}"/>
         <title>{{ pageData.seo.title or title or site.title }}</title>
         <meta name="description" content="{{ pageData.seo.description or site.description }}">
-        <meta name="keywords" content="{{ site.keywords }}">
+        <meta name="keywords" content="{{ pageData.seo.keywords or site.keywords }}">
         <meta name="author" content="{{ site.author }}">
-        <meta name="theme-color" content="">
+        <meta name="theme-color" content="{{ site.theme_color.light }}" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="{{ site.theme_color.dark }}" media="(prefers-color-scheme: dark)">
+
+        {% if pageData.seo.noindex %}
+        <meta name="robots" content="noindex, follow">
+        {% endif %}
 
         {# Open Graph #}
         <meta property="og:title" content="{{ pageData.seo.title }}">
@@ -34,7 +39,7 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ site.url }}{{ page.url }}">
         <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
-        <meta property="og:site-name" content="{{ site.site-name }}">
+        <meta property="og:site_name" content="{{ site.site_name }}">
 
         {# Twitter Card #}
         <meta name="twitter:card" content="summary_large_image">
@@ -50,19 +55,19 @@
         {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "{{ pageData.seo.title or title or site.title }}",
-            "description": "{{ pageData.seo.description or site.description }}",
-            "url": "{{ site.url }}{{ page.url }}",
+            "name": {{ (pageData.seo.title or title or site.title) | dump }},
+            "description": {{ (pageData.seo.description or site.description) | dump }},
+            "url": {{ (site.url + page.url) | dump }},
             "author": {
                 "@type": "Person",
-                "name": "{{ site.author }}"
+                "name": {{ site.author | dump }}
             },
             "publisher": {
                 "@type": "Organization",
-                "name": "{{ site.site_name }}",
+                "name": {{ site.site_name | dump }},
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "{{ site.url }}{{ site.logo }}"
+                    "url": {{ (site.url + site.logo) | dump }}
                 }
             }
         }
