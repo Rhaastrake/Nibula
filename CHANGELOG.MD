@@ -5,7 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.9.0] - 2026-07-14
+
+### Changed
+- Simplified the documentation and `nginx.conf` reference for a more concise setup guide.
+- Emptied the `welcome` component (the default landing page shown on a fresh project) so new projects start from a clean slate.
+- Reordered the commands in the `bs cli` menu.
+
+### Removed
+- Dropped the `buttons` and `notification` CSS modules.
+- The `docs/` folder is no longer copied into newly scaffolded projects.
 
 ## [2.8.0] - 2026-07-14
 

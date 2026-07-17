@@ -1,56 +1,15 @@
 <div class="layout-container layout-my-3">
-  <h1>Welcome to <span class="berna-stencil">Berna-Stencil</span></h1>
+  <h1>Welcome to <span class="boilerplate-name">Berna-Stencil</span></h1>
   <div class="slogan">The boilerplate you need, simplified</div>
 
-  <div class="guide-filter">
-    <label>
-      <input type="radio" name="guide-filter" value="welcome" checked />
-      <span class="filter-pill">Welcome</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="assistant" />
-      <span class="filter-pill">Assistant</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="styling" />
-      <span class="filter-pill">Styling</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="javascript" />
-      <span class="filter-pill">Javascript</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="creating-pages" />
-      <span class="filter-pill">Creating Pages</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="components" />
-      <span class="filter-pill">Components</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="head-seo" />
-      <span class="filter-pill">Head & SEO</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="backend" />
-      <span class="filter-pill">Backend</span>
-    </label>
-    <label>
-      <input type="radio" name="guide-filter" value="deploy" />
-      <span class="filter-pill">Deploy</span>
-    </label>
-  </div>
-
-  <div class="tabs-container">
-
     <div id="content-welcome" class="tab-content active">
-      <div class="grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <a href="https://github.com/rhaastrake/berna-stencil" class="card" target="_blank" rel="noopener noreferrer" style="flex: 1; min-width: 250px;">
           <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
           </svg>
           <h3>GitHub repository</h3>
-          <p>Community-driven. Contributions, issues and PRs are welcome.</p>
+          <p>Explore the project and suggest improvements</p>
           <span class="card-link">Open the repository
             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-left:4px;">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -63,7 +22,7 @@
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
           </svg>
           <h3>Documentation</h3>
-          <p>Everything you need to get started, from setup to advanced topics and customizations</p>
+          <p>Everything you need to get started</p>
           <span class="card-link">Go to documentation
             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-left:4px;">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -72,34 +31,6 @@
         </a>
       </div>
     </div>
-
-    <div id="content-assistant" class="tab-content markdown-body">
-      {% mdFile "docs/assistant cli.md" %}
-    </div>
-    <div id="content-styling" class="tab-content markdown-body">
-      {% mdFile "docs/styling with scss.md" %}
-    </div>
-    <div id="content-javascript" class="tab-content markdown-body">
-      {% mdFile "docs/javascript.md" %}
-    </div>
-    <div id="content-creating-pages" class="tab-content markdown-body">
-      {% mdFile "docs/creating pages.md" %}  
-    </div>
-    <div id="content-components" class="tab-content markdown-body">
-      {% mdFile "docs/components.md" %}
-    </div>
-    <div id="content-head-seo" class="tab-content markdown-body">
-      {% mdFile "docs/head and seo.md" %}
-    </div>
-    <div id="content-backend" class="tab-content markdown-body">
-      {% mdFile "docs/backend.md" %}
-    </div>
-    <div id="content-deploy" class="tab-content markdown-body">
-      {% mdFile "docs/deploy.md" %}
-    </div>
-
-  </div>
-</div>
 
 <style>
   .layout-container {
@@ -118,17 +49,9 @@
   h1 {
     text-align: center;
     font-weight: 400;
-  }
-  h1 .berna-stencil {
-    color: #42b883;
-    font-weight: 600;
-  }
-
-  .markdown-body {
-    background-color: transparent !important;
-
-    h1 {
-      text-align: unset;
+      .boilerplate-name {
+      color: #42b883;
+      font-weight: 600;
     }
   }
 
@@ -139,20 +62,8 @@
     margin-bottom: 1rem;
   }
 
-  .tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .tab-content.active {
-    display: block;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   .card {
-    background: #0d1526;
+    background: #11474b;
     border: 0.8px solid #1e2d4a;
     border-radius: 10px;
     padding: 18px;
@@ -163,29 +74,35 @@
     margin-bottom: 1rem;
     transition: border-color 0.2s, transform 0.15s;
     text-decoration: none;
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+    p {
+      font-size: 1rem;
+      color: #5d8dc7;
+      line-height: 1.6;
+      margin: 0;
+    }
   }
+
   .card:hover {
     border-color: #42b883;
     transform: translateY(-2px);
+    .card-link {
+      opacity: 1;
+    }
   }
+
   .card-icon {
     width: 2rem;
     height: 2rem;
     color: #42b883;
   }
-  .card h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #cbd5e1;
-    letter-spacing: 0.01em;
-    margin: 0;
-  }
-  .card p {
-    font-size: 1rem;
-    color: #38649b;
-    line-height: 1.6;
-    margin: 0;
-  }
+
   .card-link {
     display: flex;
     align-items: center;
@@ -196,56 +113,4 @@
     transition: opacity 0.15s;
     margin-top: auto;
   }
-  .card:hover .card-link {
-    opacity: 1;
-  }
-
-  .guide-filter {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  .guide-filter label {
-    cursor: pointer;
-  }
-  .guide-filter label input[type="radio"] {
-    display: none;
-  }
-  .filter-pill {
-    display: inline-block;
-    padding: 5px 16px;
-    border-radius: 20px;
-    border: 0.8px solid #1e2d4a;
-    background: #0d1526;
-    color: #38649b;
-    font-size: 0.9rem;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-    user-select: none;
-  }
-  .guide-filter input[type="radio"]:checked + .filter-pill {
-    border-color: #42b883;
-    color: #42b883;
-    background: rgba(66, 184, 131, 0.08);
-  }
-  .guide-filter label:hover .filter-pill {
-    border-color: #42b883;
-    color: #42b883;
-  }
 </style>
-
-<script>
-  document.querySelectorAll('input[name="guide-filter"]').forEach((radio) => {
-    radio.addEventListener("change", (e) => {
-      document.querySelectorAll(".tab-content").forEach((content) => {
-        content.classList.remove("active");
-      });
-      const targetId = `content-${e.target.value}`;
-      const targetContent = document.getElementById(targetId);
-      if (targetContent) {
-        targetContent.classList.add("active");
-      }
-    });
-  });
-</script>

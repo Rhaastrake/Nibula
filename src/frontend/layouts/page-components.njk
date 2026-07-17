@@ -5,10 +5,10 @@ layout: base.njk
 <!-- NJK (HTML) components per page -->
  
 {% if title == "homepage" %}
-  {% include "welcome.njk" %}
+{% include "welcome.njk" %}
 
 {% else %}
-  <!-- You should not touch this else statement -->
-  {% include "404/_404.njk" %}
-  {{ content | safe }}
+<!-- You should not touch this else statement -->
+{% include "404/_404.njk" %}
+{{ content | safe }}
 {% endif %}

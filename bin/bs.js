@@ -167,8 +167,8 @@ function usage(currentVersion) {
 ${color.bold}${color.cyan}Berna-Stencil (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
 ${color.yellow}bs new <project-name>${color.reset}   Create your new project
-${color.yellow}bs cli${color.reset}                  Open the page-management assistant
 ${color.yellow}bs run${color.reset}                  Start the dev server and builds out folder runtime
+${color.yellow}bs cli${color.reset}                  Open the page-management assistant
 ${color.yellow}bs build${color.reset}                Build the site out folder to publish
 ${color.yellow}bs clean${color.reset}                Remove the output directory
 ${color.yellow}bs update${color.reset}               Update to the latest version

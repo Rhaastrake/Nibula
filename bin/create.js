@@ -31,12 +31,12 @@ const FRAMEWORK = Object.freeze({
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
-    { label: 'JavaScript (default)', value: LANGUAGE.JAVASCRIPT },
+    { label: 'JavaScript (recomened)', value: LANGUAGE.JAVASCRIPT },
     { label: 'TypeScript',           value: LANGUAGE.TYPESCRIPT },
 ];
 
 const FRAMEWORK_CHOICES = [
-    { label: 'Bootstrap (default)', value: FRAMEWORK.BOOTSTRAP  },
+    { label: 'Bootstrap (recomended)', value: FRAMEWORK.BOOTSTRAP  },
     { label: 'Bulma',               value: FRAMEWORK.BULMA      },
     { label: 'Foundation',          value: FRAMEWORK.FOUNDATION },
     { label: 'UIkit',               value: FRAMEWORK.UIKIT      },
@@ -46,7 +46,6 @@ const FRAMEWORK_CHOICES = [
 // ── COPY CONFIG ───────────────────────────────────────────────────────────────
 
 const MANDATORY_COPY = [
-    'docs',
     '.eleventy.js',
     '.eleventyignore',
     'nginx.conf',
@@ -400,8 +399,8 @@ async function init() {
 
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);
-    if (process.argv[2]) log(`  ${color.yellow}cd ${process.argv[2]}${color.reset}`);
-    log(`  ${color.yellow}bs run${color.reset}`);
+    if (process.argv[2]) log(`${color.yellow}> cd ${process.argv[2]}${color.reset}`);
+    log(`${color.yellow}> bs run${color.reset}`);
     log('');
 }
 

@@ -17,8 +17,6 @@ It must contain `_root.scss` + other modules like `_global.scss` or any other on
 
 @import "../modules/global";
 
-@import "../modules/notification";
-
 //==========================
 // PAGE CUSTOM CSS RULES
 //==========================
@@ -76,9 +74,7 @@ body {
 | `_header.scss` | Header styles |
 | `_footer.scss` | Footer styles |
 | `_mobile.scss` | Media query rules |
-| `_buttons.scss` | Style and hovers for buttons 
 | `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
-| `_notification.scss` | Notification component style |
 
 ## CSS Framework
 

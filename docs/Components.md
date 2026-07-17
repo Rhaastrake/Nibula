@@ -25,15 +25,15 @@ To render a component inside a page, navigate to `src/frontend/layouts/` and edi
 
 ```js
 {% if title == "homepage" %}
-  {% include "welcome.njk" %}
+{% include "welcome.njk" %}
 
 {% elif title == "examplePage" %}
-  {% include "exampleComponent1.njk" %}
-  {% include "subfolder/exampleComponent2.njk" %}
+{% include "exampleComponent1.njk" %}
+{% include "subfolder/exampleComponent2.njk" %}
 
 {% else %}
-  {% include "404/_404.njk" %}
-  {{ content | safe }}
+{% include "404/_404.njk" %}
+{{ content | safe }}
 {% endif %}
 ```
 

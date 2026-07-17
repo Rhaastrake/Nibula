@@ -8,8 +8,8 @@
   "compilerOptions": {
     "rootDir": "./src/frontend/ts", // DO NOT CHANGE
     "outDir": "./out/ts", // DO NOT CHANGE
-    "module": "esnext", // DO NOT CHANGE
-    "target": "esnext", // DO NOT CHANGE
+    "module": "esnext",
+    "target": "esnext",
     "types": [],
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,

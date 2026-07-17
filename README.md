@@ -1,43 +1,67 @@
 # ✏️ Berna-Stencil
-**Berna-Stencil** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), designed with one clear mission: make web development simple, approachable, and enjoyable — for everyone.
 
-Berna-Stencil stays deliberately close to plain, vanilla web development — you work with real HTML, CSS, and JavaScript, not a heavy abstraction layer to learn first. That means a gentle, fast learning curve: the skills you build here are the same ones you'd use anywhere on the web.
+**Berna-Stencil** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), with one clear mission: make the jump from plain, hand-written websites to a real project setup as gentle as possible — without ever pulling you away from the web you already know.
 
-Whether you're a seasoned developer looking for a clean starting point or a beginner taking your first steps into the world of web creation, Berna-Stencil gives you everything you need, right out of the box. No complicated setup, no hours spent reading documentation, no frustration — just a solid, well-structured foundation ready to become your next website.
+If you've only ever written HTML, CSS, and a bit of JavaScript, moving to a "framework" usually feels like starting over: new syntax, new rules, new folder structures, and a pile of documentation before you can even see a page on screen. Berna-Stencil is designed to avoid exactly that. You keep working with the **three languages that matter — HTML, CSS, and JavaScript** — and the tool quietly handles the tedious parts around them. The goal is simple: even someone with little experience should always know *where to put their hands*.
+
+It's a great fit for **showcase and brochure-style websites** (portfolios, landing pages, small business sites), where you want something clean and fast without dragging in a heavy framework.
 
 ### ✨ Why Berna-Stencil?
 
-Building a website from scratch involves a lot of moving parts: templating engines, build pipelines, asset management, backend logic, project structure. Berna-Stencil takes care of all of that for you, so you can focus on what actually matters — **your content and your ideas**.
-
-Because it keeps you close to the fundamentals instead of hiding them, you spend your time actually learning the web — not memorizing a framework's conventions that stop being useful the moment you switch tool.
+Building a website from scratch involves a lot of moving parts: templating, build steps, SEO files, server config, project structure. Berna-Stencil takes care of all of that for you, so you can focus on what actually matters — **your content and your ideas** — while still learning skills that transfer anywhere on the web.
 
 - 🔧 **Zero-config ready** — install, create, and you're live in minutes
-- 🔗 **Integrated backend** — essential server-side functionality included, no extra setup required
-- 📁 **Scalable structure** — a clean, opinionated project layout that grows with your needs
+- 🧭 **Stays close to vanilla** — real HTML, CSS, and JS, so nothing you learn goes to waste
+- 🔎 **SEO made simple** — managed from one central place; `sitemap`, `llms.txt`, and `robots.txt` are generated automatically
+- 🖱️ **A helpful CLI** — create a page with one command instead of hand-writing ten separate files
+- ⚙️ **Server configs handled for you** — `.htaccess` and `web.config` are generated automatically, and an `nginx.conf` is provided so that anyone comfortable with nginx already has what they need to run the site outside of shared hosting
+- 🎨 **Pick your CSS framework** — choose from 4 pre-installed options (or none), and switch later in a few guided steps
+- 🧩 **Your own modules** — add your own CSS and JS/TS modules freely and easily
+- 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-2.8.0-blue)
+![Version](https://img.shields.io/badge/version-2.9.0-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
+## JavaScript or TypeScript — your choice
+
+When you create a project, you decide how you want to work:
+
+- **JavaScript** — the simplest path, ideal if you're still getting comfortable.
+- **TypeScript** — for more experienced users who want stronger typing and tooling.
+
+Either way, the project structure stays the same, so you can start easy and level up later.
+
+## Backend included
+
+Essential server-side functionality comes built in — no extra setup required. Backend support will soon let you **choose between PHP, Node, and Python**, so the project can grow with you.
+
+## Customizable, but with sensible defaults
+
+Berna-Stencil ships with a clean, opinionated layout so beginners are never lost. But it isn't a cage: as long as you follow a few small conventions and the defined paths, you're free to customize the subpaths of your **components, backend endpoints, and JS/SCSS modules** however you like.
+
 ## Prerequisites
+
 * **Node.js**: v18.0.0 or higher
 * **Composer**: latest stable version
-* #### Optional: Better Nunjucks VS Code extension by Ed Heltzel
+* *Optional:* the **Better Nunjucks** VS Code extension by Ed Heltzel
 
 ## Installation
+
 Install the Berna-Stencil CLI once, globally:
 
-```bash
+```
 npm install -g berna-stencil
 ```
 
 This gives you the `bs` command (and its identical alias `berna`).
 
 ## Create a project
-From the folder that contains your websites, run:
 
-```bash
+From the folder where you keep your websites, run:
+
+```
 bs new your-project
 ```
 
@@ -45,30 +69,31 @@ The scaffolder is interactive: you choose the language (JavaScript/TypeScript) a
 
 Then start the dev server and visit `localhost:8080`:
 
-```bash
+```
 cd your-project
 bs run
 ```
 
 ## Commands
+
 Run these from anywhere inside a project (except `bs new`, which you run wherever you want to create the project):
 
 | Command | Description |
 |---|---|
-| `bs new <name>` | Scaffold a new project |
-| `bs run` | Start the dev server |
-| `bs build` | Build the site |
+| `bs new <name>` | Create your new project |
+| `bs run` | Start the dev server and build the output folder at runtime |
 | `bs cli` | Open the page-management assistant |
+| `bs build` | Build the output folder runtime |
+| `bs clean` | Remove the output directory |
 | `bs update` | Update the CLI to the latest version |
-| `bs ver` | Show the installed and latest version |
-| `bs help` | Show the available commands |
 
 Before scaffolding, `bs new` checks the npm registry for a newer version and offers to update first (via `bs update`). If the registry is unreachable, the check is skipped and creation proceeds normally.
 
 > `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna run`, `berna cli`).
 
 ## Managing pages
-To create, remove or rename pages and configure the output path, open the interactive assistant:
+
+Instead of creating and wiring up multiple files by hand, let the interactive assistant do it for you. To create, remove, or rename pages and configure the output path, run:
 
 ```bash
 bs cli
@@ -77,5 +102,6 @@ bs cli
 See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
 
 ## Roadmap
+
 * [ ] Add support for multiple themes
-* [ ] Backend integration choice and switch between php, python or node
+* [ ] Backend integration choice — switch between PHP, Python, or Node

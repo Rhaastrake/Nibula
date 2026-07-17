@@ -77,6 +77,8 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addWatchTarget("./src/frontend/scss");
+  eleventyConfig.addWatchTarget("./src/frontend/_routes");
+  eleventyConfig.addWatchTarget("./src/frontend/data");
 
   eleventyConfig.setServerOptions({
   watch: [`${OUTPUT_DIR}/js/**/*.js`]

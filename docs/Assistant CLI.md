@@ -38,16 +38,19 @@ For a page named `my-page`, the following files are created:
 It also adds an `elif` block in `page-components.njk` and a stub entry in `site.json`:
 
 ```json
-"myPage": {
-  "seo": {
-    "title": "My Page",
-    "description": "description"
-  },
-  "cdn": {
-    "css": [],
-    "js": []
-  }
-}
+    "myPage": {
+      "seo": {
+        "title": "My page",
+        "description": "Description",
+        "keywords": "",
+        "noindex": false,
+        "canonical": ""
+      },
+      "cdn": {
+        "css": [],
+        "js": []
+      }
+    }
 ```
 
 ## Remove page

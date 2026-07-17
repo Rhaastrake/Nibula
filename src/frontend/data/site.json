@@ -21,7 +21,7 @@
     "terms": "",
     "copyright": {
       "year": "2026",
-      "text": "Copyright text"
+      "text": "All rights reserved."
     }
   },
   "pages": {
@@ -32,7 +32,10 @@
         "noindex": true,
         "canonical": ""
       },
-      "cdn": { "css": [], "js": [] }
+      "cdn": {
+        "css": [],
+        "js": []
+      }
     },
     "homepage": {
       "seo": {
@@ -42,7 +45,10 @@
         "noindex": false,
         "canonical": ""
       },
-      "cdn": { "css": [], "js": [] }
+      "cdn": {
+        "css": [],
+        "js": []
+      }
     }
   }
 }
