@@ -13,8 +13,8 @@ The backend is a PHP REST API located in `src/backend/`, copied to the output di
 ```
 src/backend/
 ├── api/
-│   ├── public/       # Endpoints accessible without an API key
 │   └── protected/    # Endpoints requiring X-Api-Key header
+│   ├── public/       # Endpoints accessible without an API key
 ├── _core/            # Framework internals (routing, modules) — do not edit
 │   └── modules/      # Response, RateLimiter, ...
 ├── database/
@@ -36,31 +36,29 @@ Fill in your values:
 
 ### config.php <small>(`src/backend/`)</small>
 ```php
-return [
-    // Default key for protected endpoints that don't have a specific key in CUSTOM_ENDPOINT_KEYS
-    'GENERAL_API_KEY' => 'default-key',
+// Default key for protected endpoints that don't have a specific key in CUSTOM_ENDPOINT_KEYS
+'GENERAL_API_KEY' => 'DEFAULT_KEY',
 
-    // Per-endpoint keys. For subfolder endpoints, use the relative path ('subfolder/endpoint')
-    'CUSTOM_ENDPOINT_KEYS' => [
-        // 'subfolder/endpoint' => 'example-key',
-    ],
+// If you want restrict access to protected endpoints to specific clients, you can define custom keys for each endpoint
+// For subfolder endpoints, use the relative path ('subfolder/endpoint')
+'CUSTOM_ENDPOINT_KEYS' => [
+    'subfolder/endpoint'    => 'custom-key',
+],
 
-    // Default CORS origins applied to every endpoint
-    'GENERAL_ALLOWED_ORIGINS' => [
-        'https://example.com',
-    ],
+'GENERAL_ALLOWED_ORIGINS' => [
+    '*',
+    // 'https://example.com',
+],
 
-    // Per-endpoint CORS origins. Same path format as CUSTOM_ENDPOINT_KEYS.
-    // When an endpoint is listed here, these origins replace GENERAL_ALLOWED_ORIGINS for it.
-    'CUSTOM_ENDPOINT_ORIGINS' => [
-        // 'subfolder/endpoint' => ['https://app.example.com'],
-    ],
+'CUSTOM_ENDPOINT_ORIGINS' => [
+    'subfolder/endpoint'    => ['https://app.example.com'],
+],
 
-    'DB_HOST' => '127.0.0.1',
-    'DB_NAME' => 'example_db',
-    'DB_USER' => 'root',
-    'DB_PASS' => '',
-];
+// Database configuration
+'DB_HOST' => '127.0.0.1',
+'DB_NAME' => 'example_db',
+'DB_USER' => 'root',
+'DB_PASS' => '',
 ```
 
 ### API keys
@@ -149,5 +147,5 @@ Response::noContent();                      // 204
 
 | Route | Method | Description |
 |---|---|---|
-| `/api/example-public` | `GET` | Example endpoint that doesn't require any key |
-| `/api/example-protected` | `GET` | Example endpoint that requires X-API-KEY |
+| `/api/public/example-public` | `GET` | Example endpoint that doesn't require any key |
+| `/api/protected/example-protected` | `GET` | Example endpoint that requires X-API-KEY |
