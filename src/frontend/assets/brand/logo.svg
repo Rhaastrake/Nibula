@@ -1,37 +1,54 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
- preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Nibula">
+  <defs>
+    <linearGradient id="nibulaShieldBorder" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b6fc4"/>
+      <stop offset="0.5" stop-color="#c9a06a"/>
+      <stop offset="1" stop-color="#f2c17a"/>
+    </linearGradient>
+    <linearGradient id="nibulaN" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d4fa8"/>
+      <stop offset="0.45" stop-color="#a978b0"/>
+      <stop offset="0.75" stop-color="#e7a55f"/>
+      <stop offset="1" stop-color="#f7d08a"/>
+    </linearGradient>
+    <linearGradient id="nibulaNib" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7d89a"/>
+      <stop offset="0.55" stop-color="#e0a95f"/>
+      <stop offset="1" stop-color="#b07d3e"/>
+    </linearGradient>
+    <linearGradient id="nibulaField" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#3a2c63"/>
+      <stop offset="1" stop-color="#2a2150"/>
+    </linearGradient>
+  </defs>
 
-<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M4115 4094 c-89 -20 -232 -88 -312 -148 -181 -137 -273 -342 -273
--604 0 -219 128 -459 353 -664 263 -240 347 -334 403 -451 109 -228 39 -489
--159 -585 -79 -38 -146 -52 -256 -52 -97 0 -138 10 -192 49 -84 59 -111 136
--111 311 1 105 6 145 32 250 33 131 47 249 36 295 -16 63 -169 74 -276 20
--134 -68 -289 -290 -347 -495 -27 -99 -25 -318 6 -425 25 -89 86 -210 133
--264 94 -107 240 -195 380 -231 421 -105 942 41 1226 345 148 158 218 306 242
-512 25 217 -30 446 -151 624 -54 80 -191 222 -303 314 -47 39 -85 73 -86 78 0
-4 8 7 18 7 9 0 54 13 99 29 174 60 304 196 349 366 31 113 9 324 -44 435 -58
-120 -206 234 -360 276 -84 23 -318 28 -407 8z m348 -407 c82 -41 102 -74 101
--167 -1 -126 -55 -253 -163 -384 -30 -36 -58 -66 -62 -66 -10 0 -150 149 -200
-215 -51 67 -102 161 -131 245 l-19 55 51 47 c71 66 143 89 270 85 81 -2 104
--7 153 -30z"/>
-<path d="M1272 4089 c-123 -17 -291 -64 -406 -115 -240 -105 -461 -289 -527
--439 -24 -53 -18 -82 17 -91 52 -13 121 8 279 82 280 134 441 180 664 191 275
-13 500 -56 597 -184 63 -82 78 -142 78 -293 0 -173 -27 -273 -98 -357 -25 -30
--27 -30 -78 -21 -73 14 -281 4 -347 -17 -136 -42 -183 -165 -100 -259 17 -20
-54 -45 87 -58 52 -21 74 -23 236 -24 l179 0 29 -35 c16 -19 47 -70 68 -114 50
--101 71 -217 71 -390 1 -197 -28 -282 -133 -392 -72 -74 -205 -146 -313 -168
--113 -24 -286 -19 -434 11 -69 14 -130 29 -135 34 -10 10 17 511 35 655 6 44
-35 192 65 329 116 528 158 835 136 981 -13 79 -24 95 -66 95 -73 0 -183 -92
--268 -224 -194 -302 -402 -1027 -423 -1473 -3 -65 -8 -136 -11 -159 l-5 -40
--102 23 c-127 29 -207 30 -230 5 -23 -25 -21 -87 4 -139 39 -80 189 -197 352
--273 158 -74 446 -163 629 -194 386 -67 797 -21 1081 120 163 81 273 175 363
-311 103 155 135 295 116 518 -13 158 -40 248 -104 355 -52 87 -182 216 -290
-286 l-78 51 63 41 c292 190 399 490 296 829 -84 276 -354 466 -751 528 -124
-20 -444 28 -546 14z"/>
-</g>
+  <path fill="none" stroke="url(#nibulaShieldBorder)" stroke-width="10" stroke-linejoin="round"
+        d="M256 40 L440 132 L440 320 L256 472 L72 320 L72 132 Z"/>
+  <path fill="url(#nibulaField)" stroke="url(#nibulaShieldBorder)" stroke-width="6" stroke-linejoin="round"
+        d="M256 66 L418 147 L418 310 L256 442 L94 310 L94 147 Z"/>
+
+  <!-- N as one closed outline: up left post, down inner-left, diagonal to inner-bottom-right,
+       up right post, cut corner, down outer-right, close along the bottom -->
+  <path fill="url(#nibulaN)" stroke="#1a1533" stroke-width="7" stroke-linejoin="round"
+        d="M148 362
+           L148 150
+           L206 150
+           L312 300
+           L312 150
+           L370 150
+           L370 205
+           L340 205
+           L340 362
+           L282 362
+           L206 255
+           L206 362
+           Z"/>
+
+  <g stroke="#1a1533" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="url(#nibulaNib)" d="M326 300 L382 300 L392 326 L336 326 Z"/>
+    <path fill="none" stroke-width="5" d="M338 313 L386 313"/>
+    <path fill="url(#nibulaNib)" d="M336 326 L392 326 L428 414 L370 380 Z"/>
+    <path fill="none" stroke-width="5" d="M366 342 L402 384"/>
+    <circle cx="376" cy="360" r="6.5" fill="#1a1533" stroke="none"/>
+  </g>
 </svg>
