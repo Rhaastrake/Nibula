@@ -20,7 +20,7 @@ const color = Object.freeze({
     cyan:    '\x1b[36m',
 });
 
-const NOT_INSIDE_PROJECT_MESSAGE = `${color.red}Not inside a Berna-Stencil project.${color.reset}`;
+const NOT_INSIDE_PROJECT_MESSAGE = `${color.red}Not inside a Nibula project.${color.reset}`;
 
 function findProjectRoot(start) {
     let dir = path.resolve(start ?? process.cwd());

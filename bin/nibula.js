@@ -16,7 +16,7 @@ const ASSISTANT = path.join(__dirname, '..', '_tools', 'assistant.js');
 const BUILDJS   = path.join(__dirname, '..', '_tools', 'buildJs.js');
 const CLEAN     = path.join(__dirname, '..', '_tools', 'cleanOutput.js');
 
-const REGISTRY = 'https://registry.npmjs.org/berna-stencil/latest';
+const REGISTRY = 'https://registry.npmjs.org/nibula/latest';
 const CHECK_TIMEOUT = 2500;
 
 function run(script, args) {
@@ -37,7 +37,7 @@ function requireProjectRoot() {
 }
 
 function maybeDelegateToLocal(root) {
-    const local = path.join(root, 'node_modules', 'berna-stencil', 'bin', 'bs.js');
+    const local = path.join(root, 'node_modules', 'nibula', 'bin', 'nibula.js');
     if (!fs.existsSync(local)) return;
 
     // Compare REAL paths so symlinks (e.g. from `npm link`) resolve to the same
@@ -131,7 +131,7 @@ function ask(question) {
 }
 
 function updateGlobal(version) {
-    const target = version ? `berna-stencil@${version}` : 'berna-stencil@latest';
+    const target = version ? `nibula@${version}` : 'nibula@latest';
     const res = spawnSync('npm', ['install', '-g', target, '--prefer-online'], {
         stdio: 'inherit',
         shell: process.platform === 'win32',
@@ -156,7 +156,7 @@ function findExistingProject(baseDir, projectName) {
                 return path.join(baseDir, entry.name);
             }
         } catch {
-            // package.json non valido → ignoro
+            // ...
         }
     }
     return null;
@@ -164,14 +164,14 @@ function findExistingProject(baseDir, projectName) {
 
 function usage(currentVersion) {
     console.log(`
-${color.bold}${color.cyan}Berna-Stencil (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
+${color.bold}${color.cyan}Nibula (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
-${color.yellow}bs new <project-name>${color.reset}   Create your new project
-${color.yellow}bs run${color.reset}                  Start the dev server and builds out folder runtime
-${color.yellow}bs cli${color.reset}                  Open the page-management assistant
-${color.yellow}bs build${color.reset}                Build the site out folder to publish
-${color.yellow}bs clean${color.reset}                Remove the output directory
-${color.yellow}bs update${color.reset}               Update to the latest version
+${color.yellow}nib new <project-name>${color.reset}   Create your new project
+${color.yellow}nib cli${color.reset}                  Open the page-management assistant
+${color.yellow}nib run${color.reset}                  Start the dev server and builds out folder runtime
+${color.yellow}nib build${color.reset}                Build the site out folder to publish
+${color.yellow}nib clean${color.reset}                Remove the output directory
+${color.yellow}nib update${color.reset}               Update to the latest version
 `);
 }
 
@@ -180,22 +180,22 @@ async function main() {
     switch (cmd) {
         case 'new': {
             if (!rest[0]) {
-                console.error('Missing project name. Usage: bs new <project-name>');
+                console.error('Missing project name. Usage: nib new <project-name>');
                 process.exit(1);
             }
             if (info.behind) {
-                console.log(`\nA newer version of berna-stencil is available: ${info.current} → ${info.latest}`);
+                console.log(`\nA newer version of Nibula is available: ${info.current} → ${info.latest}`);
                 if (process.stdin.isTTY) {
                     const answer = await ask('Update before creating the project? [Y/n] ');
                     if (answer === '' || answer === 'y' || answer === 'yes') {
                         const code = updateGlobal(info.latest);
                         if (code === 0) {
-                            console.log(`\nUpdated. Re-run "bs new ${rest[0]}" to scaffold with the latest version.`);
+                            console.log(`\nUpdated. Re-run "nib new ${rest[0]}" to scaffold with the latest version.`);
                         }
                         process.exit(code);
                     }
                 } else {
-                    console.log('Run "bs update" to update.\n');
+                    console.log('Run "nib update" to update.\n');
                 }
             }
 
@@ -267,7 +267,7 @@ async function main() {
         case '-h': {
             usage(info.current);
             if (info.behind) {
-                console.log(`A newer version is available: ${info.current} → ${info.latest}. Run "bs update".`);
+                console.log(`A newer version is available: ${info.current} → ${info.latest}. Run "nib update".`);
             }
             break;
         }

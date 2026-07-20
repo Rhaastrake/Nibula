@@ -7,10 +7,8 @@ An interactive CLI to manage pages without touching files manually.
 Run it from anywhere inside a project:
 
 ```
-bs cli
+nib cli
 ```
-
-> `berna` is an identical alias for `bs`. To scaffold a **new** project instead, use `bs new <project-name>` (see the main README).
 
 ## Menu
 

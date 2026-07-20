@@ -24,7 +24,7 @@ src/backend/
 └── config.php           # Your local config, generated on setup — never commit this
 ```
 
-> A scaffolded project contains **both** files. `config.php` is generated automatically by `bs new` (a copy of the example) and is git-ignored, so your secrets stay local and are never pushed. `example.config.php` is kept and versioned: it's the file that ends up on GitHub, acting as a secret-free reference so anyone cloning the project knows which keys to set. If `config.php` is ever missing (e.g. after a fresh clone), just copy `example.config.php` to `config.php`.
+> A scaffolded project contains **both** files. `config.php` is generated automatically by `nib new` (a copy of the example) and is git-ignored, so your secrets stay local and are never pushed. `example.config.php` is kept and versioned: it's the file that ends up on GitHub, acting as a secret-free reference so anyone cloning the project knows which keys to set. If `config.php` is ever missing (e.g. after a fresh clone), just copy `example.config.php` to `config.php`.
 
 > Note: in the boilerplate repo itself, only `example.config.php` exists — `config.php` is created at scaffold time, not shipped.
 

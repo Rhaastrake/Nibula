@@ -104,9 +104,9 @@ const MENU_ACTIONS = {
 };
 
 function renderMenu() {
-    console.log(`\n${color.cyan}${color.bold}╭────────────────────────╮`);
-    console.log(`│    Berna-Stencil CLI   │`);
-    console.log(`╰────────────────────────╯${color.reset}\n`);
+    console.log(`\n${color.cyan}${color.bold}╭─────────────────╮`);
+    console.log(`│    Nibula CLI   │`);
+    console.log(`╰─────────────────╯${color.reset}\n`);
     console.log(`  ${color.green}1.${color.reset} Create page`);
     console.log(`  ${color.red}2.${color.reset} Remove page`);
     console.log(`  ${color.yellow}3.${color.reset} Rename page`);
@@ -121,7 +121,7 @@ async function main() {
         for (const item of missing) {
             console.log(`  ${color.red}-${color.reset} ${item.label}`);
         }
-        console.log(`\n${color.dim}The project may be incomplete or created with a different Berna-Stencil version.${color.reset}`);
+        console.log(`\n${color.dim}The project may be incomplete or created with a different Nibula version.${color.reset}`);
         rl.close();
         process.exit(1);
     }

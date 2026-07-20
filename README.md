@@ -1,14 +1,14 @@
-# ✏️ Berna-Stencil
+# ✏️ Nibula
 
-**Berna-Stencil** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), with one clear mission: make the jump from plain, hand-written websites to a real project setup as gentle as possible — without ever pulling you away from the web you already know.
+**Nibula** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), with one clear mission: make the jump from plain, hand-written websites to a real project setup as gentle as possible — without ever pulling you away from the web you already know.
 
-If you've only ever written HTML, CSS, and a bit of JavaScript, moving to a "framework" usually feels like starting over: new syntax, new rules, new folder structures, and a pile of documentation before you can even see a page on screen. Berna-Stencil is designed to avoid exactly that. You keep working with the **three languages that matter — HTML, CSS, and JavaScript** — and the tool quietly handles the tedious parts around them. The goal is simple: even someone with little experience should always know *where to put their hands*.
+If you've only ever written HTML, CSS, and a bit of JavaScript, moving to a "framework" usually feels like starting over: new syntax, new rules, new folder structures, and a pile of documentation before you can even see a page on screen. Nibula is designed to avoid exactly that. You keep working with the **three languages that matter — HTML, CSS, and JavaScript** — and the tool quietly handles the tedious parts around them. The goal is simple: even someone with little experience should always know *where to put their hands*.
 
 It's a great fit for **showcase and brochure-style websites** (portfolios, landing pages, small business sites), where you want something clean and fast without dragging in a heavy framework.
 
-### ✨ Why Berna-Stencil?
+### ✨ Why Nibula?
 
-Building a website from scratch involves a lot of moving parts: templating, build steps, SEO files, server config, project structure. Berna-Stencil takes care of all of that for you, so you can focus on what actually matters — **your content and your ideas** — while still learning skills that transfer anywhere on the web.
+Building a website from scratch involves a lot of moving parts: templating, build steps, SEO files, server config, project structure. Nibula takes care of all of that for you, so you can focus on what actually matters — **your content and your ideas** — while still learning skills that transfer anywhere on the web.
 
 - 🔧 **Zero-config ready** — install, create, and you're live in minutes
 - 🧭 **Stays close to vanilla** — real HTML, CSS, and JS, so nothing you learn goes to waste
@@ -39,7 +39,7 @@ Essential server-side functionality comes built in — no extra setup required. 
 
 ## Customizable, but with sensible defaults
 
-Berna-Stencil ships with a clean, opinionated layout so beginners are never lost. But it isn't a cage: as long as you follow a few small conventions and the defined paths, you're free to customize the subpaths of your **components, backend endpoints, and JS/SCSS modules** however you like.
+Nibula ships with a clean, opinionated layout so beginners are never lost. But it isn't a cage: as long as you follow a few small conventions and the defined paths, you're free to customize the subpaths of your **components, backend endpoints, and JS/SCSS modules** however you like.
 
 ## Prerequisites
 
@@ -49,20 +49,20 @@ Berna-Stencil ships with a clean, opinionated layout so beginners are never lost
 
 ## Installation
 
-Install the Berna-Stencil CLI once, globally:
+Install the Nibula CLI once, globally:
 
 ```
-npm install -g berna-stencil
+npm install -g nibula
 ```
 
-This gives you the `bs` command (and its identical alias `berna`).
+This gives you the `nib` command (Alternatives: `nbl`, `nibula`).
 
 ## Create a project
 
 From the folder where you keep your websites, run:
 
 ```
-bs new your-project
+nib new your-project
 ```
 
 The scaffolder is interactive: you choose the language (JavaScript/TypeScript) and the CSS framework, and all dependencies are installed automatically.
@@ -71,32 +71,30 @@ Then start the dev server and visit `localhost:8080`:
 
 ```
 cd your-project
-bs run
+nib run
 ```
 
 ## Commands
 
-Run these from anywhere inside a project (except `bs new`, which you run wherever you want to create the project):
+Run these from anywhere inside a project (except `nib new`, which you run wherever you want to create the project):
 
 | Command | Description |
 |---|---|
-| `bs new <name>` | Create your new project |
-| `bs run` | Start the dev server and build the output folder at runtime |
-| `bs cli` | Open the page-management assistant |
-| `bs build` | Build the output folder runtime |
-| `bs clean` | Remove the output directory |
-| `bs update` | Update the CLI to the latest version |
+| `nib new <name>` | Create your new project |
+| `nib run` | Start the dev server and build the output folder at runtime |
+| `nib cli` | Open the page-management assistant |
+| `nib build` | Build the output folder runtime |
+| `nib clean` | Remove the output directory |
+| `nib update` | Update the CLI to the latest version |
 
-Before scaffolding, `bs new` checks the npm registry for a newer version and offers to update first (via `bs update`). If the registry is unreachable, the check is skipped and creation proceeds normally.
-
-> `berna` is an identical alias for `bs`, if you prefer the longer name (`berna new …`, `berna run`, `berna cli`).
+Before scaffolding, `nib new` checks the npm registry for a newer version and offers to update first (via `nib update`). If the registry is unreachable, the check is skipped and creation proceeds normally.
 
 ## Managing pages
 
 Instead of creating and wiring up multiple files by hand, let the interactive assistant do it for you. To create, remove, or rename pages and configure the output path, run:
 
 ```bash
-bs cli
+nib cli
 ```
 
 See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.

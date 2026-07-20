@@ -127,15 +127,15 @@ const PROJECT_PACKAGE = {
     outputDir: 'out',
     "scripts": {
         "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
-        "build:js": "bs build-js",
+        "build:js": "nib build-js",
         "build:11ty": "eleventy",
         "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
         "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
-        "serve:js": "bs build-js --watch",
+        "serve:js": "nib build-js --watch",
         "serve:11ty": "eleventy --serve --quiet",
-        "clean": "bs clean",
+        "clean": "nib clean",
         "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-        "assistant": "bs cli"
+        "assistant": "nib cli"
     },
     dependencies: {
         '@11ty/eleventy':     '^3.1.2',
@@ -149,7 +149,7 @@ const PROJECT_PACKAGE = {
         'uikit':              '^3.25.13',
     },
     devDependencies: {
-        'berna-stencil': `^${SELF_VERSION}`,
+        'nibula': `^${SELF_VERSION}`,
         'concurrently':  '^9.2.1',
         'esbuild':       '^0.27.3',
         'sass':          '^1.77.0',
@@ -349,7 +349,7 @@ function askChoice(question, choices) {
 async function init() {
     if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
 
-    log(`\n>> ${color.magenta}Creating berna-stencil project in ${targetDir}\n${color.reset}`);
+    log(`\n>> ${color.magenta}Creating Nibula project in ${targetDir}\n${color.reset}`);
 
     const language  = await askChoice('Select a language',      LANGUAGE_CHOICES);
     const framework = await askChoice('Select a CSS framework', FRAMEWORK_CHOICES);
@@ -400,7 +400,7 @@ async function init() {
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);
     if (process.argv[2]) log(`${color.yellow}> cd ${process.argv[2]}${color.reset}`);
-    log(`${color.yellow}> bs run${color.reset}`);
+    log(`${color.yellow}> nib run${color.reset}`);
     log('');
 }
 

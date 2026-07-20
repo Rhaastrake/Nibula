@@ -1,10 +1,50 @@
 {
-  "name": "berna-stencil",
-  "version": "2.9.0",
+  "name": "nibula",
+  "version": "1.0.0",
+  "description": "A beginner-friendly static site generator built on Eleventy that stays close to vanilla HTML, CSS and JS — with a page-management CLI, an optional PHP backend, and SEO files generated for you.",
+  "keywords": [
+    "static-site-generator",
+    "ssg",
+    "eleventy",
+    "11ty",
+    "boilerplate",
+    "starter",
+    "scaffolding",
+    "cli",
+    "vanilla",
+    "vanilla-js",
+    "html",
+    "css",
+    "scss",
+    "sass",
+    "njk",
+    "nunjucks",
+    "components",
+    "backend",
+    "php",
+    "node",
+    "python",
+    "beginner-friendly",
+    "seo",
+    "sitemap",
+    "website-template",
+    "frontend"
+  ],
+  "author": "Michele Garofalo",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/Rhaastrake/Nibula#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rhaastrake/Nibula.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rhaastrake/Nibula/issues"
+  },
   "outputDir": "out",
   "bin": {
-    "bs": "bin/bs.js",
-    "berna": "bin/bs.js"
+    "nib": "bin/nibula.js",
+    "nbl": "bin/nibula.js",
+    "nibula": "bin/nibula.js"
   },
   "scripts": {
     "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",

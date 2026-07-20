@@ -1,6 +1,6 @@
 # Server Configuration
 
-Berna-Stencil builds a static site into your output folder (`out`). To put it
+Nibula builds a static site into your output folder (`out`). To put it
 online you upload that folder to a web server. Which server config you need
 depends on **where** you publish.
 
