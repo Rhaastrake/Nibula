@@ -34,7 +34,7 @@ function addPageBlock(pageName) {
 
     const block =
         `{% elif title == "${camelName}" %}\n` +
-        `{#{% include "component.njk" %}#}\n\n`;
+        `{% include "component.njk" ignore missing %}\n\n`;
 
     writePageComponents(content.replace('{% else %}', `${block}{% else %}`));
     console.log(`[updated] page block added for "${camelName}"`);
