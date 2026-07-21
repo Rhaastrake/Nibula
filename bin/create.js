@@ -31,7 +31,7 @@ const FRAMEWORK = Object.freeze({
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
-    { label: 'JavaScript (recomened)', value: LANGUAGE.JAVASCRIPT },
+    { label: 'JavaScript (recomended)', value: LANGUAGE.JAVASCRIPT },
     { label: 'TypeScript',           value: LANGUAGE.TYPESCRIPT },
 ];
 
