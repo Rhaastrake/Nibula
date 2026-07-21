@@ -16,11 +16,12 @@ Building a website from scratch involves a lot of moving parts: templating, buil
 - 🖱️ **A helpful CLI** — create a page with one command instead of hand-writing ten separate files
 - ⚙️ **Server configs handled for you** — `.htaccess` and `web.config` are generated automatically, and an `nginx.conf` is provided so that anyone comfortable with nginx already has what they need to run the site outside of shared hosting
 - 🎨 **Pick your CSS framework** — choose from 4 pre-installed options (or none), and switch later in a few guided steps
+- 🔌 **Pick your backend** — Node.js or PHP, chosen at creation; **Composer is only needed for PHP**
 - 🧩 **Your own modules** — add your own CSS and JS/TS modules freely and easily
 - 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-1.0.2-blue)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -35,7 +36,7 @@ Either way, the project structure stays the same, so you can start easy and leve
 
 ## Backend included
 
-Essential server-side functionality comes built in — no extra setup required. Backend support will soon let you **choose between PHP, Node, and Python**, so the project can grow with you.
+Essential server-side functionality comes built in — no extra setup required. At project creation you **choose your backend: Node.js or PHP** (Python is planned). Both expose the **same REST API** — same routing, `X-Api-Key` auth, CORS and rate limiting — so you can even switch later without rewriting your endpoints. See [docs/Backend.md](docs/Backend.md) for details.
 
 ## Customizable, but with sensible defaults
 
@@ -43,8 +44,8 @@ Nibula ships with a clean, opinionated layout so beginners are never lost. But i
 
 ## Prerequisites
 
-* **Node.js**: v18.0.0 or higher
-* **Composer**: latest stable version
+* **Node.js**: v18.0.0 or higher — **always required** (the Nibula CLI, the build, and the optional Node backend all run on Node)
+* **Composer**: **only required if you choose the PHP backend**, to install its PHP dependencies. If you pick the **Node** backend, Composer is never used — you can skip installing it entirely.
 * *Optional:* the **Better Nunjucks** VS Code extension by Ed Heltzel
 
 ## Installation
@@ -65,7 +66,7 @@ From the folder where you keep your websites, run:
 nib new your-project
 ```
 
-The scaffolder is interactive: you choose the language (JavaScript/TypeScript) and the CSS framework, and all dependencies are installed automatically.
+The scaffolder is interactive: you choose the **language** (JavaScript/TypeScript), the **CSS framework**, and the **backend** (Node.js or PHP). All dependencies are installed automatically — and if you pick **Node**, the PHP/Composer step is skipped, so you don't need Composer at all.
 
 Then start the dev server and visit `localhost:8080`:
 
@@ -99,7 +100,20 @@ nib cli
 
 See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
 
+## Deploying
+
+Nibula builds a static site into your `out` folder, which you upload to a web
+server. Which backend you chose affects deployment:
+
+- **PHP** runs on ordinary shared hosting (Apache/IIS) or a VPS with PHP-FPM — no process to keep alive.
+- **Node** runs as a long-running service on a VPS; the web server reverse-proxies `/api` to it.
+
+The shipped `.htaccess`, `web.config` and `nginx.conf` cover **both** backends.
+See [docs/Deploy.md](docs/Deploy.md) for the full guide, including how to start
+the Node service on your server.
+
 ## Roadmap
 
 * [ ] Add support for multiple themes
-* [ ] Backend integration choice — switch between PHP, Python, or Node
+* [x] Backend integration choice — pick **PHP or Node.js** at creation (Python planned)
+* [ ] Extend documentation with advanced usage examples

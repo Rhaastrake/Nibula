@@ -28,10 +28,15 @@ const FRAMEWORK = Object.freeze({
     NONE:       'none',
 });
 
+const BACKEND = Object.freeze({
+    NODE: 'node',
+    PHP:  'php',
+});
+
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
-    { label: 'JavaScript (recomended)', value: LANGUAGE.JAVASCRIPT },
+    { label: 'JavaScript (recomened)', value: LANGUAGE.JAVASCRIPT },
     { label: 'TypeScript',           value: LANGUAGE.TYPESCRIPT },
 ];
 
@@ -41,6 +46,11 @@ const FRAMEWORK_CHOICES = [
     { label: 'Foundation',          value: FRAMEWORK.FOUNDATION },
     { label: 'UIkit',               value: FRAMEWORK.UIKIT      },
     { label: 'None',                value: FRAMEWORK.NONE       },
+];
+
+const BACKEND_CHOICES = [
+    { label: 'Node.js (index.js — no PHP, no Composer)', value: BACKEND.NODE },
+    { label: 'PHP (index.php — Composer dependencies)',  value: BACKEND.PHP  },
 ];
 
 // ── COPY CONFIG ───────────────────────────────────────────────────────────────
@@ -117,6 +127,9 @@ node_modules/
 src/backend/_core/vendor/
 out/
 src/backend/config.php
+src/backend/config.js
+src/backend/node_modules/
+src/backend/cache/
 `;
 
 
@@ -203,8 +216,9 @@ function njkUncomment(content, line) {
     return content.split(`{# ${line} #}`).join(line);
 }
 
-function installDependencies() {
-    const backendCore = path.join(targetDir, 'src', 'backend', '_core');
+function installDependencies(backend) {
+    const backendRoot = path.join(targetDir, 'src', 'backend');
+    const backendCore = path.join(backendRoot, '_core');
 
     log(`${color.blue}\n>> Installing Node modules...${color.reset}`);
     const npm = spawnSync('npm', ['install'], {
@@ -220,6 +234,20 @@ function installDependencies() {
         return false;
     }
 
+    // --- Node backend: install its own deps (mysql2), then SKIP Composer ---
+    if (backend === BACKEND.NODE) {
+        if (fs.existsSync(path.join(backendRoot, 'package.json'))) {
+            log(`\n${color.blue}>> Installing Node backend modules...${color.reset}`);
+            spawnSync('npm', ['install'], {
+                cwd: backendRoot,
+                stdio: 'inherit',
+                shell: process.platform === 'win32',
+            });
+        }
+        return true; // Composer is never run for the Node backend
+    }
+
+    // --- PHP backend: install Composer dependencies (if present) ---
     if (!fs.existsSync(path.join(backendCore, 'composer.json'))) {
         return true;
     }
@@ -353,6 +381,7 @@ async function init() {
 
     const language  = await askChoice('Select a language',      LANGUAGE_CHOICES);
     const framework = await askChoice('Select a CSS framework', FRAMEWORK_CHOICES);
+    const backend   = await askChoice('Select a backend',       BACKEND_CHOICES);
 
     log('');
 
@@ -370,6 +399,13 @@ async function init() {
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
         fs.copyFileSync(configExample, configDest);
         logAdd('src/backend/config.php');
+    }
+
+    const configJsDest    = path.join(targetDir, 'src/backend/config.js');
+    const configJsExample = path.join(targetDir, 'src/backend/example.config.js');
+    if (!fs.existsSync(configJsDest) && fs.existsSync(configJsExample)) {
+        fs.copyFileSync(configJsExample, configJsDest);
+        logAdd('src/backend/config.js');
     }
 
     const pkg = { ...PROJECT_PACKAGE };
@@ -395,7 +431,7 @@ async function init() {
     applyFramework(framework);
     applyLanguage(language);
 
-    installDependencies();
+    installDependencies(backend);
 
     log(`\n${color.green}>> Done!${color.reset}`);
     log(`${color.yellow}\nNow run:\n${color.reset}`);

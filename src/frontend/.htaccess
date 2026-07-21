@@ -6,10 +6,45 @@ ErrorDocument 403 /404.html
     RewriteEngine On
     RewriteBase /
 
+    # Block sensitive files (web.config, dotfiles)
     RewriteRule ^(web\.config|\..*)$ /404.html [L,NC]
+</IfModule>
 
+# === /api routing — covers BOTH backends ====================================
+#
+# Apache (unlike nginx) cannot health-check an upstream, so it cannot auto-fall
+# back from Node to PHP. The behaviour is:
+#
+#   - mod_proxy available  -> /api is proxied to the Node backend (127.0.0.1:3000)
+#   - mod_proxy NOT present -> /api is rewritten to the PHP front controller
+#
+# Typical shared hosting (Aruba, cPanel) has no mod_proxy, so it uses PHP
+# automatically. On a VPS running Node, mod_proxy sends /api to Node.
+#
+# If you are on a server that HAS mod_proxy but you want to use PHP, comment out
+# the mod_proxy block below.
+
+# --- Node backend (if mod_proxy is available) ---
+<IfModule mod_proxy.c>
+    ProxyPreserveHost On
+    ProxyPass        /api/ http://127.0.0.1:3000/api/ retry=0
+    ProxyPassReverse /api/ http://127.0.0.1:3000/api/
+
+    <IfModule mod_headers.c>
+        RequestHeader set X-Forwarded-For "%{REMOTE_ADDR}s"
+        RequestHeader set X-Forwarded-Proto "https"
+    </IfModule>
+</IfModule>
+
+# --- PHP backend (fallback when mod_proxy is absent) ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
     RewriteRule ^api/(.*)$ backend/_core/index.php [QSA,L]
+</IfModule>
 
+# === Static files ===========================================================
+<IfModule mod_rewrite.c>
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
