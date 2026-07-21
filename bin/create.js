@@ -36,7 +36,7 @@ const BACKEND = Object.freeze({
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
-    { label: 'JavaScript (recomened)', value: LANGUAGE.JAVASCRIPT },
+    { label: 'JavaScript (recomended)', value: LANGUAGE.JAVASCRIPT },
     { label: 'TypeScript',           value: LANGUAGE.TYPESCRIPT },
 ];
 
@@ -52,6 +52,12 @@ const BACKEND_CHOICES = [
     { label: 'Node.js (index.js — no PHP, no Composer)', value: BACKEND.NODE },
     { label: 'PHP (index.php — Composer dependencies)',  value: BACKEND.PHP  },
 ];
+
+// Runtime dependency added to the ROOT package.json when the Node backend is
+// chosen, so it lands in the root node_modules (never in src/backend).
+const NODE_BACKEND_DEPENDENCIES = {
+    mysql2: '^3.11.0',
+};
 
 // ── COPY CONFIG ───────────────────────────────────────────────────────────────
 
@@ -71,6 +77,14 @@ const FRONTEND_EXCLUDE = {
 const CREATE_DIRS = [
     'src/frontend/_routes',
 ];
+
+// Backend files that belong to exactly one backend, matched by basename.
+// Everything else (migrations, .htaccess, web.config, README, ...) is shared.
+const NODE_ONLY_FILES = new Set(['package.json', 'backend-node.service.example']);
+const PHP_ONLY_FILES  = new Set(['composer.json', 'composer.lock']);
+const PHP_ONLY_DIRS   = new Set(['vendor']);
+// Runtime artifacts that must never be copied from the template, either way.
+const BACKEND_SKIP_DIRS = new Set(['node_modules', 'cache', '.git']);
 
 // ── FRAMEWORK CONFIG ──────────────────────────────────────────────────────────
 
@@ -128,7 +142,6 @@ src/backend/_core/vendor/
 out/
 src/backend/config.php
 src/backend/config.js
-src/backend/node_modules/
 src/backend/cache/
 `;
 
@@ -198,6 +211,48 @@ function copyRecursive(src, dest, exclude = []) {
     }
 }
 
+/**
+ * Decide whether a backend entry belongs to the chosen backend.
+ * Returns false for entries that must be SKIPPED.
+ */
+function backendEntryKept(basename, isDir, backend) {
+    // Never copy runtime artifacts from the template.
+    if (isDir && BACKEND_SKIP_DIRS.has(basename)) return false;
+
+    if (backend === BACKEND.NODE) {
+        // Node project: drop every PHP artifact.
+        if (basename.endsWith('.php')) return false;
+        if (PHP_ONLY_FILES.has(basename)) return false;
+        if (isDir && PHP_ONLY_DIRS.has(basename)) return false;
+        return true;
+    }
+
+    // PHP project: drop every Node artifact.
+    if (basename.endsWith('.js')) return false;
+    if (NODE_ONLY_FILES.has(basename)) return false;
+    return true;
+}
+
+/**
+ * Copy src/backend into the project keeping only the chosen backend's files.
+ * Shared files (SQL migrations, .htaccess, web.config, README, ...) are kept
+ * for both. Empty directories left behind by filtering are not created.
+ */
+function copyBackend(src, dest, backend) {
+    const stat = fs.statSync(src);
+    if (stat.isDirectory()) {
+        for (const child of fs.readdirSync(src)) {
+            const childSrc = path.join(src, child);
+            const isDir    = fs.statSync(childSrc).isDirectory();
+            if (!backendEntryKept(child, isDir, backend)) continue;
+            copyBackend(childSrc, path.join(dest, child), backend);
+        }
+    } else {
+        fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.copyFileSync(src, dest);
+    }
+}
+
 function slashComment(content, line) {
     content = content.replace(new RegExp(`^([ \\t]*)// (${escapeRegex(line)})$`, 'gm'), '$1$2');
     return content.replace(new RegExp(`^([ \\t]*)(${escapeRegex(line)})$`, 'gm'), '$1// $2');
@@ -217,8 +272,7 @@ function njkUncomment(content, line) {
 }
 
 function installDependencies(backend) {
-    const backendRoot = path.join(targetDir, 'src', 'backend');
-    const backendCore = path.join(backendRoot, '_core');
+    const backendCore = path.join(targetDir, 'src', 'backend', '_core');
 
     log(`${color.blue}\n>> Installing Node modules...${color.reset}`);
     const npm = spawnSync('npm', ['install'], {
@@ -234,17 +288,11 @@ function installDependencies(backend) {
         return false;
     }
 
-    // --- Node backend: install its own deps (mysql2), then SKIP Composer ---
+    // Node backend: its runtime deps were added to the ROOT package.json and
+    // installed above into the root node_modules — there is no separate install
+    // inside src/backend, and Composer is never run.
     if (backend === BACKEND.NODE) {
-        if (fs.existsSync(path.join(backendRoot, 'package.json'))) {
-            log(`\n${color.blue}>> Installing Node backend modules...${color.reset}`);
-            spawnSync('npm', ['install'], {
-                cwd: backendRoot,
-                stdio: 'inherit',
-                shell: process.platform === 'win32',
-            });
-        }
-        return true; // Composer is never run for the Node backend
+        return true;
     }
 
     // --- PHP backend: install Composer dependencies (if present) ---
@@ -389,11 +437,19 @@ async function init() {
         const src  = path.join(templateDir, target);
         const dest = path.join(targetDir, target);
         if (!fs.existsSync(src)) continue;
-        const exclude = target === 'src/frontend' ? FRONTEND_EXCLUDE[language] : [];
-        copyRecursive(src, dest, exclude);
+
+        if (target === 'src/backend') {
+            // Copy only the chosen backend's files (the other backend is omitted).
+            copyBackend(src, dest, backend);
+        } else {
+            const exclude = target === 'src/frontend' ? FRONTEND_EXCLUDE[language] : [];
+            copyRecursive(src, dest, exclude);
+        }
         logAdd(target);
     }
 
+    // Generate the local config only for the chosen backend. The other backend's
+    // example file was not copied, so its guard below is simply skipped.
     const configDest    = path.join(targetDir, 'src/backend/config.php');
     const configExample = path.join(targetDir, 'src/backend/example.config.php');
     if (!fs.existsSync(configDest) && fs.existsSync(configExample)) {
@@ -408,7 +464,17 @@ async function init() {
         logAdd('src/backend/config.js');
     }
 
+    // Build the project package.json. Clone the shared dependency maps so we
+    // never mutate the PROJECT_PACKAGE constant.
     const pkg = { ...PROJECT_PACKAGE };
+    pkg.dependencies    = { ...PROJECT_PACKAGE.dependencies };
+    pkg.devDependencies = { ...PROJECT_PACKAGE.devDependencies };
+
+    // Node backend deps live in the ROOT node_modules — add them to root deps
+    // so `npm install` installs them there (never in src/backend).
+    if (backend === BACKEND.NODE) {
+        pkg.dependencies = { ...pkg.dependencies, ...NODE_BACKEND_DEPENDENCIES };
+    }
 
     if (language === LANGUAGE.TYPESCRIPT) {
         const tsSrc  = path.join(templateDir, 'tsconfig.json');

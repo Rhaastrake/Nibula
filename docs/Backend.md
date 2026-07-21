@@ -27,15 +27,20 @@ When you run `nib new`, the scaffolder asks three questions: language, CSS
 framework, and **backend**. Pick Node.js or PHP.
 
 - **If you pick Node**, Composer is never run — you get an npm-only setup, and
-  the backend's own dependency (`mysql2`, used only if you touch the database)
-  is installed for you.
-- **If you pick PHP**, Composer dependencies are installed as before.
+  the backend's dependency (`mysql2`, used only if you touch the database) is
+  added to the **root** `package.json` and installed into the root `node_modules`.
+- **If you pick PHP**, Composer dependencies are installed as before, and no Node
+  backend files are added.
 
-Both file sets are always present in `src/backend/`, so you can switch later
-without re-scaffolding. The PHP front controller only looks at `.php` endpoint
-files and the Node one only at `.js` files, so they coexist without conflict.
+**Only the backend you choose is copied into the project.** A Node project
+contains no PHP files; a PHP project contains no `.js` backend files. Shared,
+backend-agnostic files (SQL migrations, `.htaccess`, `web.config`) are always
+included.
 
 ## Structure
+
+The structure below shows both backends for reference; **your project will have
+only one side of each pair** (plus the shared files).
 
 ```
 src/backend/
@@ -43,27 +48,30 @@ src/backend/
 │   ├── public/       # Endpoints accessible without an API key
 │   └── protected/    # Endpoints requiring the X-Api-Key header
 ├── _core/            # Framework internals (routing, modules) — do not edit
-│   ├── index.php     # PHP front controller
-│   ├── index.js      # Node front controller (also the HTTP server)
+│   ├── index.php     # PHP front controller            (PHP project)
+│   ├── index.js      # Node front controller + server   (Node project)
 │   ├── init.php / init.js
-│   └── modules/      # Response, RateLimiter (.php and .js)
+│   └── modules/      # Response, RateLimiter
 ├── database/
-│   ├── Database.php  # PDO singleton
-│   ├── Database.js   # mysql2 pool singleton
-│   └── migrations/
-├── package.json          # Node backend deps + start script
-├── example.config.php    # PHP template — versioned, safe to commit
-├── example.config.js     # Node template — versioned, safe to commit
-├── config.php            # Local PHP config — generated on setup, never commit
-└── config.js             # Local Node config — generated on setup, never commit
+│   ├── Database.php  # PDO singleton                    (PHP project)
+│   ├── Database.js   # mysql2 pool singleton            (Node project)
+│   └── migrations/   # shared
+├── package.json          # Node project only — backend deps + start script
+├── example.config.php    # PHP project only  — versioned template
+├── example.config.js     # Node project only — versioned template
+├── config.php            # PHP project only  — generated on setup, never commit
+└── config.js             # Node project only — generated on setup, never commit
 ```
 
-> A scaffolded project contains **both** the example and the generated config for
-> each backend. `config.php` / `config.js` are generated automatically by
-> `nib new` (copies of the examples) and are git-ignored, so your secrets stay
-> local. The `example.config.*` files are versioned: they end up on GitHub as
-> secret-free references. If a `config.*` is ever missing (e.g. after a fresh
-> clone), just copy the matching `example.config.*` to it.
+> `config.php` / `config.js` are generated automatically by `nib new` (a copy of
+> the matching `example.config.*`) and are git-ignored, so your secrets stay
+> local. The `example.config.*` file is versioned as a secret-free reference. If
+> `config.*` is ever missing (e.g. after a fresh clone), copy the example to it.
+
+> **Where do the Node backend's dependencies live?** In the **root**
+> `node_modules`, not in `src/backend` — so your source tree stays clean (no
+> `src/backend/node_modules` locally). On the server you install them into
+> `out/backend` instead; see `docs/Deploy.md`.
 
 ## Key difference: how each backend runs
 
