@@ -43,7 +43,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/frontend/.htaccess");
   eleventyConfig.addPassthroughCopy("src/frontend/web.config");
   eleventyConfig.addPassthroughCopy("src/frontend/assets");
-  eleventyConfig.addPassthroughCopy("src/frontend/data");
   eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 
   eleventyConfig.addPassthroughCopy({

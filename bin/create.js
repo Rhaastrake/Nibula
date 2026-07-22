@@ -148,7 +148,7 @@ src/backend/cache/
 
 const PROJECT_PACKAGE = {
     name:      path.basename(targetDir),
-    version:   '1.0.0',
+    version:   '0.0.0',
     private:   true,
     outputDir: 'out',
     "scripts": {

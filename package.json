@@ -47,16 +47,16 @@
     "nibula": "bin/nibula.js"
   },
   "scripts": {
-    "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet",
-    "build:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --minify",
-    "build:11ty": "eleventy",
-    "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
-    "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
-    "serve:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --watch",
-    "serve:11ty": "eleventy --serve --quiet",
-    "clean": "node _tools/cleanOutput.js",
-    "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-    "assistant": "node _tools/assistant.js"
+      "build:css": "sass src/frontend/scss:out/css --no-source-map --style=compressed --quiet --load-path=node_modules",
+      "build:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --minify",
+      "build:11ty": "eleventy",
+      "build": "npm run clean && npm run build:css && npm run build:js && npm run build:11ty",
+      "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet --load-path=node_modules",
+      "serve:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --watch",
+      "serve:11ty": "eleventy --serve --quiet",
+      "clean": "node _tools/cleanOutput.js",
+      "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
+      "assistant": "node _tools/assistant.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",

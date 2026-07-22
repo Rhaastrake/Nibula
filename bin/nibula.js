@@ -18,6 +18,7 @@ const CLEAN     = path.join(__dirname, '..', '_tools', 'cleanOutput.js');
 
 const REGISTRY = 'https://registry.npmjs.org/nibula/latest';
 const CHECK_TIMEOUT = 2500;
+const SKIP_FLAG = '--skip-update-check';
 
 function run(script, args) {
     const res = spawnSync('node', [script, ...args], {
@@ -139,6 +140,32 @@ function updateGlobal(version) {
     return res.status ?? 0;
 }
 
+function globalNibulaPath() {
+    const res = spawnSync('npm', ['root', '-g'], {
+        encoding: 'utf8',
+        shell: process.platform === 'win32',
+    });
+    if (res.status !== 0 || !res.stdout) return null;
+    const candidate = path.join(res.stdout.trim(), 'nibula', 'bin', 'nibula.js');
+    return fs.existsSync(candidate) ? candidate : null;
+}
+
+// Riesegue il comando con la versione appena installata: questo processo ha
+// ancora in memoria il codice vecchio, quindi non può scaffoldare da solo.
+function reexecAfterUpdate(args) {
+    const target = globalNibulaPath();
+    if (!target) {
+        console.error(`${color.red}Could not locate the updated Nibula installation.${color.reset}`);
+        console.error(`Run "nib new ${args[1]}" again to continue.`);
+        return 1;
+    }
+    const res = spawnSync(process.execPath, [target, ...args, SKIP_FLAG], {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+    });
+    return res.status ?? 0;
+}
+
 function findExistingProject(baseDir, projectName) {
     let entries;
     try {
@@ -176,33 +203,37 @@ ${color.yellow}nib update${color.reset}               Update to the latest versi
 }
 
 async function main() {
-    const info = await checkVersion();
     switch (cmd) {
         case 'new': {
-            if (!rest[0]) {
+            const args = rest.filter((a) => a !== SKIP_FLAG);
+            const skipCheck = rest.includes(SKIP_FLAG);
+
+            if (!args[0]) {
                 console.error('Missing project name. Usage: nib new <project-name>');
                 process.exit(1);
             }
-            if (info.behind) {
-                console.log(`\nA newer version of Nibula is available: ${info.current} → ${info.latest}`);
-                if (process.stdin.isTTY) {
-                    const answer = await ask('Update before creating the project? [Y/n] ');
-                    if (answer === '' || answer === 'y' || answer === 'yes') {
-                        const code = updateGlobal(info.latest);
-                        if (code === 0) {
-                            console.log(`\nUpdated. Re-run "nib new ${rest[0]}" to scaffold with the latest version.`);
+
+            if (!skipCheck) {
+                const info = await checkVersion();
+                if (info.behind) {
+                    console.log(`\nA newer version of Nibula is available: ${info.current} → ${info.latest}`);
+                    if (process.stdin.isTTY) {
+                        const answer = await ask('Update before creating the project? [Y/n] ');
+                        if (answer === '' || answer === 'y' || answer === 'yes') {
+                            const code = updateGlobal(info.latest);
+                            if (code !== 0) process.exit(code);
+                            console.log(`\n${color.green}Updated.${color.reset} Continuing with the new version...\n`);
+                            process.exit(reexecAfterUpdate(['new', args[0]]));
                         }
-                        process.exit(code);
+                    } else {
+                        console.log('Run "nib update" to update.\n');
                     }
-                } else {
-                    console.log('Run "nib update" to update.\n');
                 }
             }
 
-            // Controllo progetto già esistente con lo stesso "name" nel package.json
-            const existing = findExistingProject(process.cwd(), rest[0]);
+            const existing = findExistingProject(process.cwd(), args[0]);
             if (existing) {
-                console.log(`\n${color.yellow}A project named "${rest[0]}" already exists:${color.reset} ${existing}`);
+                console.log(`\n${color.yellow}A project named "${args[0]}" already exists:${color.reset} ${existing}`);
                 let overwrite = false;
                 if (process.stdin.isTTY) {
                     const answer = await ask('Do you want to overwrite it? [y/N] ');
@@ -214,7 +245,6 @@ async function main() {
                     console.log('Stopped creating the new project');
                     process.exit(0);
                 }
-                // Sovrascrittura: cancello completamente la cartella preesistente
                 try {
                     fs.rmSync(existing, { recursive: true, force: true });
                     console.log(`${color.green}Removed existing project.${color.reset}`);
@@ -224,7 +254,7 @@ async function main() {
                 }
             }
 
-            run(CREATE, [rest[0]]);
+            run(CREATE, [args[0]]);
             break;
         }
         case 'cli': {
@@ -253,6 +283,7 @@ async function main() {
             break;
         }
         case 'update': {
+            const info = await checkVersion();
             if (info.latest !== null && !info.behind) {
                 console.log(`Already on the latest version (${info.current}).`);
                 process.exit(0);
@@ -265,15 +296,12 @@ async function main() {
         case '--help':
         case 'h':
         case '-h': {
-            usage(info.current);
-            if (info.behind) {
-                console.log(`A newer version is available: ${info.current} → ${info.latest}. Run "nib update".`);
-            }
+            usage(pkg.version);
             break;
         }
         default:
             console.error(`${color.red}\nUnknown command:${color.reset} ${cmd}`);
-            usage(info.current);
+            usage(pkg.version);
             process.exit(1);
     }
 }

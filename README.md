@@ -21,7 +21,7 @@ Building a website from scratch involves a lot of moving parts: templating, buil
 - 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-1.1.2-blue)
+![Version](https://img.shields.io/badge/version-1.1.3-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -88,7 +88,7 @@ Run these from anywhere inside a project (except `nib new`, which you run wherev
 | `nib clean` | Remove the output directory |
 | `nib update` | Update the CLI to the latest version |
 
-Before scaffolding, `nib new` checks the npm registry for a newer version and offers to update first (via `nib update`). If the registry is unreachable, the check is skipped and creation proceeds normally.
+Before scaffolding, nib new checks the npm registry for a newer version and offers to update first. If you accept, Nibula updates itself and then creates the project with the new version automatically — no need to re-run the command. If the registry is unreachable, the check is skipped and creation proceeds normally.
 
 ## Managing pages
 
