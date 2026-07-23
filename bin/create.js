@@ -170,7 +170,6 @@ const PROJECT_PACKAGE = {
         'bootstrap-icons':    '^1.13.1',
         'bulma':              '^1.0.4',
         'foundation-sites':   '^6.9.0',
-        'github-markdown-css': '^5.9.0',
         'glob':               '^13.0.6',
         'uikit':              '^3.25.13',
     },
