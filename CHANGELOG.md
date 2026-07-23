@@ -89,7 +89,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   scripts. Compiling the stylesheets with a different tool (a VS Code Sass
   extension, for instance) will need the same load path configured.
 
-
 ## [1.1.0] - 2026-07-21
 
 ### Added
@@ -127,10 +126,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Both backends are always scaffolded, so you can switch later without
   re-creating the project. The PHP front controller only serves `.php` endpoint
   files and the Node one only `.js`, so they coexist without conflict.
-
-## [1.0.2]
-
-- Previous release (PHP backend only).
-
-[1.1.0]: https://github.com/Rhaastrake/Nibula/releases/tag/v1.1.0
-[1.0.2]: https://github.com/Rhaastrake/Nibula/releases/tag/v1.0.2
