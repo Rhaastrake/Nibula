@@ -23,11 +23,6 @@ module.exports = function (eleventyConfig) {
     }
   }
 
-  eleventyConfig.addShortcode('mdFile', function(filePath) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    return md.render(content);
-  });
-
   eleventyConfig.on("eleventy.before", () => {
     copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
