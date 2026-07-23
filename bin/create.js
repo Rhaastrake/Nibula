@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { writeSync } = require('fs');
 const { spawnSync } = require('child_process');
-const { color } = require('../tools/modules/constants');
+const { color } = require('../_tools/modules/constants');
 
 // ── PATHS ────────────────────────────────────────────────────────────────────
 
@@ -75,7 +75,7 @@ const FRONTEND_EXCLUDE = {
 };
 
 const CREATE_DIRS = [
-    'src/frontend/routes',
+    'src/frontend/_routes',
 ];
 
 // Backend files that belong to exactly one backend, matched by basename.
@@ -170,6 +170,7 @@ const PROJECT_PACKAGE = {
         'bootstrap-icons':    '^1.13.1',
         'bulma':              '^1.0.4',
         'foundation-sites':   '^6.9.0',
+        'github-markdown-css': '^5.9.0',
         'glob':               '^13.0.6',
         'uikit':              '^3.25.13',
     },

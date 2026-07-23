@@ -5,16 +5,16 @@ const path = require('path');
 const https = require('https');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
-const { findProjectRoot, color, NOT_INSIDE_PROJECT_MESSAGE } = require('../tools/modules/constants');
+const { findProjectRoot, color, NOT_INSIDE_PROJECT_MESSAGE } = require('../_tools/modules/constants');
 
 const pkg = require('../package.json');
 
 const [, , cmd, ...rest] = process.argv;
 
 const CREATE = path.join(__dirname, 'create.js');
-const ASSISTANT = path.join(__dirname, '..', 'tools', 'assistant.js');
-const BUILDJS   = path.join(__dirname, '..', 'tools', 'buildJs.js');
-const CLEAN     = path.join(__dirname, '..', 'tools', 'cleanOutput.js');
+const ASSISTANT = path.join(__dirname, '..', '_tools', 'assistant.js');
+const BUILDJS   = path.join(__dirname, '..', '_tools', 'buildJs.js');
+const CLEAN     = path.join(__dirname, '..', '_tools', 'cleanOutput.js');
 
 const REGISTRY = 'https://registry.npmjs.org/nibula/latest';
 const CHECK_TIMEOUT = 2500;
