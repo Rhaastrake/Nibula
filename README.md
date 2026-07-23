@@ -21,7 +21,7 @@ Building a website from scratch involves a lot of moving parts: templating, buil
 - 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-1.1.2-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
@@ -44,9 +44,13 @@ Nibula ships with a clean, opinionated layout so beginners are never lost. But i
 
 ## Prerequisites
 
+### Required
+
 * **Node.js**: v18.0.0 or higher — **always required** (the Nibula CLI, the build, and the optional Node backend all run on Node)
 * **Composer**: **only required if you choose the PHP backend**, to install its PHP dependencies. If you pick the **Node** backend, Composer is never used — you can skip installing it entirely.
-* *Optional:* the **Better Nunjucks** VS Code extension by Ed Heltzel
+### Recomended
+* *Suggested:* **Better Nunjucks** VS Code extension by Ed Heltzel
+* *Suggester:* **Material Icon Theme** VS Code extension by Philipp Kief
 
 ## Installation
 

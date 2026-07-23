@@ -14,12 +14,7 @@ Global settings live in `src/frontend/data/site.json` and are available everywhe
   "url": "https://yoursite.com",
   "lang": "en",
   "author": "Name and surname",
-  "data_bs_theme": "dark",
-  "theme_color": {
-    "light": "#ffffff",
-    "dark": "#0d1117"
-  },
-  "favicon": "/assets/brand/favicon.svg",
+  "theme": "dark",
   "logo": "/assets/brand/logo.svg",
   "legal": {
     "privacy": "",
@@ -43,9 +38,8 @@ Global settings live in `src/frontend/data/site.json` and are available everywhe
 | `domain` / `url` | Canonical URLs, `og:url`, JSON-LD |
 | `lang` | HTML `lang` attribute |
 | `author` | Meta author and JSON-LD author |
-| `data_bs_theme` | Bootstrap color scheme (`light` / `dark`) |
-| `theme_color` | Browser UI / PWA color, per scheme (`light` / `dark`) |
-| `favicon` | Path to the favicon |
+| `theme` | Site color scheme (`light` / `dark`) — sets `data-theme`, `data-bs-theme` and `color-scheme` |
+| `theme_color` | Browser UI / PWA bar color — should match the chosen `theme` |
 | `logo` | Path to the logo, also used as social image |
 | `legal.privacy` / `cookie` / `cookieControls` / `terms` | Legal page URLs |
 | `legal.copyright.year` / `text` | Footer copyright |
@@ -93,16 +87,44 @@ Global values are defaults, not duplicates. A page value is used when present; o
 
 `noindex` and `canonical` have no global default: `noindex` defaults to indexable behavior, `canonical` is computed from the URL. They exist per-page only.
 
-## theme_color
+## Theme
 
-Two tags are emitted so the browser bar follows the user's system scheme:
+`theme` is a single fixed value that drives the whole site:
 
 ```njk
-<meta name="theme-color" content="{{ site.theme_color.light }}" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="{{ site.theme_color.dark }}" media="(prefers-color-scheme: dark)">
+<html data-theme="{{ site.theme }}" data-bs-theme="{{ site.theme }}">
+<meta name="color-scheme" content="{{ site.theme }}">
+<meta name="theme-color" content="{{ site.theme_color }}">
 ```
 
-This is independent from `data_bs_theme`, which controls the Bootstrap theme, not the browser UI.
+| Attribute | Purpose |
+|---|---|
+| `data-theme` | Your own hook — target it in SCSS to define theme variables |
+| `data-bs-theme` | Bootstrap's color mode. Ignored (harmless) if you use another framework |
+| `color-scheme` | Standard CSS — makes scrollbars, form controls and autofill follow the theme |
+| `theme-color` | Color of the browser UI bar on mobile |
+
+Keep `theme` and `theme_color` consistent: a `dark` theme with a white `theme_color` gives a white browser bar over a dark page.
+
+See the SCSS docs for how to hook your variables to `data-theme`.
+
+## Favicon
+
+The three favicon tags are hardcoded in `base.njk`. To change the icons, replace the files in `src/frontend/assets/brand/` keeping the same names:
+
+```html
+<link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png">
+```
+
+| File | Purpose |
+|---|---|
+| `favicon.svg` | Modern browsers, scales to any size |
+| `favicon-32.png` | Fallback for older browsers and some crawlers |
+| `apple-touch-icon.png` | iOS home screen icon — 180×180, must be opaque (iOS renders transparency as black) |
+
+> ⚠️ Without `apple-touch-icon.png`, iOS uses a screenshot of the page as the home screen icon.
 
 ## AI & SEO bots
 

@@ -49,5 +49,3 @@ In TypeScript, omit the extension:
 ```ts
 import { exampleModule } from '../modules/exampleModule';
 ```
-
-> ⚠️ Files inside `_tools/` run directly in Node.js without a bundler — use CommonJS (`require` / `module.exports`) there, not ESM.

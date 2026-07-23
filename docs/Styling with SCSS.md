@@ -7,6 +7,7 @@ Each page has its own SCSS entry point in `src/frontend/scss/pages/`
 It must contain `_root.scss` + other modules like `_global.scss` or any other one that you need and its own specific css rules
 
 `_root.scss` uses `@use` to enable namespaced access (`root.$var`); other modules use `@import` as they don't expose variables.
+
 ### examplePage.scss <small>(`src/frontend/scss/pages/`)</small>
 ```scss
 //==========================
@@ -39,7 +40,9 @@ header {
   height: root.$header-height;
 }
 ```
+
 ## Scss modules
+
 You can create your custom css modules by creating a new `.scss` file in `src/frontend/scss/modules/` (the name of the file must start with `_`)
 
 You can create subfolders if you want to refactor the structure, but be sure to update the relative paths in the pages that import them
@@ -70,7 +73,7 @@ body {
 |---|---|
 | `_root.scss` | Global variables (colors, spacing) |
 | `_global.scss` | Site-wide base rules and frameworks |
-| `_typography.scss` | Font rules
+| `_typography.scss` | Font rules |
 | `_header.scss` | Header styles |
 | `_footer.scss` | Footer styles |
 | `_mobile.scss` | Media query rules |
@@ -83,7 +86,6 @@ Some of the most popular css frameworks that supports scss with modules are alre
 You can choose one or none of them (more than 1 works, but you may get in various conflicts)
 
 To enable/disable them you have to modify 3 files around the project by just commenting them
-
 
 ### 1. _global.scss <small>(`src/frontend/scss/modules/`)</small>
 ```scss
@@ -109,7 +111,7 @@ To enable/disable them you have to modify 3 files around the project by just com
 {# Bulma — no JS needed #}
 ```
 
-### 3. .eleventy.js
+### 3. eleventy.config.js
 
 ```javascript
 eleventyConfig.addPassthroughCopy({
@@ -128,8 +130,12 @@ eleventyConfig.addPassthroughCopy({
 });
 ```
 
+> ⚠️ Changes to `eleventy.config.js` are not picked up while the dev server is running — restart it.
+
 ### Reducing bundle size
+
 To reduce the bundle size, open the corresponding framework file (`src/frontend/scss/modules/frameworks/`) and comment out any modules you don't need
+
 ```scss
 @import "bootstrap/scss/card"; // Cards
 @import "bootstrap/scss/carousel"; // Carousel

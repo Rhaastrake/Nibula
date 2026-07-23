@@ -54,9 +54,9 @@
     "serve:css": "sass --watch src/frontend/scss:out/css --no-source-map --quiet",
     "serve:js": "esbuild \"src/frontend/ts/pages/*.ts\" --bundle --outdir=out/js/pages --watch",
     "serve:11ty": "eleventy --serve --quiet",
-    "clean": "node _tools/cleanOutput.js",
+    "clean": "node tools/cleanOutput.js",
     "serve": "npm run clean && concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\"",
-    "assistant": "node _tools/assistant.js"
+    "assistant": "node tools/assistant.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",

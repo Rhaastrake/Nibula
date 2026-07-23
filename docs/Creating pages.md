@@ -9,7 +9,7 @@ For a page named `my-page`:
 
 | File | Purpose |
 |---|---|
-| `src/frontend/_routes_/my-page.njk` | Template with front matter |
+| `src/frontend/routes/my-page.njk` | Template with front matter |
 | `src/frontend/scss/pages/myPage.scss` | Imports framework + modules |
 | `src/frontend/js/pages/myPage.js` | Imports JS modules |
 
@@ -31,7 +31,7 @@ The URL is the kebab-case name (`/my-page/`). The `title` in the front matter is
 
 ## Subpages (nested URLs)
 
-To create a URL like `domain.it/about/team`, edit the `permalink` in `src/frontend/_routes/team.njk` and add the parent segment before the final slash:
+To create a URL like `domain.it/about/team`, edit the `permalink` in `src/frontend/routes/team.njk` and add the parent segment before the final slash:
 
 ```njk
 ---
@@ -45,9 +45,9 @@ The parent path (`about`) does **not** need to exist as a real page — it's jus
 
 | Goal URL | permalink value | File |
 |---|---|---|
-| `/team/` | `/team/` | `_routes/team.njk` |
-| `/about/team/` | `/about/team/` | `_routes/team.njk` |
-| `/company/about/team/` | `/company/about/team/` | `_routes/team.njk` |
+| `/team/` | `/team/` | `routes/team.njk` |
+| `/about/team/` | `/about/team/` | `routes/team.njk` |
+| `/company/about/team/` | `/company/about/team/` | `routes/team.njk` |
 
 ## SEO
 

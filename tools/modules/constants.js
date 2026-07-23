@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..', '..');
-const TEMPLATES_DIR = path.join(PACKAGE_ROOT, '_tools', 'res', 'templates');
+const TEMPLATES_DIR = path.join(PACKAGE_ROOT, 'tools', 'res', 'templates');
 
 const PROJECT_MARKER = '.eleventy.js';
 
@@ -51,7 +51,7 @@ function frontendDir() {
 
 const PATHS = Object.freeze({
     get root()           { return projectRoot(); },
-    get routes()         { return path.join(frontendDir(), '_routes'); },
+    get routes()         { return path.join(frontendDir(), 'routes'); },
     get scssPages()      { return path.join(frontendDir(), 'scss', 'pages'); },
     get jsPages()        { return path.join(frontendDir(), 'js', 'pages'); },
     get tsPages()        { return path.join(frontendDir(), 'ts', 'pages'); },

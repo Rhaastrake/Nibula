@@ -43,18 +43,6 @@ Add a new `{% elif %}` block for each page, listing its components in order. If 
 
 > ⚠️ If you move or delete a component, always update `page-components.njk` or the site will break
 
-### Using Markdown files in components
-
-You can also render a `.md` file directly inside any `.njk` component using the `mdFile` shortcode:
-
-```njk
-{% mdFile "docs/your-file.md" %}
-```
-
-The path is relative to the project root (where `.eleventy.js` lives).
-
-> ⚠️ The file is read at build time — changes to the `.md` file trigger a rebuild in watch mode.
-
 ## Nest components
 
 A component can include other components. This is useful for breaking complex sections into smaller, reusable pieces.
@@ -77,11 +65,12 @@ Header and footer live in `src/frontend/components/global/` and are automaticall
 
 All values defined in `src/frontend/data/site.json` are globally available in every component via `{{ site.* }}`
 
-### site.json <small>(`src/data/`)</small>
+### site.json <small>(`src/frontend/data/`)</small>
 ```json
 {
   "title": "My Site",
-  "logo": "/img/logo.png",
+  "theme": "dark",
+  "logo": "/assets/brand/logo.svg",
   "legal": {
     "privacy": "/privacy"
   }

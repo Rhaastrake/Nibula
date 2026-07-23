@@ -31,7 +31,7 @@ For a page named `my-page`, the following files are created:
 |---|---|
 | `src/frontend/scss/pages/myPage.scss` | SCSS entry point |
 | `src/frontend/js/pages/myPage.js` | JS entry point |
-| `src/frontend/_routes/my-page.njk` | Nunjucks template |
+| `src/frontend/routes/my-page.njk` | Nunjucks template |
 
 It also adds an `elif` block in `page-components.njk` and a stub entry in `site.json`:
 

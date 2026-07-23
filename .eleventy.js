@@ -1,7 +1,6 @@
 const esbuild = require("esbuild");
 const glob = require("glob");
 const Image = require("@11ty/eleventy-img");
-const markdownIt = require('markdown-it');
 const fs = require("fs");
 const path = require("path");
 
@@ -24,16 +23,9 @@ module.exports = function (eleventyConfig) {
     }
   }
 
-  const md = markdownIt({ html: true });
-
   eleventyConfig.addShortcode('mdFile', function(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     return md.render(content);
-  });
-
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/github-markdown-css/github-markdown-dark.css": "css/github-markdown-dark.css",
-    "node_modules/github-markdown-css/github-markdown-light.css": "css/github-markdown-light.css",
   });
 
   eleventyConfig.on("eleventy.before", () => {
@@ -77,7 +69,7 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addWatchTarget("./src/frontend/scss");
-  eleventyConfig.addWatchTarget("./src/frontend/_routes");
+  eleventyConfig.addWatchTarget("./src/frontend/routes");
   eleventyConfig.addWatchTarget("./src/frontend/data");
 
   eleventyConfig.setServerOptions({
